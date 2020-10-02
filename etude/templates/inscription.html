@@ -1,0 +1,51 @@
+{% load i18n %}
+{% load static %}
+
+<html>
+    <head>
+        <title>PAJ_SM Dossier</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
+    </head>
+<body class="w3-theme-l5">
+
+<header class="w3-row w3-theme-d3" id="myHeader">
+
+    <div class="w3-threequarter w3-center">
+        <h4>Formulaire d'inscription à l'enquête sur les perception des programmes de déjudiciarisation</h4>
+    </div>
+    <div class="w3-quarter w3-right-align">
+    </div>
+</header>
+<div class="principal">
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{msg.message}}
+        </div>
+    {% endfor %}
+{% endif %}
+<p>Dans le cadre du <b>CRI-2003 – Crime et troubles mentaux</b>, nous vous invitons à répondre au sondage en ligne qui suit. </p>
+<p>Répondre à ce sondage devrait prendre une trentaine de minutes environ.</p>
+<p>Le sondage porte sur vos connaissances et vos perceptions du travail d’intervention et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.</p>
+<p>Pour participer (ou signaler votre refus de participer) veuillez inscrire votre adresse de courriel ici, vous y recevrez un courriel avec un
+    lien personnalisé vous permettant de remplir le questionnaire après avoir lu le formulaire de consentement</p>
+<p>Votre adresse de courriel sera retirée de la base de données une fois votre participation terminée</p>
+
+<form input method="post" action="">
+  {% csrf_token %}
+    <p>Adresse courriel de travail<input  name="courriel" type="email" value= "{{courriel}}" size="40"><br />
+    <button type="submit" class="placeboutons" name="Creer">Soumettre</button></p>
+</form>
+
+</div>
+<footer class="w3-container w3-theme-d5 footerw3">
+    <h5><a class="w3-text-white" href="mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=pajsm troubles">
+        Pour toute question à propos du fonctionnement de ce questionnaire contacter</a></h5>
+</footer>
+</body>
+</html>
+

@@ -1,0 +1,183 @@
+{% load i18n %}
+{% load static %}
+<html>
+   <head>
+        <title>PAJ_SM Dossier</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+        <script type="text/javascript" src="/static/etude/tabber.js"></script>
+        <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
+        <script type="text/javascript" src="/static/etude/jquery351.js"></script>
+
+<script>
+$(function() {
+	$("input[id^=row-]").blur(function(){
+		var reg = new RegExp("X", "");
+		res = this.id.split(reg);
+		var valeurcible=res[2];
+		var relation=res[1];
+		var enfant=res[0];
+		var valeurcible2;
+		if(valeurcible == "vide"){
+			valeurcible2="";
+		}else{
+			valeurcible2=valeurcible;
+			}
+		if (relation == 'eq'){
+			if($(this).val() == valeurcible2) {
+				$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+				$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}else{
+			if($(this).val() != valeurcible2){
+				$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+				$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}
+	});
+});
+
+$(function() {
+	$("input[id^=row-]").click(function(){
+		var reg = new RegExp("X", "");
+		res = this.id.split(reg);
+		var valeurcible=res[2];
+		var relation=res[1];
+		var enfant=res[0];
+		var valeurcible2;
+		var courant=$(this).val();
+		if(valeurcible=="vide"){
+			valeurcible2="";
+		}else{
+			valeurcible2= valeurcible;
+			valeurcible=parseInt(valeurcible, 10);
+			courant=parseInt(courant, 10);
+			valeurcible2=parseInt(valeurcible2, 10);
+			}
+		if (relation=='eq'){
+			if(courant == valeurcible2) {
+					$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+					$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}else if(relation=='inf'){
+			if(courant < valeurcible2) {
+					$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+					$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}else if(relation=='sup'){
+			if(courant > valeurcible2) {
+					$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+					$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}else if(relation == 'diff'){
+			if(courant != valeurcible2) {
+					$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+					 $('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}
+	});
+});
+
+$(function() {
+$("select[id^=row-]").click(function(){
+
+	var reg = new RegExp("X", "");
+	res = this.id.split(reg);
+	var valeurcible=res[2];
+	var relation=res[1];
+	var enfant=res[0];
+	var courant=$(this).val();
+
+	if(valeurcible=="vide"){
+			valeurcibl2="";
+	}
+    valeurcible=parseInt(valeurcible, 10);
+    courant=parseInt(courant, 10);
+
+	if (relation=='eq'){
+		if(courant == valeurcible) {
+			$('.child-'+enfant+relation+valeurcible).show();
+		}else{
+			$('.child-'+enfant+relation+valeurcible).hide();
+		}
+		}else if(relation =='inf'){
+			if(courant < valeurcible) {
+					$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+					$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}else if(relation == 'sup'){
+			if(courant > valeurcible) {
+					$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+					$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}else{
+			if(courant != valeurcible){
+				$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+				$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}
+	});
+});
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+    function sayHello()
+        {
+            alert("Click on the SAVE button.Don t forget to save your work. Clicking on OK will not save anything");
+        }
+
+    function timeGreeting()
+        {
+            //assign the timer to a variable:
+            //you need to do this so the timer can be
+            //referenced by another function when you want
+            //to stop it:
+            var greeting = setInterval(sayHello, 900000);
+            //Notice how the time is set in milliseconds.
+        }
+    timeGreeting();
+</script>
+
+</head>
+    <body>
+    <form action="" method="post">
+        <div id="container">
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="alert alert-{{msg.level_tag}}" role="alert">
+                    {{msg.message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="w3-container w3-theme-d5 footerw3">
+    <p></p>
+        <table>
+            <tr>
+                <td class="pagination"><a href="{% url 'SelectPersonne' %}">Return to questionnaire choice</a></td>
+                <td><button type="submit" class="placeboutons">Save</button></td>
+            </tr>
+        </table>
+    </div>
+    </form>
+</body>
+</html>
+

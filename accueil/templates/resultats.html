@@ -1,0 +1,35 @@
+{% extends 'Rech_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+      <div class="w3-col m12 w3-theme w3-center">
+         <h3>NTP1: Main general results</h3>
+       </div>
+    <div class="w3-row w3-theme-l3">
+
+        <div class="w3-col m3">
+        </div>
+        <div class="w3-col m6 w3-center">
+          <img class="mySlides" src="/media/images/NCRCDNFRE.png" style="max-width:700px;">
+          <img class="mySlides" src="/media/images/NCR_BC.png" style="max-width:700px">
+          <img class="mySlides" src="/media/images/NCR_ON.png" style="max-width:700px">
+          <img class="mySlides" src="/media/images/NCR_QC.png" style="max-width:700px">
+          <img class="mySlides" src="/media/images/NCRCDNENG.png" style="max-width:700px">
+
+          <button class="w3-button w3-theme-d5 w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+          <button class="w3-button w3-theme-d5 w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+         </div>
+        <div class="w3-col m3">
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

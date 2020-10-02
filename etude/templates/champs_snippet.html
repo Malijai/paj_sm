@@ -1,0 +1,31 @@
+{% load formulairespajsm %}
+{% with type=typequest|stringformat:"s" %}
+{% autoescape off %}
+    <td class=" {{ classe }} " width = "75%">{{ textequest }}</td>
+    <td class=" {{ classe }} " width = "20%">
+
+    {% if type == "STRING" or type == "NUMBER" or type == "TIME" %}
+        {% fait_textechar questid type persid=pid relation=relation cible=cible uid=user.id accompagnement=accompagnement %}</td>
+    {% elif type == "CODESTRING" %}
+        {% fait_codetexte questid persid=pid relation=relation cible=cible uid=user.id varname=varname accompagnement=accompagnement %}</td>
+    {% elif type == "DATE" %}
+        {% fait_date questid type persid=pid relation=relation cible=cible uid=user.id accompagnement=accompagnement %}</td>
+    {% elif type == "CODEDATE" %}
+        {% fait_datecode questid persid=pid relation=relation cible=cible varname=varname accompagnement=accompagnement %}</td>
+    {% elif type == "DICHO" or type == "DICHOU" %}
+        {% fait_dichou questid type persid=pid relation=relation cible=cible uid=user.id accompagnement=accompagnement %}</td>
+    {% elif  type == "BOOLEAN" or type == "ACCOMPAGNEMENT"  or type == "PAYS" or type == "LANGUE" or type == "VIOLATION" %}
+        {% fait_table questid type persid=pid relation=relation cible=cible uid=user.id accompagnement=accompagnement %}</td>
+    {% elif type == "CATEGORIAL" %}
+         {% fait_reponse questid type persid=pid relation=relation cible=cible uid=user.id accompagnement=accompagnement %}</td>
+    {% elif type == "VICTIME" %}
+        {% fait_victimes questid persid=pid relation=relation cible=cible uid=user.id accompagnement=accompagnement %}</td>
+    {% elif type ==  "ETABLISSEMENT"  or type ==  "MUNICIPALITE" %}
+        {% fait_table_valeurs_prov questid type persid=pid relation=relation cible=cible province=user.profile.province uid=user.id accompagnement=accompagnement %}</td>
+    {% elif type == "COUR" %}
+        {% fait_court questid type persid=pid relation=relation cible=cible uid=user.id accompagnement=accompagnement %}</td>
+    {% else %}
+        <td class=" {{ classe }} " width = "20%">{{ type }}</td>
+    {% endif %}
+{% endautoescape %}
+{% endwith %}

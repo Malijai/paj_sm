@@ -1,0 +1,34 @@
+{% load formulaireenquete %}
+{% with type=typequest|stringformat:"s" %}
+{% autoescape off %}
+
+    <td class="{{ classe }}" width = "75%"><label for="{{ questid }}">{{ textequest }}</label><br />
+
+    {% if type == "STRING" or type == "NUMBER" or type == "TIME" %}
+        {% if classe == "fille" %}
+            {% fait_textechar questid type classe="cond" relation=relation cible=cible langue=langue %}</td>
+        {% else %}
+            {% fait_textechar questid type classe="" relation=relation cible=cible langue=langue %}</td>
+        {% endif %}
+    {% elif type == "DUREE" %}
+        {% fait_duree questid type relation=relation cible=cible langue=langue %}</td>
+    {% elif type == "DATE" %}
+        {% fait_date questid type relation=relation cible=cible  langue=langue %}</td>
+    {% elif type == "DICHO" or type == "DICHOU"  or type == "ONNSP" or  type == "MOINSPLUS" %}
+        {% fait_radioboutons questid type relation=relation cible=cible  langue=langue %}</td>
+    {% elif type == "UNDIX" or type == "UNCINQ" or type == "UNCINQ2" or type == "UNSIX" %}
+        {% fait_radioboutons questid type relation=relation cible=cible langue=langue %}</td>
+    {% elif type == "CATEGORIAL" %}
+         {% fait_reponse questid type relation=relation cible=cible  langue=langue %}</td>
+    {% elif type == "COUR" %}
+        {% fait_court questid type relation=relation cible=cible  langue=langue %}</td>
+    {% elif type == "VRAIFAUX" %}
+        {% fait_table questid type relation=relation cible=cible  langue=langue %}</td>
+    {% elif type == "COMMENT" %}
+    {{ aide|default:"" }}
+        </td>
+    {% else %}
+        {{type}}</td>
+    {% endif %}
+{% endautoescape %}
+{% endwith %}

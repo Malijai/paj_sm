@@ -1,0 +1,83 @@
+{% extends 'dossier_base.html' %}
+{% load i18n %}
+{% load static %}
+{% load formulairespajsm %}
+
+{% block content %}
+        {% if qid == 5 %}
+<h2> {{ code }}--{{hospcode}} - {{ questionnaire }} </h2>
+    {% else %}
+<h2> {{ code }}--{{hospcode}} - {{ questionnaire }} -- {{ accompagnement.reponse_en }}</h2>
+    {% endif %}
+{% csrf_token %}
+   <input name="pid" type="hidden" value="{{ pid }}" />
+   <input name="qid" type="hidden" value="{{ qid }}" />
+   <input name="accid" type="hidden" value="{{ accid }}" />
+   <div class="tabber">
+
+    {% for question in questions %}
+        {% if question.typequestion.nom == 'TITLE' %}
+            {% if forloop.counter > 1 %}
+                </table></div>
+            {% endif %}
+                 <div class="tabbertab"><h3>{{ question.questionen|slice:"0:15" }}</h3><b>{{ question.questionen}}</b>
+                 <table><tr><td></td><td></td><td></td></tr>
+        {% elif question.typequestion.nom == 'COMMENT' %}
+            <tr><td class="plusdeux" colspan="3">{{ question.questionen }}<td></tr>
+        {% else %}
+            {% if question.id not in ascendancesF and question.id not in ascendancesM %}
+                <tr class="{% cycle 'Q1' 'Q2' %}">
+                    {% include "champs_snippet.html" with typequest=question.typequestion textequest=question.questionen questid=question.id varname=question.varname accompagnement=accid %}
+                    {% include "aide_snippet.html" with aide=question.aideen  classe="" %}
+                </tr>
+            {% elif question.id in ascendancesF and question.id in ascendancesM %}
+                     {% for enfant in question.questionpajsm_set.all %}
+                        {% if forloop.counter == 1 %}
+                            <tr style="display: none;" class="child-row-{{question.parent_id}}{{question.relation}}{{question.cible}}">
+                                {% include "champs_snippet.html" with typequest=question.typequestion textequest=question.questionen questid=question.id relation=enfant.relation cible=enfant.cible classe="fillemere" varname=question.varname accompagnement=accid  %}
+                                {% include "aide_snippet.html" with aide=question.aideen classe="fillemere" %}
+                            </tr>
+                        {% endif %}
+                     {% endfor %}
+            {% elif question.id in ascendancesM and question.id not in ascendancesF %}
+                <tr class="mere">
+                    {% for enfant in question.questionpajsm_set.all %}
+                        {% if forloop.counter == 1 %}
+                            {% include "champs_snippet.html" with typequest=question.typequestion textequest=question.questionen questid=question.id relation=enfant.relation cible=enfant.cible classe="mere" varname=question.varname accompagnement=accompagnement.id %}
+                            {% include "aide_snippet.html" with aide=question.aideen %}
+                </tr>
+                        {% endif %}
+                     {% endfor %}
+            {% endif %}
+            {% for enfant in question.questionpajsm_set.all %}
+                {% if enfant.id not in ascendancesM %}
+                     <tr style="display: none;" class="child-row-{{enfant.parent_id}}{{enfant.relation}}{{enfant.cible}}">
+                     {% if enfant.id|divisibleby:2 %}
+                         {% include "champs_snippet.html" with typequest=enfant.typequestion textequest=enfant.questionen questid=enfant.id classe="fifille" varname=enfant.varname accompagnement=accid %}
+                         {% include "aide_snippet.html" with aide=enfant.aideen classe="fifille" %}
+                    {% else %}
+                         {% include "champs_snippet.html" with typequest=enfant.typequestion textequest=enfant.questionen questid=enfant.id classe="fille" varname=enfant.varname accompagnement=accid %}
+                         {% include "aide_snippet.html" with aide=enfant.aideen classe="fille" %}
+                    {% endif %}
+                     </tr>
+                 {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+</table>
+</div>
+{% if qid < 10 and qid != 5 %}
+<div class="tabbertab"><h3>AUDIENCES</h3><b>Pour rentrer les informations des audiences</b>
+    <p>Pour chaque audience en lien avec cette accusation / accompagnement vous devez completer une fiche</p>
+      <table><tr><td>Pour creer la premiere fiche d'audience:</td>
+          <td><a href="{% url 'saverepetpajsm'  10 pid accid %}" class="w3-button w3-theme-action">Nouvelle audience</a></td></tr>
+      </table>
+</div>
+<div class="tabbertab"><h3>DÉLITS</h3><b>Pour rentrer les informations à propos des délits</b>
+    <p>Pour chaque délit en lien avec cette accusation / accompagnement vous devez completer une fiche</p>
+      <table><tr><td>Pour creer la premiere fiche de délit:</td>
+          <td><a href="{% url 'saverepetpajsm'  11 pid accid %}" class="w3-button w3-theme-action">Nouveau délit</a></td></tr>
+      </table>
+    {% endif %}
+</div><!--Fermeture de la boite à onglets-->
+{% endblock content %}

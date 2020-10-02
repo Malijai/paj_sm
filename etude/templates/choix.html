@@ -1,0 +1,97 @@
+{% load i18n %}
+{% load static %}
+
+<html>
+    <head>
+        <title>PAJ_SM Dossier</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+        <script type="text/javascript" src="/static/etude/jquery.js"></script>
+        <script type="text/javascript" src="/static/etude/tabber.js"></script>
+        <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
+    </head>
+<body class="w3-theme-l5">
+
+
+<header class="w3-row w3-theme-d3" id="myHeader">
+
+    <div class="w3-quarter">
+        <a href="{% url 'logout' %}" class="w3-button w3-theme-action"> Logout</a>
+    </div>
+
+    <div class="w3-half w3-center">
+        <h4>PAJ_SM- Dossiers</h4>
+    </div>
+    <div class="w3-quarter w3-right-align">
+    </div>
+</header>
+<div class="principal">
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{msg.message}}
+        </div>
+    {% endfor %}
+{% endif %}
+<h2>{{ user.first_name }} {{ user.last_name }} </h2>
+
+   <div class="tabber">
+       <div class="tabbertab">
+           <form method="post" action="">
+           {% csrf_token %}
+           <h3>Dossiers PAJ</h3><b>Dossiers PAJ-SM Accompagnements et audiences</b>
+               <p>Sélectionner un dossier, un accompagnement / accusation et un questionnaire :
+                <ul>
+                    <li>Les informations sociodemographiques disponibles pour chaque accompagnement</li>
+                    <li>Les détails de chaque accusation et accompagnement</li>
+                    <li>Les délits</li>
+                    <li>Les audiences</li>
+                </ul>
+               <table>
+                <tr><td></td><td></td></tr>
+                <tr><td>Personne</td><td><select name="personneid" >
+                    <option value="">Sélectionner un dossier</option>
+                    {% for personne in personnes %}
+                    <option value="{{personne.id}}">{{personne.code}}-</option>
+                    {% endfor %}
+                    </select></td></tr>
+                <tr><td>Accompagnement</td><td><select name="accompagnementid" >
+                    <option value="">Sélectionner un accompagnement</option>
+                    {% for acc in accompagnements %}
+                            <option value="{{acc.id}}">{{ acc.reponse_en}}</option>
+                    {% endfor %}
+                </select></td></tr>
+                <tr><td>Questionnaire</td><td><select name="questionnaireid" >
+                    <option value="">Sélectionner un questionnaire</option>
+                    {% for questionnaire in questionnaires %}
+                    {% if questionnaire.id < 10 and questionnaire.id > 1 %}
+                            <option value="{{questionnaire.id}}">{{ questionnaire.nom_en}}</option>
+                     {% endif %}
+                   {% endfor %}
+                </select></td></tr>
+                 <tr><td></td><td><button type="submit" class="placeboutons" name="Choisir1">Choisir</button></td></tr>
+            </table>
+        </form>
+       </div>
+       <div class="tabbertab">
+           <form method="post" action="">
+           {% csrf_token %}
+           <h3>Création de dossier</h3><b>Pour créer un nouveau dossier</b>
+            <p>Pour créer un nouveau dossier vous aurez besoin : de la date de la première accusation depuis xxx</p>
+            <table>
+                <tr><td></td><td><button type="submit" class="placeboutons" name="Creer">Nouveau dossier</button></td></tr>
+            </table>
+            </form>
+       </div>
+   </div>
+</div>
+<footer class="w3-container w3-theme-d5 footerw3">
+    <h5><a class="w3-text-white" href="mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=pajsm troubles">
+        Pour toute question à propos du fonctionnement de ce questionnaire contacter</a></h5>
+</footer>
+
+</body>
+</html>
+

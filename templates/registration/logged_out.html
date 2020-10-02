@@ -1,0 +1,45 @@
+{% load i18n %}
+{% load static %}
+<html>
+<title>PAJ-SM étude</title>
+<meta charset="UTF-8">
+<meta name="description" content="PAJ-SM étude">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+<body>
+<div class="principal w3-theme-l5">
+<!-- Side Navigation -->
+<!-- Sidebar -->
+  <nav class="w3-sidebar w3-bar-block w3-border-right w3-theme-d5" style="display:none" id="mySidebar">
+  <button onclick="w3_close()" class="w3-bar-item w3-large">{% trans "Fermer &times;" %}</button>
+</nav>
+
+<!-- Header -->
+<!-- <header class="w3-container w3-theme" id="myHeader"> -->
+<header class="w3-row w3-theme-d3" id="myHeader">
+
+    <div class="w3-quarter">
+        <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button"></i>
+    </div>
+
+    <div class="w3-half w3-center">
+        <h4> PAJ-SM étude et enquête </h4>
+        <h1 class="w3-xxlarge w3-animate-bottom">PAJ-SM</h1>
+    </div>
+</header>
+<div class="w3-container w3-padding">
+
+    <div class="post">
+        <p class="espace"> Délogué! </p>
+        <p class="espace">
+            <a href="{% url 'login'%}" class="btn-default"> Se reloguer </a>
+        </p>
+    </div>
+
+</div>
+
+<footer class="w3-container w3-theme-d5 footerw3">
+  <div style="position:relative;bottom:30px;" class="w3-tooltip w3-right">
+  </div>
+</footer>

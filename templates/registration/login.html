@@ -1,0 +1,76 @@
+{% load i18n %}
+{% load static %}
+<html>
+<title>PAJ-SM étude</title>
+<meta charset="UTF-8">
+<meta name="description" content="PAJ-SM étude">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+<body>
+<div class="principal w3-theme-l5">
+<!-- Side Navigation -->
+<!-- Sidebar -->
+  <nav class="w3-sidebar w3-bar-block w3-border-right w3-theme-d5" style="display:none" id="mySidebar">
+  <button onclick="w3_close()" class="w3-bar-item w3-large"> Fermer &times; %}</button>
+</nav>
+
+<!-- Header -->
+<!-- <header class="w3-container w3-theme" id="myHeader"> -->
+<header class="w3-row w3-theme-d3" id="myHeader">
+
+    <div class="w3-quarter">
+        <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button"></i>
+    </div>
+
+    <div class="w3-half w3-center">
+        <h4>PAJ-SM étude</h4>
+        <h1 class="w3-xxlarge w3-animate-bottom">PAJ-SM</h1>
+    </div>
+
+</header>
+
+{% if form.errors %}
+<p>Votre nom et mot de passe ne correspondent pas. Réessayez</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Enregistrez-vous pour accéder à cette page</p>
+    {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<table>
+    <tr>
+      <td>{{ form.username.label_tag }}</td>
+      <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.password.label_tag }}</td>
+      <td>{{ form.password }}</td>
+    </tr>
+
+    <tr>
+      <td></td><td><input type="submit" value="login" class="btn-default"/>
+      <input type="hidden" name="next" value="" /></td>
+    </tr>
+</table>
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p class="espace"><a href="{% url 'password_reset' %}">Mot de passe perdu?</a>
+</p>
+
+<p class="espace"><a href="{% url 'inscription_intervenant' %}">Pour accéder au sondage réservé aux professionnels et aux intervenants du réseau de la santé et des PAJSM</a>
+</p>
+
+<footer class="w3-container w3-theme-d5 footerw3">
+
+  <div style="position:relative;bottom:30px;" class="w3-tooltip w3-right">
+</div>
+</footer>

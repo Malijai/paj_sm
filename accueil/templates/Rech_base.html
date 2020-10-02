@@ -1,0 +1,81 @@
+{% load i18n %}
+{% load static %}
+<html>
+<title>Les PAJ-SM</title>
+<meta charset="UTF-8">
+<meta name="description" content="PAJ-SM">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<body>
+<div class="principal w3-theme-l5">
+<!-- Side Navigation -->
+<!-- Sidebar -->
+  <nav class="w3-sidebar w3-bar-block w3-border-right w3-theme-d5" style="display:none" id="mySidebar">
+  <button onclick="w3_close()" class="w3-bar-item w3-large">{% trans "Fermer" %} &times;</button>
+      <a href="{% url 'accueil' %}" class="w3-bar-item w3-button">{% trans "Accueil" %}</a>
+      <a href="{% url 'inscription_intervenant' %}" class="w3-bar-item w3-button">{% trans "Accès au sondage" %}</a>
+      <a href="{% url 'entreesystemes' %}" class="w3-bar-item w3-button">{% trans "Accès privé" %}</a>
+</nav>
+<!-- Header -->
+<!-- <header class="w3-container w3-theme" id="myHeader"> -->
+<header class="w3-row w3-theme-d3" id="myHeader">
+
+    <div class="w3-quarter">
+        <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button"></i>
+    </div>
+
+    <div class="w3-half w3-center">
+        <h4>{% trans "Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec" %}</h4>
+        <h5>{% trans "Étude financée par le Ministère de la Justice du Québec" %}</h5>
+    </div>
+<div class="w3-quarter w3-right-align">
+        <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ index }}" />
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            {% if language.code != LANGUAGE_CODE %}
+                <input type="submit" class="langue" name="language" value="{{ language.code }}" />
+            {% endif %}
+        {% endfor %}
+        </form>
+    </div>
+</header>
+
+   <div class="w3-container w3-padding">
+       {% block content %}
+
+      {% endblock %}
+    </div>
+<!-- Footer -->
+</div>
+<footer class="w3-container w3-theme-d5 footerw3">
+        <h5>Projet réalisé en  <img src="/static/accueil/django-logo-negative.png" height="32px">
+        disponible ici <a href="https://github.com/Malijai/NTP2_Recherche" class="date" ><img src="/static/images/GitHub-Mark-Light-32px.png"></a>
+        Thème inspiré de <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a> -
+        <a href="mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP informations">Contact</a></h5>
+  <div style="position:relative;bottom:30px;" class="w3-tooltip w3-right">
+    <span class="w3-text w3-theme-light w3-padding">Haut</span>
+    <a class="w3-text-white" href="#myHeader"><span class="w3-xlarge">
+    <i class="fa fa-chevron-circle-up"></i></span></a>
+  </div>
+</footer>
+
+<!-- Script for Sidebar, Accordions, -->
+<script>
+// Side navigation
+
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+}
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+}
+
+</script>
+</body>
+</html>

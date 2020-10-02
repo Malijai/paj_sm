@@ -1,0 +1,9 @@
+/pajsm/.env
+/db.sqlite3
+/etude/migrations/0001_initial.py
+/etude/migrations/0002_vignette.py
+/etude/migrations/0003_auto_20200903_0956.py
+/etude/migrations/0004_auto_20200918_0842.py
+/etude/migrations/0005_auto_20200918_1558.py
+/etude/migrations/0006_auto_20200928_1102.py
+/etude/migrations/0007_auto_20201001_1048.py

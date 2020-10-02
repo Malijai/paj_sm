@@ -1,0 +1,70 @@
+{% load i18n %}
+{% load static %}
+
+<html>
+    <head>
+        <title>PAJ_SM Enquête</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
+    </head>
+<body class="w3-theme-l5">
+
+    <header class="w3-row w3-theme-d3" id="myHeader">
+    <div class="w3-half w3-center">
+        <h4>{% trans "Formulaire d’information et de consentement" %}</h4>
+        <h1 class="w3-xxlarge w3-animate-bottom">PAJ-SM</h1>
+    </div>
+    <div class="w3-quarter w3-right-align">
+        <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ index }}" />
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            {% if language.code != LANGUAGE_CODE %}
+                <input type="submit" class="langue" name="language" value="{{ language.code }}" />
+            {% endif %}
+        {% endfor %}
+        </form>
+    </div>
+</header>
+
+<div class="principal">
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{msg.message}}
+        </div>
+    {% endfor %}
+{% endif %}
+<h3>CRI2003 – Crime et troubles mentaux</h3>
+<h3>Enquête sur les perception des programmes de déjudiciarisation</h3>
+<h4>1. Introduction</h4>
+Dans le cadre du <b>CRI-2003 – Crime et troubles mentaux</b>, nous vous invitons à répondre au sondage en ligne qui suit. Répondre à ce sondage devrait prendre une trentaine de minutes environ.
+Le sondage porte sur vos connaissances et vos perceptions du travail d’intervention et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.
+<h4>2. Participation volontaire et possibilité de retrait</h4>
+Votre participation à ce sondage est volontaire. Vous êtes donc libre de refuser d’y participer. Vous pouvez également vous retirer de ce projet, à n’importe quel moment, sans avoir à donner de raisons, en informant l'équipe de recherche.
+<h4>3. Confidentialité</h4>
+Tous les renseignements recueillis demeureront confidentiels dans les limites prévues par la loi. Afin de préserver votre identité et la confidentialité de ces renseignements, vous ne serez identifié que par un numéro de code. Votre adresse de courriel sera détruite lorsque vous aurez terminé le questionnaire.
+<form method="post" action="">
+    {% csrf_token %}
+<h3>Déclaration de consentement</h3>
+J’ai lu la section précédente et je consens à participer à ce sondage aux conditions qui y sont énoncées.
+
+    <button type="submit" class="placeboutons" name="Consent">Consentir</button>
+    <button type="submit" class="placeboutons" name="Refuser">Refuser</button>
+</form>
+
+</div>
+<footer class="w3-container w3-theme-d5 footerw3">
+    <h5><a class="w3-text-white" href="mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=pajsm troubles">
+        Pour toute question à propos du fonctionnement de ce questionnaire contacter</a></h5>
+</footer>
+
+</body>
+</html>
+
