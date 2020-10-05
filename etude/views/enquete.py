@@ -63,7 +63,9 @@ def inscription_intervenant(request):
             lienenquete = settings.ENTREE_URL + code
             sujet = _(u"Lien pour l'enquête PAJ-SM")
             textecourriel = _(u"""
+            Bonjour,
             Voici le lien qui vous permettra d'accéder au questionnaire de l'enquête PAJ_SM : {}
+            Si vous n'avez pas le temps de compléter le questionnaire en une séance, vous pourrez retournez où vous étiez en cliquant sur ce même lien.
             Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
             Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)
                 """).format(lienenquete)
