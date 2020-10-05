@@ -356,6 +356,6 @@ def saveenquete(request, cid, qid):
 def envoi_courriel(sujet, textecourriel, courriel):
     with mail.get_connection() as connection:
         mail.EmailMessage(
-            sujet, textecourriel, 'malijai.caulet.ippm@ssss.gouv.qc.ca', [courriel],
+            sujet, textecourriel, 'malijai.caulet@ntp-ptn.org', [courriel],
             connection=connection,
         ).send()
