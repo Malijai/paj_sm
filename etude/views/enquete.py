@@ -302,7 +302,7 @@ def saveenquete(request, cid, qid):
                                 }
                             )
                     if question.varname in condition.keys():
-                        if int(reponseaquestion) == 1:
+                        if int(reponseaquestion) == 1 or int(reponseaquestion) == 2:
                             reponse = 1
                         else:
                             reponse = 0

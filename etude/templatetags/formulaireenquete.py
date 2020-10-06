@@ -3,7 +3,7 @@ import re
 from django.apps import apps
 from etude.models import Typequestion, Listevaleur, Reponsepajsm
 from django import forms
-from etude.etude_constants import CHOIX_ONUK, CHOIX_ON, CHOIX_ONNSP, CHOIX_VFNSP, CHOIX_MOINSPLUS, CHOIX_UNDIX, CHOIX_UNCINQ, CHOIX_UNCINQ2, CHOIX_UNSIX
+from etude.etude_constants import CHOIX_ONUK, CHOIX_ON, CHOIX_ONNSP, CHOIX_VFNSP, CHOIX_MOINSPLUS, CHOIX_UNDIX, CHOIX_UNCINQ, CHOIX_UNCINQ2, CHOIX_UNSIX, CHOIX_ETUDIANT
 
 register = template.Library()
 
@@ -32,6 +32,8 @@ def fait_radioboutons(a, b, *args, **kwargs):
         liste = CHOIX_UNSIX.items()
     elif sorte == "UNCINQ2":
         liste = CHOIX_UNCINQ2.items()
+    elif sorte == "ETUDIANT":
+        liste = CHOIX_ETUDIANT.items()
     else:
         liste = CHOIX_ONUK.items()
     question = forms.RadioSelect(choices=liste, attrs={'id': idcondition,})

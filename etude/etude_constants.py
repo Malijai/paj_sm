@@ -81,3 +81,10 @@ CHOIX_UNCINQ2 = {
     4: 'En désaccord',
     5: 'Fortement en désaccord',
     }
+
+# pour les DICHO (8)= Yes_No
+CHOIX_ETUDIANT = {
+    1: 'Avocat',
+    0: 'Ni Avocat ni étudiant',
+    2: 'Étudiant',
+    }
