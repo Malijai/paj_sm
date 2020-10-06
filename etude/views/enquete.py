@@ -277,11 +277,71 @@ def saveenquete(request, cid, qid):
                (2, 1, 0, 1): {101: 105, 105: 102, 102: 104, 104: 106, 106: 110},
                (2, 0, 0, 1): {101: 105, 105: 104, 104: 106, 106: 110},
                }
+    nbquestions = {
+        101: 8,
+        102: 29,
+        103: 32,
+        104: 28,
+        105: 11,
+        106: 7,
+    }
+
+    #clef: ordre, connait, implique, avocat,(p1,p2,p3,p4,p5)
+    nbsuivant = {(1, 1, 1, 0, (1, 0, 0, 0, 0)): 8/76,
+                (1, 1, 1, 0, (1, 1, 0, 0, 0)): 27/76,
+               #(1, 1, 1, 0, (1, 1, 1, 0, 0)): 104,
+                (1, 1, 1, 0, (1, 1, 0, 1, 0)): 65/76,
+                (1, 1, 0, 0, (1, 0, 0, 0, 0)): 8/76,
+                (1, 1, 0, 0, (1, 1, 0, 0, 0)): 27/76,
+                (1, 1, 0, 0, (1, 1, 0, 1, 0)): 65/76,
+                (1, 0, 0, 0, (1, 0, 0, 0, 0)): 8/47,
+                (1, 0, 0, 0, (1, 0, 0, 1, 0)): 26/47,
+                (1, 1, 1, 1, (1, 0, 0, 0, 0)): 8/83,
+                (1, 1, 1, 1, (1, 1, 0, 0, 0)): 27/83,
+               #(1, 1, 1, 1, (1, 1, 1, 0, 0)): 104,
+               (1, 1, 1, 1, (1, 1, 0, 1, 0)): 65/83,
+               (1, 1, 1, 1, (1, 1, 0, 1, 1)): 76/83,
+               (1, 1, 0, 1, (1, 0, 0, 0, 0)): 8/55,
+               (1, 1, 0, 1, (1, 1, 0, 0, 0)): 27/55,
+               (1, 1, 0, 1, (1, 1, 0, 1, 0)): 38/55,
+               (1, 1, 0, 1, (1, 1, 0, 1, 1)): 45/55,
+               (1, 0, 0, 1, (1, 0, 0, 0, 0)): 8/48,
+               (1, 0, 0, 1, (1, 0, 0, 1, 0)): 27/48,
+               (1, 0, 0, 1, (1, 0, 0, 1, 1)): 38/48,
+               (2, 1, 1, 0, (1, 0, 0, 0, 0)): 8/76,
+               (2, 1, 1, 0, (1, 0, 0, 0, 1)): 19/76,
+               (2, 1, 1, 0, (1, 1, 0, 0, 1)): 48/76,
+               #(2, 1, 1, 0, (1, 1, 1, 0, 1)): 104,
+               (2, 1, 0, 0, (1, 0, 0, 0, 0)): 8/76,
+               (2, 1, 0, 0, (1, 0, 0, 0, 1)): 19/76,
+               (2, 1, 0, 0, (1, 1, 0, 0, 1)): 48/76,
+               (2, 0, 0, 0, (1, 0, 0, 0, 0)): 8/47,
+               (2, 0, 0, 0, (1, 0, 0, 0, 1)): 19/47,
+               (2, 1, 1, 1, (1, 0, 0, 0, 0)): 8/83,
+               (2, 1, 1, 1, (1, 0, 0, 0, 1)): 19/83,
+               (2, 1, 1, 1, (1, 1, 0, 0, 1)): 48/83,
+               #(2, 1, 1, 1, (1, 1, 1, 0, 1)): 104,
+               (2, 1, 1, 1, (1, 1, 0, 1, 1)): 76/83,
+               (2, 1, 0, 1, (1, 0, 0, 0, 0)): 8/83,
+               (2, 1, 0, 1, (1, 0, 0, 0, 1)): 19/83,
+               (2, 1, 0, 1, (1, 1, 0, 0, 1)): 48/83,
+               (2, 1, 0, 1, (1, 1, 0, 1, 1)): 76/83,
+               (2, 0, 0, 1, (1, 0, 0, 0, 0)): 8/54,
+               (2, 0, 0, 1, (1, 0, 0, 0, 1)): 19/54,
+               (2, 0, 0, 1, (1, 0, 0, 1, 1)): 47/54,
+               }
     intervenant = Intervenant.objects.get(code=cid)
     vignette1 = Vignette.objects.get(id= intervenant.vignette1)
     vignette2 = Vignette.objects.get(id= intervenant.vignette2)
     questionnaire = Questionnaire.objects.get(id=qid)
     ascendancesF, ascendancesM, questionstoutes = genere_questions(qid)
+    if qid == 101:
+        nbfait = 0
+    else:
+        nbfait = nbsuivant[intervenant.ordre, intervenant.connait, intervenant.implique, intervenant.avocat,
+                       (int(intervenant.partie1), int(intervenant.partie2), int(intervenant.partie3),
+                        int(intervenant.partie4), int(intervenant.partie5))]
+        nbfait = nbfait*100
     if request.method == 'POST':
         if 'suite' in request.POST and qid != 110:
             for question in questionstoutes:
@@ -318,6 +378,11 @@ def saveenquete(request, cid, qid):
                 new_qid = suivant[(intervenant.ordre, intervenant.connait, intervenant.implique, intervenant.avocat)][old_qid]
 #                ascendancesF, ascendancesM, questionstoutes = genere_questions(new_qid)
 #                questionnaire = Questionnaire.objects.get(id=new_qid)
+                new_nbfait = nbsuivant[intervenant.ordre, intervenant.connait, intervenant.implique, intervenant.avocat,
+                                  (int(intervenant.partie1), int(intervenant.partie2), int(intervenant.partie3),
+                                   int(intervenant.partie4), int(intervenant.partie5))]
+
+                nbfait = new_nbfait*100
                 qid = new_qid
             else:
                 messages.add_message(request, messages.ERROR, _(u'Certaines de vos réponses sont incompatibles, s il vous plait recommencez !'))
@@ -349,6 +414,7 @@ def saveenquete(request, cid, qid):
                                    'range': range(1, int(questionnaire.description)+1),
                                    'vignette1': vignette1,
                                    'vignette2': vignette2,
+                                   'nbfait': nbfait,
                                  }
                              )
 

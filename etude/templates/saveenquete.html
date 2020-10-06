@@ -11,8 +11,14 @@
    <input name="qid" type="hidden" value="{{ qid }}" />
 {% for num in range %}
 <div class="tab ">
+    <br />
+     <div class="w3-theme-light w3-large">
+  <div class="w3-container w3-theme-d1" style="width:{{nbfait|floatformat:0}}%">{{nbfait|floatformat:0}} %
+  </div>
+</div>
 {% if num == 1  and questionnaire.consignefr != "" %}
 <h4>Consignes</h4>{{ questionnaire.consignefr}}
+
 {% endif %}
     {% if  num == 1 and qid == 104 %}
     <h4><u>Lisez attentivement la vignette suivante</u> :
