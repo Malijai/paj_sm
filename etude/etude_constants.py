@@ -15,7 +15,7 @@ CHOIX_ONUK = {
 CHOIX_ONNSP = {
     1: 'Oui',
     0: 'Non',
-    997: 'Ne sait pas'
+    997: 'Ne sais pas'
     }
 
 # pour les ONNSP (11 = Vrai-Faux-Ne sait pas)

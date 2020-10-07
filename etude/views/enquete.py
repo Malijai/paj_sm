@@ -378,11 +378,6 @@ def saveenquete(request, cid, qid):
                 new_qid = suivant[(intervenant.ordre, intervenant.connait, intervenant.implique, intervenant.avocat)][old_qid]
 #                ascendancesF, ascendancesM, questionstoutes = genere_questions(new_qid)
 #                questionnaire = Questionnaire.objects.get(id=new_qid)
-                new_nbfait = nbsuivant[intervenant.ordre, intervenant.connait, intervenant.implique, intervenant.avocat,
-                                  (int(intervenant.partie1), int(intervenant.partie2), int(intervenant.partie3),
-                                   int(intervenant.partie4), int(intervenant.partie5))]
-
-                nbfait = new_nbfait*100
                 qid = new_qid
             else:
                 messages.add_message(request, messages.ERROR, _(u'Certaines de vos réponses sont incompatibles, s il vous plait recommencez !'))
@@ -393,6 +388,13 @@ def saveenquete(request, cid, qid):
                 messages.add_message(request, messages.ERROR,
                                      _(u'Questionnaire terminé, Merci !'))
                 return render(request, 'rejet.html')
+            else:
+
+                new_nbfait = nbsuivant[intervenant.ordre, intervenant.connait, intervenant.implique, intervenant.avocat,
+                                       (int(intervenant.partie1), int(intervenant.partie2), int(intervenant.partie3),
+                                        int(intervenant.partie4), int(intervenant.partie5))]
+
+                nbfait = new_nbfait * 100
             return redirect(saveenquete,
                             cid,
                             qid,
