@@ -3,7 +3,7 @@
 
 <html>
     <head>
-        <title>PAJ_SM Dossier</title>
+        <title>PAJ_SM Fin</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
@@ -12,9 +12,10 @@
     </head>
 <body class="w3-theme-l5">
 <header class="w3-row w3-theme-d3" id="myHeader">
-    <h4>Accusé de réception pour participation à l'enquête sur les perception des programmes de déjudiciarisation</h4>
+    <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
 </header>
 <div class="principal">
+<br/><br/>
 {% if messages %}
     {% for msg in messages %}
         <div class="alert alert-{{msg.level_tag}}" role="alert">
@@ -22,12 +23,11 @@
         </div>
     {% endfor %}
 {% endif %}
-<p>Merci pour votre participation</p>
 
 </div>
 <footer class="w3-container w3-theme-d5 footerw3">
-    <h5><a class="w3-text-white" href="mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=pajsm troubles">
-        Pour toute question à propos du fonctionnement de ce questionnaire contacter</a></h5>
+    <h5>Pour toute question à propos de cette recherche et de cette enquête contacter :<a class="w3-text-white" href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete pajsm question">
+    <u>la coordonnatrice de l'enquête</u></a></h5>
 </footer>
 </body>
 </html>

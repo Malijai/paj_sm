@@ -9,62 +9,102 @@
         <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
         <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
         <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
-    </head>
-<body class="w3-theme-l5">
-
+</head>
+    <body class="w3-theme-l5">
     <header class="w3-row w3-theme-d3" id="myHeader">
-    <div class="w3-half w3-center">
-        <h4>{% trans "Formulaire d’information et de consentement" %}</h4>
-        <h1 class="w3-xxlarge w3-animate-bottom">PAJ-SM</h1>
+    <div class="w3-center">
+        <h4>Formulaire d’information et de consentement</h4>
+        <h1 class="w3-xxlarge w3-animate-bottom">Étude sur les Programmes d’accompagnement en justice et santé mentale</h1>
     </div>
-    <div class="w3-quarter w3-right-align">
-        <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <input name="next" type="hidden" value="{{ index }}" />
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        {% get_language_info_list for LANGUAGES as languages %}
-        {% for language in languages %}
-            {% if language.code != LANGUAGE_CODE %}
-                <input type="submit" class="langue" name="language" value="{{ language.code }}" />
-            {% endif %}
-        {% endfor %}
-        </form>
-    </div>
-</header>
+ </header>
 
 <div class="principal">
-{% if messages %}
-    {% for msg in messages %}
-        <div class="alert alert-{{msg.level_tag}}" role="alert">
-        {{msg.message}}
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-{{msg.level_tag}}" role="alert">
+            {{msg.message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h3>Enquête sur les perception des programmes de déjudiciarisation</h3>
+    <h4>1. Introduction</h4>
+     Notre équipe de recherche procède à une étude sur les programmes d’accompagnement en justice et santé mentale (PAJ-SM).
+        Depuis 2008, différentes juridictions judiciaires ont mis en place  PAJ-SM.
+        Le projet vise dans l’ensemble à mieux comprendre le fonctionnement de ces programmes et leurs différences d’un endroit à l’autre,
+        quelles sont les personnes qui y ont accès, quelle est l’expérience des personnes qui y prennent part et quels sont les effets
+        de la participation aux programmes pour les participants, leur entourage et la collectivité.
+    Pour la réalisation de ce projet, nous comptons obtenir la participation d’un peu plus de 500 répondants à ce sondage en ligne parmi
+        les intervenants et les professionnels du système de santé et de services sociaux,
+        du système de justice et du réseau des organismes communautaires de la province œuvrant auprès de clientèles présentant des problématiques
+        de santé mentale et de judiciarisation.<br/>
+    Le sondage porte sur vos connaissances, votre expérience et vos perceptions du travail d’intervention
+        et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.
+        Ce questionnaire devrait prendre de 10 et 30 minutes à compléter.
+        Veuillez compléter ce questionnaire au mieux de votre connaissance et de votre réalité de travail.
+
+    <h4>2. Participation volontaire et possibilité de retrait</h4>
+    Votre participation à ce sondage est volontaire. Vous êtes donc libre de refuser d’y participer. Vous pouvez également vous retirer de ce projet, à n’importe quel moment, sans avoir à donner de raisons, en informant l'équipe de recherche.
+    <h4>3. Confidentialité</h4>
+    Tous les renseignements recueillis demeureront confidentiels dans les limites prévues par la loi.
+    <h4>4. Consentement</h4>
+        S'il vous plait lisez le formulaire de consentement ci joint au complet
+        <a class="w3-button w3-theme-d5" id="luB"href="{% static 'etude/FCSIV2.2.pdf' %}">Formulaire de consentement</a>
+    <div>
+        <div id="lu" hidden>
+            <div id="welcome" >
+                <h5><button class="w3-button w3-theme-d5" id="okButton" style="width: 100px;">J'ai lu</button> J’ai lu le formulaire de consentement et la section précédente.
+                </h5>
+            </div>
+            <div id="awesome" hidden class="w3-theme-l2 w3-large" style="padding: 10; width: 90%; border: 5px solid #925375; position: absolute; top: 150;">
+                <h3>Déclaration de consentement</h3>
+                <form method="post" action="" >
+                    {% csrf_token %}
+                    <p>J’ai pris connaissance du formulaire d’information et de consentement. On m’a expliqué le projet de recherche
+                       et le présent formulaire d’information et de consentement.
+                        On a répondu à mes questions et on m’a laissé le temps voulu pour prendre une décision.
+                        Après réflexion, je consens à participer à ce projet de recherche aux conditions qui y sont énoncées.</p>
+                    <h4>Projets de recherche futurs (utilisation secondaire)</h4>
+                    <input type="checkbox" id="utilisationsecondaire" name="utilisationsecondaire" value="1" default="0">
+                    <label for="utilisationsecondaire">J'accepte</label> que mes données de recherche soient utilisées par le chercheur responsable de ce projet de
+                    recherche pour réaliser d’autres projets de recherche soit dans le domaine de la santé mentale judiciaire, ou soit
+                    dans le domaine de la promotion de la santé, des soins et des interventions<br>
+                    <h4>Contact pour participation à des études futures</h4>
+                    <input type="checkbox" id="efutures" name="efutures" value="1" default="0">
+                    <label for="efutures">J'accepte</label> que mes données de recherche soient utilisées par le chercheur responsable de ce projet de
+                    recherche pour réaliser d’autres projets de recherche soit dans le domaine de la santé mentale judiciaire, ou soit
+                    dans le domaine de la promotion de la santé, des soins et des interventions</p>
+                    <h4>Participation au tirage</h4>
+                    <input type="checkbox" id="tirage" name="tirage" value="1" default="0">
+                    <label for="tirage">J'accepte</label> de participer au tirage d'un des 50 certificats-cadeaux d’une valeur de 25 $</p>
+                    <button type="submit" class="w3-button w3-theme-d5" name="accord" value="Consent" style="width: 400px;">Je consens à participer à cette enquête</button>
+                    &nbsp&nbsp<button type="submit" class="w3-button w3-theme-d5" name="accord" value="Refuser" style="width: 400px;">Je refuse</button>
+                </form>
+            </div>
         </div>
-    {% endfor %}
-{% endif %}
-<h3>CRI2003 – Crime et troubles mentaux</h3>
-<h3>Enquête sur les perception des programmes de déjudiciarisation</h3>
-<h4>1. Introduction</h4>
-Dans le cadre du <b>cour CRI-2003 – Crime et troubles mentaux</b>, nous vous invitons à répondre au sondage en ligne qui suit. Répondre à ce sondage devrait prendre une trentaine de minutes environ.
-Le sondage porte sur vos connaissances et vos perceptions du travail d’intervention et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.
-<h4>2. Participation volontaire et possibilité de retrait</h4>
-Votre participation à ce sondage est volontaire. Vous êtes donc libre de refuser d’y participer. Vous pouvez également vous retirer de ce projet, à n’importe quel moment, sans avoir à donner de raisons, en informant l'équipe de recherche.
-<h4>3. Confidentialité</h4>
-Tous les renseignements recueillis demeureront confidentiels dans les limites prévues par la loi. Afin de préserver votre identité et la confidentialité de ces renseignements, vous ne serez identifié que par un numéro de code. Votre adresse de courriel sera supprimée de nos bases de données lorsque vous aurez terminé le questionnaire.
-<form method="post" action="">
-    {% csrf_token %}
-<h3>Déclaration de consentement</h3>
-J’ai lu la section précédente et je consens à participer à ce sondage aux conditions qui y sont énoncées.
-
-    <button type="submit" class="placeboutons" name="Consent">Je consens</button>
-    <button type="submit" class="placeboutons" name="Refuser">Je refuse</button>
-</form>
-
+    </div>
 </div>
 <footer class="w3-container w3-theme-d5 footerw3">
-    <h5>Pour toute question à propos du fonctionnement de ce questionnaire contacter :<a class="w3-text-white" href="mailto:observatoire@santementalejustice.ca?subject=pajsm troubles">
-         le coordonnateur de l'enquête</a></h5>
+    <h5>Pour toute question à propos de cette recherche et de cette enquête contacter :<a class="w3-text-white" href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete pajsm question">
+    <u>la coordonnatrice de l'enquête</u></a></h5>
 </footer>
 
 </body>
+<script type="text/javascript">
+  document.getElementById("okButton")
+        .addEventListener("click", function() {
+  document.getElementById("welcome").hidden = true;
+  document.getElementById("awesome").hidden = false;
+}, false);
+document.getElementById("lu")
+        .addEventListener("click", function() {
+  document.getElementById("welcome").hidden = true;
+  document.getElementById("awesome").hidden = false;
+}, false);
+</script>
+<script type="text/javascript">
+document.getElementById("luB")
+        .addEventListener("click", function() {
+  document.getElementById("lu").hidden = false;
+}, false);
+</script>
 </html>
-

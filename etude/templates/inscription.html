@@ -1,50 +1,60 @@
 {% load i18n %}
 {% load static %}
-
 <html>
-    <head>
-        <title>PAJ_SM Dossier</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
-        <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
-        <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
-    </head>
-<body class="w3-theme-l5">
+<title>Les PAJ-SM</title>
+<meta charset="UTF-8">
+<meta name="description" content="PAJ-SM">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+   <body class="w3-theme-l5">
 
+<div class="principal w3-theme-l5">
+
+<!-- Header -->
+<!-- <header class="w3-container w3-theme" id="myHeader"> -->
 <header class="w3-row w3-theme-d3" id="myHeader">
-
-    <div class="w3-threequarter w3-center">
-        <h4>Formulaire d'inscription à l'enquête sur les perception des programmes de déjudiciarisation</h4>
+    <div class="w3-quarter">
     </div>
-    <div class="w3-quarter w3-right-align">
+    <div class="w3-half w3-center">
+        <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
+        <h5>Étude financée par le Ministère de la Justice du Québec</h5>
     </div>
 </header>
-<div class="principal">
-{% if messages %}
+ <div class="principal">
+ {% if messages %}
     {% for msg in messages %}
         <div class="alert alert-{{msg.level_tag}}" role="alert">
         {{msg.message}}
         </div>
     {% endfor %}
 {% endif %}
-<p>Dans le cadre du <b>CRI-2003 – Crime et troubles mentaux</b>, nous vous invitons à répondre au sondage en ligne qui suit. </p>
-<p>Répondre à ce sondage devrait prendre une trentaine de minutes environ.</p>
-<p>Le sondage porte sur vos connaissances et vos perceptions du travail d’intervention et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.</p>
-<p>Pour participer (ou signaler votre refus de participer) veuillez inscrire votre adresse de courriel ici, vous y recevrez un courriel avec un
-    lien personnalisé vous permettant de remplir le questionnaire après avoir lu le formulaire de consentement</p>
-<p>Votre adresse de courriel sera retirée de la base de données une fois votre participation terminée</p>
+    <h2>Enquête sur les perception des programmes de déjudiciarisation</h2>
+     <p>Notre équipe de recherche procède à une étude sur les programmes d’accompagnement en justice et santé mentale (PAJ-SM).
+        Le projet vise dans l’ensemble à mieux comprendre le fonctionnement de ces programmes et leurs différences d’un endroit à l’autre,
+        quelles sont les personnes qui y ont accès, quelle est l’expérience des personnes qui y prennent part et quels sont les effets
+        de la participation aux programmes pour les participants, leur entourage et la collectivité.
+    <br/>Le sondage en ligne s'adresse aux intervenants et professionnels du système de santé et des services sociaux,
+        du système de justice et du réseau des organismes communautaires de la province œuvrant auprès de clientèles présentant des problématiques
+        de santé mentale et de judiciarisation.<br/>
+    Il porte sur vos connaissances, votre expérience et vos perceptions du travail d’intervention
+        et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.<br/>
+        Ce questionnaire devrait prendre de 10 et 30 minutes à compléter.
+    </p>
+    <p>Pour participer (ou signaler votre refus de participer) veuillez inscrire votre adresse de courriel ici, vous y recevrez un courriel avec un
+        lien personnalisé vous permettant de remplir le questionnaire après avoir lu le formulaire de consentement</p>
 
 <form input method="post" action="">
   {% csrf_token %}
-    <p>Adresse courriel de travail<input  name="courriel" type="email" value= "{{courriel}}" size="40"><br />
-    <button type="submit" class="placeboutons" name="Creer">Soumettre</button></p>
+    <p>Adresse de votre courriel professionnel <input  name="courriel" type="email" value= "{{courriel}}" size="50">
+    <button type="submit" class="w3-button w3-theme-d5" name="Creer">S'inscrire</button></p>
 </form>
-
 </div>
 <footer class="w3-container w3-theme-d5 footerw3">
-    <h5><a class="w3-text-white" href="mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=pajsm troubles">
-        Pour toute question à propos du fonctionnement de ce questionnaire contacter</a></h5>
+    <h5>Pour toute question à propos de ce questionnaire contacter
+        <a class="w3-text-white" href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete pajsm question">
+    <u>la coordonnatrice de l'enquête</u></a></h5>
 </footer>
 </body>
 </html>
