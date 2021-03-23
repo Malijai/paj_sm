@@ -9,7 +9,8 @@ from etude.models import Questionnaire, Intervenant, Resultatenquete, Vignette,Q
 from etude.etude_constants import TEXTES_MESSAGES
 
 # from django.utils.translation import ugettext_lazy as _
-from django.core import mail
+# from django.core import mail
+from django.core.mail import EmailMessage
 from django.conf import settings
 
 
@@ -55,9 +56,14 @@ def inscription_intervenant(request):
                 Bonjour,
                 Voici le lien qui vous permettra d'accéder au questionnaire de l'étude sur les Programmes d’accompagnement
                 en justice et santé mentale : {}
-                Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
+                Si vous n'avez pas le temps de compléter le questionnaire en une séance, vous pourrez retournez où vous 
+                étiez en cliquant sur ce même lien.
+                Vous trouverez également en document attaché le formulaire de consentement pour ce projet.
+                
                 Pour toute information sur cette étude et le questionnaire veuillez contacter la coordonnatrice du projet :
                 Geneviève Nault (genevieve.nault.pinel@ssss.gouv.qc.ca)
+                
+                Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
                     """.format(lienenquete)
                 message = TEXTES_MESSAGES['AR'] + intervenant.courriel
                 envoi_courriel(sujet, textecourriel, intervenant.courriel)
@@ -79,9 +85,11 @@ def inscription_intervenant(request):
             en justice et santé mentale : {}
             Si vous n'avez pas le temps de compléter le questionnaire en une séance, vous pourrez retournez où vous 
             étiez en cliquant sur ce même lien.
-            Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
+            Vous trouverez également en document attaché le formulaire de consentement pour ce projet.
+
             Pour toute information sur cette étude et le questionnaire veuillez contacter la coordonnatrice du projet :
             Geneviève Nault (genevieve.nault.pinel@ssss.gouv.qc.ca)
+            Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
                 """.format(lienenquete)
             envoi_courriel(sujet, textecourriel, intervenant.courriel)
             message = u"Un message avec le lien pour participer vous a été envoyé à l'adresse suivante : " \
@@ -403,10 +411,15 @@ def saveenquete(request, cid, qid):
                       }
                       )
 
+# def envoi_courrielOLD(sujet, textecourriel, courriel):
+#     with mail.get_connection() as connection:
+#         mail.EmailMessage(
+#             sujet, textecourriel, 'malijai.caulet@ntp-ptn.org', [courriel],
+#             connection=connection,
+#         ).send()
+
 
 def envoi_courriel(sujet, textecourriel, courriel):
-    with mail.get_connection() as connection:
-        mail.EmailMessage(
-            sujet, textecourriel, 'malijai.caulet@ntp-ptn.org', [courriel],
-            connection=connection,
-        ).send()
+    msg = EmailMessage(sujet, textecourriel, 'malijai.caulet@ntp-ptn.org', [courriel])
+    msg.attach_file('etude/FCSIV22.pdf')
+    msg.send()
