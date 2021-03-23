@@ -99,5 +99,6 @@ TEXTES_MESSAGES = {
     'Incompatible': "Certaines de vos réponses sont incompatibles, s'il vous plait recommencez !",
     'Termine': "Questionnaire terminé, Merci pour votre participation !",
     'Termine2': "Vous avez déjà répondu a toutes les questions de cette enquête, Merci pour votre participation !",
-    'AR': "Merci d'avoir soumis votre adresse, un message avec le lien pour participer vous a été envoyé à l'adresse suivante : "
+    'AR': "Merci d'avoir soumis votre adresse, un message avec le lien pour participer vous a été envoyé à l'adresse suivante : ",
+    'Vides': "Il y a trop de questions sans réponse, veuillez vérifier cette section s'il vous plait"
 }

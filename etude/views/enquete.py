@@ -4,13 +4,29 @@ import hashlib
 from django.contrib import messages
 # from django.db.models import Q, Count
 from django.shortcuts import render, redirect
-from etude.models import Questionnaire, Intervenant, Resultatenquete, Vignette
-from .saisie import genere_questions
+from etude.models import Questionnaire, Intervenant, Resultatenquete, Vignette,Questionpajsm
+# from .saisie import genere_questions
 from etude.etude_constants import TEXTES_MESSAGES
 
 # from django.utils.translation import ugettext_lazy as _
 from django.core import mail
 from django.conf import settings
+
+
+def genere_questions_e(qid):
+    questionstoutes = Questionpajsm.objects.filter(questionnaire__id=qid)
+    enfants = questionstoutes.select_related('typequestion', 'parent').filter(questionpajsm__parent__id__gt=1)
+    ascendancesM = {rquestion.id for rquestion in questionstoutes.select_related('typequestion').filter(pk__in=enfants)}
+    ascendancesF = set()  # liste sans doublons
+    compte = 0
+    for rquestion in questionstoutes:
+        if rquestion.typequestion.nom != 'TITLE' and rquestion.typequestion.nom != 'COMMENT' \
+                 and rquestion.typequestion.nom != 'DUREE' and rquestion.parent_id == 1:
+            compte += 1
+        for fille in questionstoutes.select_related('typequestion').filter(parent__id=rquestion.id):
+            # #va chercher si a des filles (question_ fille)
+            ascendancesF.add(fille.id)
+    return ascendancesF, ascendancesM, questionstoutes, compte
 
 
 def inscription_intervenant(request):
@@ -25,7 +41,7 @@ def inscription_intervenant(request):
         if Intervenant.objects.filter(code=code).exists():
             intervenant = Intervenant.objects.get(code=code)
             if intervenant.completed == 1:
-                message =  TEXTES_MESSAGES['Rejet1']
+                message = TEXTES_MESSAGES['Rejet1']
                 messages.add_message(request, messages.WARNING, message)
                 return render(request, 'rejet.html')
             elif intervenant.concented == 2:
@@ -37,9 +53,11 @@ def inscription_intervenant(request):
                 sujet = u"Lien pour l'enquête PAJ-SM"
                 textecourriel = u"""
                 Bonjour,
-                Voici le lien qui vous permettra d'accéder au questionnaire de l'étude sur les Programmes d’accompagnement en justice et santé mentale : {}
+                Voici le lien qui vous permettra d'accéder au questionnaire de l'étude sur les Programmes d’accompagnement
+                en justice et santé mentale : {}
                 Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
-                Pour toute information sur cette étude et le questionnaire veuillez contacter la coordonnatrice du projet : Geneviève Nault (genevieve.nault.pinel@ssss.gouv.qc.ca)
+                Pour toute information sur cette étude et le questionnaire veuillez contacter la coordonnatrice du projet :
+                Geneviève Nault (genevieve.nault.pinel@ssss.gouv.qc.ca)
                     """.format(lienenquete)
                 message = TEXTES_MESSAGES['AR'] + intervenant.courriel
                 envoi_courriel(sujet, textecourriel, intervenant.courriel)
@@ -57,10 +75,13 @@ def inscription_intervenant(request):
             sujet = u"Lien pour l'enquête PAJ-SM"
             textecourriel = u"""
             Bonjour,
-            Voici le lien qui vous permettra d'accéder au questionnaire de l'étude sur les Programmes d’accompagnement en justice et santé mentale : {}
-            Si vous n'avez pas le temps de compléter le questionnaire en une séance, vous pourrez retournez où vous étiez en cliquant sur ce même lien.
+            Voici le lien qui vous permettra d'accéder au questionnaire de l'étude sur les Programmes d’accompagnement
+            en justice et santé mentale : {}
+            Si vous n'avez pas le temps de compléter le questionnaire en une séance, vous pourrez retournez où vous 
+            étiez en cliquant sur ce même lien.
             Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
-            Pour toute information sur cette étude et le questionnaire veuillez contacter la coordonnatrice du projet : Geneviève Nault (genevieve.nault.pinel@ssss.gouv.qc.ca)
+            Pour toute information sur cette étude et le questionnaire veuillez contacter la coordonnatrice du projet :
+            Geneviève Nault (genevieve.nault.pinel@ssss.gouv.qc.ca)
                 """.format(lienenquete)
             envoi_courriel(sujet, textecourriel, intervenant.courriel)
             message = u"Un message avec le lien pour participer vous a été envoyé à l'adresse suivante : " \
@@ -203,7 +224,6 @@ def suite_accord(request, iid):
 def saveenquete(request, cid, qid):
     # genere le questionnaire en fonction de l ordre, de la reponse a certaines questions
     # et des vignettes tirees au sort
-    # print(' qid recu - ', qid, ' - ')
     complete = {
         101: 'partie1',
         102: 'partie2',
@@ -287,7 +307,7 @@ def saveenquete(request, cid, qid):
     vignette1 = Vignette.objects.get(id=intervenant.vignette1)
     vignette2 = Vignette.objects.get(id=intervenant.vignette2)
     questionnaire = Questionnaire.objects.get(id=qid)
-    ascendancesF, ascendancesM, questionstoutes = genere_questions(qid)
+    ascendancesF, ascendancesM, questionstoutes, compte = genere_questions_e(qid)
     if qid == 101:
         nbfait = 0
     else:
@@ -297,6 +317,20 @@ def saveenquete(request, cid, qid):
         nbfait = nbfait * 100
     if request.method == 'POST':
         if 'suite' in request.POST and qid != 110:
+             # print('NB questions - ', compte)
+            reponses = []
+            for question in questionstoutes:
+                if question.parent_id == 1:
+                    reponseaquestion = request.POST.get('q' + str(question.id))
+                    if reponseaquestion:
+                        reponses.append(reponseaquestion)
+             # print('NB reponses - ', len(reponses))
+            posees = compte
+            repondues = len(reponses)
+            if posees - repondues > 0:
+                message = TEXTES_MESSAGES['Vides']
+                messages.add_message(request, messages.INFO, message)
+                return render(request, 'rejet.html')
             for question in questionstoutes:
                 if question.typequestion.nom == 'DUREE':
                     an = request.POST.get('q{}_year'.format(question.id))
@@ -344,12 +378,6 @@ def saveenquete(request, cid, qid):
                 message = TEXTES_MESSAGES['Termine']
                 messages.add_message(request, messages.ERROR, message)
                 return render(request, 'rejet.html')
-            else:
-                new_nbfait = nbsuivant[intervenant.ordre, intervenant.connait, intervenant.implique, intervenant.avocat,
-                                       (int(intervenant.partie1), int(intervenant.partie2), int(intervenant.partie3),
-                                        int(intervenant.partie4), int(intervenant.partie5))]
-
-                nbfait = new_nbfait * 100
             return redirect(saveenquete,
                             cid,
                             qid,

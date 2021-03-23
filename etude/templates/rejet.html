@@ -3,7 +3,7 @@
 
 <html>
     <head>
-        <title>PAJ_SM Fin</title>
+        <title>PAJ_SM Messages</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
@@ -19,8 +19,12 @@
 {% if messages %}
     {% for msg in messages %}
         <div class="alert alert-{{msg.level_tag}}" role="alert">
-        {{msg.message}}
+        <h5>{{msg.message}}</h5>
         </div>
+        {% if msg.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+        <h5><button class="w3-button w3-theme-d5" style="width: 150px;"onclick="history.back()"><< Vérifier</button>
+            </h5>
+        {% endif %}
     {% endfor %}
 {% endif %}
 

@@ -44,7 +44,7 @@ class Intervenant(models.Model):
 class Personne(models.Model):
     code = models.CharField(max_length=200,)
     selectpaj = models.CharField(max_length=250)
-    date_indexh = models.DateTimeField(blank=True, null=True)
+    date_indexh = models.DateField(blank=True, null=True)
     completed = models.IntegerField(default=0)
     genre = models.CharField(max_length=200, blank=True, null=True)
     assistant = models.ForeignKey(User, default=DEFAULT_UID, on_delete=models.DO_NOTHING)

@@ -305,7 +305,7 @@ def genere_questions(qid):
         for fille in questionstoutes.select_related('typequestion').filter(parent__id=rquestion.id):
             # #va chercher si a des filles (question_ fille)
             ascendancesF.add(fille.id)
-    return ascendancesF, ascendancesM, questionstoutes
+    return ascendancesF, ascendancesM, questionstoutes, nb
 
 
 def encode_donnee(message):
