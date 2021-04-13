@@ -1,28 +1,36 @@
 {% load i18n %}
 {% load static %}
+
 <html>
-<title>Les PAJ-SM</title>
+<head>
+    <title>Les PAJ-SM</title>
 <meta charset="UTF-8">
 <meta name="description" content="PAJ-SM">
 <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
     <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
-   <body class="w3-theme-l5">
-
-<div class="principal w3-theme-l5">
+</head>
+<body class="w3-theme-l5">
 
 <!-- Header -->
 <!-- <header class="w3-container w3-theme" id="myHeader"> -->
 <header class="w3-row w3-theme-d3" id="myHeader">
-    <div class="w3-quarter">
+    <div class="w3-quarter w3-white">
+        <a href="https://santementalejustice.ca/" title="Observatoire en justice et santé mentale">
+        <img src="/static/images/logoObservatoire.png" height="60" style="margin:20px 50px; float:left" alt="Observatoire en
+        justice et santé mentale"></a>
     </div>
     <div class="w3-half w3-center">
         <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
         <h5>Étude financée par le Ministère de la Justice du Québec</h5>
     </div>
+    <div class="w3-quarter w3-white">
+        <a href="https://www.justice.gouv.qc.ca/" title="Ministère de la justice">
+        <img src="/static/images/logo-justiceQuebec.jpg" height="100" style="margin:0px 50px; float:right" alt="Ministère de la justice"></a>
+    </div>
 </header>
- <div class="principal">
+<div class="principal w3-theme-l5">
  {% if messages %}
     {% for msg in messages %}
         <div class="alert alert-{{msg.level_tag}}" role="alert">
@@ -31,7 +39,14 @@
     {% endfor %}
 {% endif %}
     <h2>Enquête sur les perception des programmes de déjudiciarisation</h2>
-     <p>Notre équipe de recherche procède à une étude sur les programmes d’accompagnement en justice et santé mentale (PAJ-SM).
+     <div class="w3-row">
+        <div class="w3-col s2">
+ {% if cissid.logo %}
+    <a href="{{ cissid.lien }}" title="{{ cissid.nom }}"><img src="{{ cissid.logo.url }}" height="60" style="vertical-align:middle;float:center"></a>
+ {% endif %}
+        </div>
+    <div class="w3-col s9">
+        <p>L’équipe de recherche de l’Observatoire en justice et santé mentale procède à une étude sur les programmes d’accompagnement en justice et santé mentale (PAJ-SM).
         Le projet vise dans l’ensemble à mieux comprendre le fonctionnement de ces programmes et leurs différences d’un endroit à l’autre,
         quelles sont les personnes qui y ont accès, quelle est l’expérience des personnes qui y prennent part et quels sont les effets
         de la participation aux programmes pour les participants, leur entourage et la collectivité.
@@ -45,20 +60,33 @@
     <p>Pour participer (ou signaler votre refus de participer) veuillez inscrire votre adresse de courriel ici, vous y recevrez un courriel avec un
         lien personnalisé vous permettant de remplir le questionnaire après avoir lu le formulaire de consentement</p>
 
-<form input method="post" action="">
+<form method="post" action="">
   {% csrf_token %}
     <p>Adresse de votre courriel professionnel <input  name="courriel" type="email" value= "{{courriel}}" size="50">
     <button type="submit" class="w3-button w3-theme-d5" name="Creer">S'inscrire</button></p>
 </form>
+    </div>
+    <div class="w3-col s2"></div>
+ </div>
 </div>
+
 <footer class="w3-container w3-theme-d5 footerw3">
-<h4>Fureteurs supportés : Chrome Firefox Safari
-<img src="/static/images/chrome-logo.svg" width="32" height="32">
-<img src="/static/images/Fx-Browser-icon-fullColor-48.png" width="32" height="32">
-<img src="/static/images/SafariBlogo.svg" width="32" height="32"></h4>
-    <h5>Pour toute question à propos de ce questionnaire contacter
+    <div class="w3-theme-d3">
+    <p>{% if cissid.logo %}
+        {{ cissid.nom }}<br/>
+        {% endif %}
+        Courriel du commissaire aux plaintes : {{ cissid.courriel }} <br/>
+    Numéros de téléphones : {{ cissid.tel1 }} ;
+                {{ cissid.tel2|default_if_none:"&nbsp;" }}
+    </p>
+</div>
+    <h5>Pour toute question à propos de cette recherche et de cette enquête contacter :
         <a class="w3-text-white" href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete pajsm question">
     <u>la coordonnatrice de l'enquête</u></a></h5>
+<h5>Fureteurs supportés : Chrome Firefox Safari
+<img src="/static/images/chrome-logo.svg" width="32" height="32">
+<img src="/static/images/Fx-Browser-icon-fullColor-48.png" width="32" height="32">
+<img src="/static/images/SafariBlogo.svg" width="32" height="32"></h5>
 </footer>
 </body>
 </html>

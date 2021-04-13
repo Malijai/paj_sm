@@ -1,31 +1,42 @@
 {% load i18n %}
 {% load static %}
-
 <html>
-    <head>
-        <title>PAJ_SM Enquête</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
-        <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
-        <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
+<head>
+    <title>Les PAJ-SM</title>
+<meta charset="UTF-8">
+<meta name="description" content="PAJ-SM">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
-    <body class="w3-theme-l5">
-    <header class="w3-row w3-theme-d3" id="myHeader">
-    <div class="w3-center">
-        <h4>Formulaire d’information et de consentement</h4>
-        <h1 class="w3-xxlarge w3-animate-bottom">Étude sur les Programmes d’accompagnement en justice et santé mentale</h1>
+<body class="w3-theme-l5">
+
+<!-- Header -->
+<!-- <header class="w3-container w3-theme" id="myHeader"> -->
+<header class="w3-row w3-theme-d3" id="myHeader">
+    <div class="w3-quarter w3-white">
+        <a href="https://santementalejustice.ca/" title="Observatoire en justice et santé mentale">
+        <img src="/static/images/logoObservatoire.png" height="60" style="margin:20px 50px; float:left" alt="Observatoire en
+        justice et santé mentale"></a>
     </div>
- </header>
-<div class="principal">
-    {% if messages %}
-        {% for msg in messages %}
-            <div class="alert alert-{{msg.level_tag}}" role="alert">
-            {{msg.message}}
-            </div>
-        {% endfor %}
-    {% endif %}
-    <h3>Enquête sur les perception des programmes de déjudiciarisation</h3>
+    <div class="w3-half w3-center">
+        <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
+        <h5>Étude financée par le Ministère de la Justice du Québec</h5>
+    </div>
+    <div class="w3-quarter w3-white">
+        <a href="https://www.justice.gouv.qc.ca/" title="Ministère de la justice">
+        <img src="/static/images/logo-justiceQuebec.jpg" height="100" style="margin:0px 50px; float:right" alt="Ministère de la justice"></a>
+    </div>
+</header>
+<div class="principal w3-theme-l5">
+ {% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{msg.message}}
+        </div>
+    {% endfor %}
+{% endif %}
     <h4>1. Introduction</h4>
      Notre équipe de recherche procède à une étude sur les programmes d’accompagnement en justice et santé mentale (PAJ-SM).
         Depuis 2008, différentes juridictions judiciaires ont mis en place  PAJ-SM.
@@ -40,82 +51,18 @@
         et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.
         Ce questionnaire devrait prendre de 10 et 30 minutes à compléter.
         Veuillez compléter ce questionnaire au mieux de votre connaissance et de votre réalité de travail.
-
     <h4>2. Participation volontaire et possibilité de retrait</h4>
     Votre participation à ce sondage est volontaire. Vous êtes donc libre de refuser d’y participer. Vous pouvez également vous retirer de ce projet, à n’importe quel moment, sans avoir à donner de raisons, en informant l'équipe de recherche.
     <h4>3. Confidentialité</h4>
     Tous les renseignements recueillis demeureront confidentiels dans les limites prévues par la loi.
-    <h4>4. Consentement</h4>
-        S'il vous plait lisez le formulaire de consentement ci joint au complet
-        <a class="w3-button w3-theme-d5" id="Alire">Formulaire de consentement</a>
+    <h4>4. Consentement : lisez le formulaire de consentement ci joint au complet
+        <a class="w3-button w3-theme-d5" id="Alire" href="{{ MEDIA_URL }}FCSIV2.2.pdf" download="FConsent"  target="_blank">Formulaire de consentement</a></h4>
     <div id="FConsent" hidden>
-        <div id="welcome" class="w3-theme-l3 w3-large" style="padding: 10; border: 2px solid #925375; width: 80%; position: absolute; top: 100; height: 80%; overflow: auto; z-index:4;" >
-            <h3>Formulaire d’information et de consentement</h3>
-            <ul>
-                <li>Titre du projet de recherche : Étude sur les Programmes d’accompagnement en justice et santé mentale</li>
-                <li>Chercheur responsable du projet de recherche : Anne Crocker</li>
-                <li>Co-chercheur(s) :
-                    <ul>
-                        <li>Laurence Roy,</li><li>Michèle Clément,</li><li>Line Leblanc,</li>
-                        <li>Joao Da Silva Guerreiro,</li><li>Gilles Côté,</li><li>Alana Klein,</li><li>Yanick Charrette,</li>
-                        <li>Jean-Pierre Guay,</li><li>Pierre Pariseau-Legault,</li><li>Marie-Hélène Goulet,</li>
-                        <li>Audrey-Anne Dumais-Michaud,</li><li>Katharine Larose-Hébert.</li>
-                    </ul>
-                </li>
-                <li>Membre (s) du personnel de recherche : Geneviève Nault, coordonnatrice</li>
-                <li>Organisme subventionnaire ou promoteur : Ministère de la Justice du Québec</li>
-                <li>Numéro du protocole : IUSMD-20-29_Pinel</li>
-            </ul>
-            <h4>1. Introduction</h4>
-            Nous vous invitons à participer à un projet de recherche. Cependant, avant d’accepter de participer à ce projet et de signer ce formulaire d’information et de consentement, veuillez prendre le temps de lire, de comprendre et de considérer attentivement les renseignements qui suivent.
-            Ce formulaire peut contenir des expressions que vous ne comprenez pas. Nous vous invitons à poser toutes les questions que vous jugerez utiles au chercheur responsable de ce projet ou à un membre de son personnel de recherche et à leur demander de vous expliquer tout mot ou renseignement qui n’est pas clair.
-            <h4>2. Nature et objectifs du projet de recherche</h4>
-            Notre équipe de recherche procède à une étude sur les programmes d’accompagnement en justice et santé mentale (PAJ-SM). Il y a actuellement quatorze (14) PAJ-SM en opération sur le territoire du Québec et plusieurs autres sont en développement. Le projet vise dans l’ensemble à mieux comprendre le fonctionnement de ces programmes et leurs différences d’un endroit à l’autre, quelles sont les personnes qui y ont accès, quelle est l’expérience des personnes qui y prennent part et quels sont les effets de la participation aux programmes pour les participants, leur entourage et la collectivité.
-            Pour la réalisation de ce projet, nous comptons obtenir la participation d’un peu plus de 500 répondants à ce sondage en ligne parmi les intervenants et les professionnels du système de santé et de services sociaux, du système de justice et du réseau des organismes communautaires de la province œuvrant auprès de clientèles présentant des problématiques de santé mentale et de judiciarisation.
-            <h4>3. Déroulement du projet de recherche</h4>
-                <h5>3.1 Lieu de réalisation du projet de recherche, durée et nombre de visites</h5>
-                Votre participation à ce projet de recherche consiste à répondre au sondage en ligne qui suit. Répondre à ce sondage devrait prendre une trentaine de minutes environ.
-                <h5>3.2 Nature de votre participation</h5>
-                Le sondage porte sur vos connaissances, votre expérience et vos perceptions du travail d’intervention et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.
-            <h4>4. Inconvénients associés au projet de recherche</h4>
-            Outre le temps que vous accordez à la participation à ce projet de recherche, il n’y a pas d’inconvénient majeur lié à votre participation.
-            <h4>5. Risques associés au projet de recherche</h4>
-            L’équipe de recherche est d’avis que la participation à ce projet de recherche comporte peu de risque pour vous.
-            <h4>6. Avantages associés au projet de recherche</h4>
-            Vous bénéficierez peut-être de votre participation à ce projet de recherche, mais nous ne pouvons vous en assurer. Nous espérons que les résultats obtenus contribueront à l'avancement des connaissances scientifiques dans ce domaine de recherche.
-            <h4>7. Participation volontaire et possibilité de retrait</h4>
-            Votre participation à ce projet de recherche est volontaire. Vous êtes donc libre de refuser d’y participer. Vous pouvez également vous retirer de ce projet à n’importe quel moment, sans avoir à donner de raisons, en informant l'équipe de recherche.
-            Le chercheur responsable de ce projet de recherche, le Comité d'éthique de la recherche de l’Institut universitaire en santé mentale Douglas et de l’Institut national de psychiatrie légale Philippe-Pinel ou l'organisme subventionnaire peuvent mettre fin à votre participation, sans votre consentement. Cela peut se produire si de nouvelles découvertes ou informations indiquent que votre participation au projet n’est plus dans votre intérêt, si vous ne respectez pas les consignes du projet de recherche ou encore s’il existe des raisons administratives d’abandonner le projet.
-            Si vous vous retirez du projet ou êtes retiré du projet, l’information et le matériel déjà recueillis dans le cadre de ce projet seront néanmoins conservés, analysés ou utilisés pour assurer l’intégrité du projet.
-            Toute nouvelle connaissance acquise durant le déroulement du projet qui pourrait avoir un impact sur votre décision de continuer à participer à ce projet vous sera communiquée rapidement.
-            <h4>8. Confidentialité</h4>
-            Durant votre participation à ce projet de recherche, le chercheur responsable de ce projet ainsi que les membres de son personnel de recherche recueilleront, dans un dossier de recherche, les renseignements vous concernant et nécessaires pour répondre aux objectifs scientifiques de ce projet de recherche.
-            Ces renseignements se limitent aux renseignements recueillis par le biais du questionnaire de recherche. Ils peuvent comprendre les informations concernant votre statut d’emploi et votre expérience auprès de la clientèle ayant des problèmes de santé mentale et judiciarisée. Votre dossier peut aussi comprendre d’autres renseignements tels que votre adresse courriel, votre sexe, votre âge et votre employeur, par exemple.
-            Tous les renseignements recueillis demeureront confidentiels dans les limites prévues par la loi. Afin de préserver votre identité et la confidentialité de ces renseignements, vous ne serez identifié que par un numéro de code. La clé du code reliant votre adresse courriel à votre dossier de recherche sera conservée par le chercheur responsable de ce projet de recherche.
-            Les renseignements recueillis, à titre de données de recherche, seront utilisés par le chercheur responsable de ce projet dans le but de répondre aux objectifs scientifiques du projet décrits dans le formulaire d’information et de consentement.
-            Ces données de recherche seront conservées pendant au moins 7 ans suivant la fin du projet par le chercheur responsable de ce projet de recherche après quoi elles seront détruites. Les données de recherche pourront être publiées ou faire l’objet de discussions scientifiques, mais il ne sera pas possible de vous identifier.
-            À des fins de surveillance, de contrôle, de protection, de sécurité, votre dossier de recherche pourra être consulté par une personne mandatée par des organismes réglementaires, par l’établissement ou par le Comité d'éthique de l’Institut universitaire en santé mentale Douglas et de l’Institut national en psychiatrie légale Philippe-Pinel. Ces personnes et ces organismes adhèrent à une politique de confidentialité.
-            Vous avez le droit de consulter votre dossier de recherche pour vérifier les renseignements recueillis et les faire rectifier au besoin. Par ailleurs, l’accès à certaines informations avant la fin de l’étude pourrait impliquer que vous soyez retiré du projet afin d’en préserver l’intégrité.
-            <h4>9. Financement du projet de recherche </h4>
-            Le chercheur responsable de ce projet de recherche a reçu un financement du ministère de la Justice du Québec pour mener à bien ce projet de recherche.
-            <h4>10. Compensation</h4>
-            En guise de compensation pour les frais encourus en raison de votre participation au projet de recherche, vous serez éligible pour participer à un tirage et recevoir un des 50 certificats-cadeaux d’une valeur de 25 $ qui seront tirés parmi les répondants au sondage.
-            <h4>11. En cas de préjudice </h4>
-            Si vous deviez subir quelque préjudice que ce soit dû à votre participation au projet de recherche, vous recevrez tous les soins et services requis par votre état de santé.
-            En acceptant de participer à ce projet de recherche, vous ne renoncez à aucun de vos droits et vous ne libérez pas le chercheur responsable de ce projet de recherche, l'organisme subventionnaire et l'établissement de leur responsabilité civile et professionnelle.
-            <h4>12. Identification des personnes-ressources </h4>
-            Si vous avez des questions ou éprouvez des problèmes en lien avec le projet de recherche ou si vous souhaitez vous en retirer, vous pouvez communiquer avec le chercheur responsable de ce projet de recherche par l’entremise de Geneviève Nault, au numéro suivant : 514.648.8461, poste 1641.
-            <h4>13. Plaintes </h4>
-            Pour toute question concernant vos droits en tant que participant à ce projet de recherche ou si vous avez des plaintes ou des commentaires à formuler, vous pouvez communiquer avec le commissaire aux plaintes et à la qualité des services du CIUSSS de l’Ouest-de-l’Île-de-Montréal, au 1 844 630-5125 ou par courriel à commissariat.plaintes.comtl@ssss.gouv.qc.ca. 
-            <h4>14. Conflits d’intérêt</h4>
-            Le chercheur principal déclare n’avoir aucun intérêt personnel qui pourrait entrer en conflit avec son rôle de chercheur.
-            <h4>15. Surveillance des aspects éthiques du projet de recherche</h4>
-            Le Comité d’éthique de l’Institut universitaire en santé mentale Douglas a approuvé ce projet de recherche et en assure le suivi, pour les établissements du réseau de la santé et des services sociaux du Québec participants.
-            <hr/>
-                <h5><button class="w3-button w3-theme-d5" id="ABienLu" style="width: 100px;">J'ai lu</button> J’ai lu le formulaire de consentement et la section précédente.
-            </h5>
+        <div id="welcome" class="w3-theme-l3 w3-large" style="padding: 10; border: 2px solid #925375; width: 90%; position: absolute; top: 100; height: 75%; z-index:4;" >
+            <h5><button class="w3-button w3-theme-d5" id="ABienLu" style="width: 100px;">J'ai lu</button>
+                J’ai lu le formulaire de consentement et la section précédente.</h5>
         </div>
-        <div id="Lu" hidden class="w3-theme-l2 w3-large" style="padding: 10; width: 90%; border: 5px solid #925375; position: absolute; top: 100; height: 75%; overflow: auto; z-index:4;">
+        <div id="Lu" hidden class="w3-theme-l2" style="padding: 10; width: 90%; border: 5px solid #925375; position: absolute; top: 100; height: 75%; overflow: auto; z-index:4;">
             <h3>Déclaration de consentement</h3>
             <form method="post" action="" >
                 {% csrf_token %}
@@ -124,18 +71,19 @@
                     On a répondu à mes questions et on m’a laissé le temps voulu pour prendre une décision.
                     Après réflexion, je consens à participer à ce projet de recherche aux conditions qui y sont énoncées.</p>
                 <h4>Projets de recherche futurs (utilisation secondaire)</h4>
-                <input type="checkbox" id="utilisationsecondaire" name="utilisationsecondaire" value="1" default="0">
-                <label for="utilisationsecondaire">J'accepte</label> que mes données de recherche soient utilisées par le chercheur responsable de ce projet de
+                <input type="checkbox" id="utilisationsecondaire" name="utilisationsecondaire" value="1">
+                <label for="utilisationsecondaire">J'accepte</label>
+                que mes données de recherche soient utilisées par le chercheur responsable de ce projet de
                 recherche pour réaliser d’autres projets de recherche soit dans le domaine de la santé mentale judiciaire, ou soit
                 dans le domaine de la promotion de la santé, des soins et des interventions<br>
                 <h4>Contact pour participation à des études futures</h4>
-                <input type="checkbox" id="efutures" name="efutures" value="1" default="0">
-                <label for="efutures">J'accepte</label> que mes données de recherche soient utilisées par le chercheur responsable de ce projet de
-                recherche pour réaliser d’autres projets de recherche soit dans le domaine de la santé mentale judiciaire, ou soit
-                dans le domaine de la promotion de la santé, des soins et des interventions</p>
+                <input type="checkbox" id="efutures" name="efutures" value="1"><label for="efutures">J'accepte</label>
+                que le chercheur responsable de ce projet de recherche ou un membre de son personnel de recherche reprenne contact
+                avec moi pour me proposer de participer à d’autres projets de recherche.</br>
+                Bien sûr, lors de cet appel, vous serez libre d’accepter ou de refuser de participer aux projets de recherche proposés.
                 <h4>Participation au tirage</h4>
-                <input type="checkbox" id="tirage" name="tirage" value="1" default="0">
-                <label for="tirage">J'accepte</label> de participer au tirage d'un des 50 certificats-cadeaux d’une valeur de 25 $</p>
+                <input type="checkbox" id="tirage" name="tirage" value="1"><label for="tirage">J'accepte</label>
+                de participer au tirage d'un des 50 certificats-cadeaux d’une valeur de 25 $
                 <button type="submit" class="w3-button w3-theme-d5" name="accord" value="Consent" style="width: 400px;">Je consens à participer à cette enquête</button>
                 &nbsp&nbsp<button type="submit" class="w3-button w3-theme-d5" name="accord" value="Refuser" style="width: 400px;">Je refuse</button>
             </form>
@@ -143,15 +91,21 @@
     </div>
 </div>
 <footer class="w3-container w3-theme-d5 footerw3">
-    <h5><a class="w3-text-white" href="{% static 'etude/FCSIV2.2.pdf' %}"><u>Cliquez ici</u> pour obtenir le formulaire de consentement au format PDF</a></h5>
-    <h5>Pour toute question à propos de cette recherche et de cette enquête contacter :<a class="w3-text-white" href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete pajsm question">
+    <div class="w3-theme-d3">
+    <p>{% if sonciusss.logo %}
+        {{ sonciusss.nom }}<br/>
+        {% endif %}
+        Courriel du commissaire aux plaintes : {{ sonciusss.courriel }} <br/>
+    Numéros de téléphones : {{ sonciusss.tel1 }} ;
+                {{ sonciusss.tel2|default_if_none:"&nbsp;" }}
+    </p>
+</div>    <h5>Pour toute question à propos de cette recherche et de cette enquête contacter :<a class="w3-text-white" href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete pajsm question">
     <u>la coordonnatrice de l'enquête</u></a></h5>
-<h5>Fureteurs supportés : Chrome Firefox Safari
-<img src="/static/images/chrome-logo.svg" width="32" height="32">
-<img src="/static/images/Fx-Browser-icon-fullColor-48.png" width="32" height="32">
-<img src="/static/images/SafariBlogo.svg" width="32" height="32"></h5>
+    <h5>Fureteurs supportés : Chrome Firefox Safari
+    <img src="/static/images/chrome-logo.svg" width="32" height="32">
+    <img src="/static/images/Fx-Browser-icon-fullColor-48.png" width="32" height="32">
+    <img src="/static/images/SafariBlogo.svg" width="32" height="32"></h5>
 </footer>
-
 </body>
 <script type="text/javascript">
 document.getElementById("Alire").addEventListener("click", function() {

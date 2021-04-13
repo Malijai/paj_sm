@@ -5,6 +5,18 @@ from django.db import models
 DEFAULT_UID = 1
 # met tous les utilisateurs par defaut a 1 (maliadmin)
 
+## Table des CISSS et CIUSSS
+class Centresante(models.Model):
+    nom = models.CharField(max_length=250, verbose_name="Nom du CISSS ou CIUSSS",)
+    lien = models.CharField(max_length=250, verbose_name="Url du commissaire aux plaintes CISSS ou CIUSSS", blank=True, null=True)
+    logo = models.ImageField(upload_to='Logos', verbose_name="Logo format png", help_text="PAS D'ACCENT DANS LES NOMS DE FICHIERS", null=True, blank=True)
+    courriel = models.CharField(max_length=250, verbose_name="Courriel commissaire aux plaintes")
+    tel1 = models.CharField(max_length=250, verbose_name="Tel1 commissaire aux plaintes")
+    tel2 = models.CharField(max_length=250, verbose_name="Autre tel du commissaire aux plaintes", blank=True, null=True)
+
+    def __str__(self):
+        return '%s' % self.nom
+
 
 ## Table des repondants (intervenants, professionnels etc)
 ### order = ordre des questionnaires (aléatoire), vignettes associées au répondant (aléatoires)
@@ -31,6 +43,7 @@ class Intervenant(models.Model):
     implique = models.IntegerField(default=0)
     connait = models.IntegerField(default=0)
     avocat = models.IntegerField(default=0)
+    centresante = models.ForeignKey(Centresante, on_delete=models.DO_NOTHING)
 
     class Meta:
         unique_together = (('code', 'courriel',),)

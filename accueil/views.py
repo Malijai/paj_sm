@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 
 
 def accueil(request):
-    return redirect('inscription')
+    return render(request,'indexpaj.html')
+    #return redirect('inscription', 1)
 
 
 #@login_required(login_url=settings.LOGIN_URI)

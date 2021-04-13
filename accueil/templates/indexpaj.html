@@ -1,21 +1,63 @@
-{% extends 'Rech_base.html' %}
-{% load static %}
 {% load i18n %}
+{% load static %}
+<html>
+<head>
+    <title>Les PAJ-SM</title>
+<meta charset="UTF-8">
+<meta name="description" content="PAJ-SM">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+<body class="w3-theme-l5">
 
-{% block content %}
-
-    <div class="w3-theme-l2" style="padding:10px;">
-        <h3>Le projet d'évaluation des PAJ-SM du Québec</h3>
-        <p>
-        Bla bla bla
-        </p>
+<!-- Header -->
+<!-- <header class="w3-container w3-theme" id="myHeader"> -->
+<header class="w3-row w3-theme-d3" id="myHeader">
+    <div class="w3-quarter w3-white">
+        <a href="https://santementalejustice.ca/" title="Observatoire en justice et santé mentale">
+        <img src="/static/images/logoObservatoire.png" height="60" style="margin:20px 50px; float:left" alt="Observatoire en
+        justice et santé mentale"></a>
     </div>
-<div class="w3-theme-l32" style="padding:10px;">
-    <h3>Sondage</h3>
-    <p class="espace"><a href="{% url 'inscription_intervenant' %}">Pour accéder au Questionnaire sur les Programmes d’accompagnement en justice et santé mentale (rôles, connaissances, intérets)</a>
+    <div class="w3-half w3-center">
+        <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
+        <h5>Étude financée par le Ministère de la Justice du Québec</h5>
+    </div>
+    <div class="w3-quarter w3-white">
+        <a href="https://www.justice.gouv.qc.ca/" title="Ministère de la justice">
+        <img src="/static/images/logo-justiceQuebec.jpg" height="100" style="margin:0px 50px; float:right" alt="Ministère de la justice"></a>
+    </div>
+</header>
+    <div class="w3-row" style="height: 100%;">
+    <div class="w3-quarter w3-theme-d3">
+ </div>
+    <div class="w3-half" style="padding:10px;">
+        <p>L’équipe de recherche de l’Observatoire en justice et santé mentale procède à une étude sur les programmes d’accompagnement en justice et santé mentale (PAJ-SM).
+        Le projet vise dans l’ensemble à mieux comprendre le fonctionnement de ces programmes et leurs différences d’un endroit à l’autre,
+        quelles sont les personnes qui y ont accès, quelle est l’expérience des personnes qui y prennent part et quels sont les effets
+        de la participation aux programmes pour les participants, leur entourage et la collectivité.
+    <br/><br/>Le sondage en ligne s'adresse aux intervenants et professionnels du système de santé et des services sociaux,
+        du système de justice et du réseau des organismes communautaires de la province œuvrant auprès de clientèles présentant des problématiques
+        de santé mentale et de judiciarisation.
+    Il porte sur vos connaissances, votre expérience et vos perceptions du travail d’intervention
+        et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.<br/><br/>
     </p>
+    <p>Pour toute information à propos de cette étude vous pouvez contacter la coordonnatrice du projet en cliquant sur le lien suivant :
+    <a href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete PAJ-SM informations">
+    <u>la coordonnatrice de l'enquête</u></a></p>
     </div>
-{% endblock content %}
+    <div class="w3-quarter w3-theme-d3">
+ </div>
+    </div>
+<footer class="w3-container w3-theme-d5 footerw3">
+        <h5>Projet réalisé en  <img src="/static/images/django-logo-negative.png" height="32px">
+        disponible ici <a href="https://github.com/Malijai/" class="date"><img src="/static/images/GitHub-Mark-Light-32px.png"></a>
+        Thème inspiré de <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a> -
+        <a href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete PAJ-SM informations">Contact</a></h5>
+</footer>
+</body>
+</html>
 
 
 

@@ -1,17 +1,23 @@
+#-*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import datetime
 import random
 import hashlib
 from django.contrib import messages
 # from django.db.models import Q, Count
 from django.shortcuts import render, redirect
-from etude.models import Questionnaire, Intervenant, Resultatenquete, Vignette,Questionpajsm
+from etude.models import Questionnaire, Intervenant, Resultatenquete, Vignette, Questionpajsm, Centresante
 # from .saisie import genere_questions
 from etude.etude_constants import TEXTES_MESSAGES
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core import mail
+
 
 # from django.utils.translation import ugettext_lazy as _
 # from django.core import mail
-from django.core.mail import EmailMessage
-from django.conf import settings
 
 
 def genere_questions_e(qid):
@@ -30,10 +36,11 @@ def genere_questions_e(qid):
     return ascendancesF, ascendancesM, questionstoutes, compte
 
 
-def inscription_intervenant(request):
+def inscription_intervenant(request, cissid):
     # Pour les cas ou les personnes rentrent une adresse de courriel et n'ont pas le lien:
     # Vérifie si la personne existe, et l'état d'avancement du questionnaire
     # Si n'existe pas crée une entrée et envoie un courriel avec le lien
+    sonciusss = Centresante.objects.get(pk=cissid)
     if request.method == 'POST':
         courriel = request.POST.get('courriel')
         codemd5 = hashlib.md5(courriel.encode())
@@ -51,22 +58,11 @@ def inscription_intervenant(request):
                 return render(request, 'rejet.html')
             else:
                 lienenquete = settings.ENTREE_URL + intervenant.code
-                sujet = u"Lien pour l'enquête PAJ-SM"
-                textecourriel = u"""
-                Bonjour,
-                Voici le lien qui vous permettra d'accéder au questionnaire de l'étude sur les Programmes d’accompagnement
-                en justice et santé mentale : {}
-                Si vous n'avez pas le temps de compléter le questionnaire en une séance, vous pourrez retournez où vous 
-                étiez en cliquant sur ce même lien.
-                Vous trouverez également en document attaché le formulaire de consentement pour ce projet.
-                
-                Pour toute information sur cette étude et le questionnaire veuillez contacter la coordonnatrice du projet :
-                Geneviève Nault (genevieve.nault.pinel@ssss.gouv.qc.ca)
-                
-                Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
-                    """.format(lienenquete)
+                sujet = u"Lien pour participer à l'enquête sur les Programmes d’accompagnement en justice et santé mentale"
                 message = TEXTES_MESSAGES['AR'] + intervenant.courriel
-                envoi_courriel(sujet, textecourriel, intervenant.courriel)
+                lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
+                lien = lienenquete
+                envoi_courriel(sujet, lien, lienpdf, intervenant.courriel)
                 messages.add_message(request, messages.WARNING, message)
                 return render(request, 'rejet.html')
         else:
@@ -75,29 +71,20 @@ def inscription_intervenant(request):
             code = codemd5.hexdigest()
             intervenant = Intervenant.objects.create(
                 courriel=courriel,
-                code=code
+                code=code,
+                centresante=sonciusss
             )
             lienenquete = settings.ENTREE_URL + code
-            sujet = u"Lien pour l'enquête PAJ-SM"
-            textecourriel = u"""
-            Bonjour,
-            Voici le lien qui vous permettra d'accéder au questionnaire de l'étude sur les Programmes d’accompagnement
-            en justice et santé mentale : {}
-            Si vous n'avez pas le temps de compléter le questionnaire en une séance, vous pourrez retournez où vous 
-            étiez en cliquant sur ce même lien.
-            Vous trouverez également en document attaché le formulaire de consentement pour ce projet.
-
-            Pour toute information sur cette étude et le questionnaire veuillez contacter la coordonnatrice du projet :
-            Geneviève Nault (genevieve.nault.pinel@ssss.gouv.qc.ca)
-            Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
-                """.format(lienenquete)
-            envoi_courriel(sujet, textecourriel, intervenant.courriel)
+            sujet = u"Rappel du lien pour l'enquête sur les Programmes d’accompagnement en justice et santé mentale"
+            lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
+            lien = lienenquete
+            envoi_courriel(sujet, lien, lienpdf, intervenant.courriel)
             message = u"Un message avec le lien pour participer vous a été envoyé à l'adresse suivante : " \
                       + intervenant.courriel
             messages.add_message(request, messages.WARNING, message)
-            return render(request, 'rejet.html', {'courriel': intervenant.courriel, 'code': intervenant.code})
+            return render(request, 'rejet.html')
 
-    return render(request, 'inscription.html')
+    return render(request, 'inscription.html',{'cissid': sonciusss})
 
 
 def accord_intervenant(request, iid):
@@ -179,11 +166,12 @@ def accord_intervenant(request, iid):
             messages.add_message(request, messages.ERROR, message)
             return render(request, 'rejet.html')
     else:
-        return redirect('inscription_intervenant')
+        return redirect('accueil')
 
 
 def suite_accord(request, iid):
     intervenant = Intervenant.objects.get(code=iid)
+    sonciusss = Centresante.objects.get(pk=intervenant.centresante_id)
     # Intervenant reconnu doit consentir a participer.
     # L ordre et les vignettes sont assignees a ce moment la
     if request.method == 'POST':
@@ -197,7 +185,7 @@ def suite_accord(request, iid):
             else:
                 efutures = 0
             if request.POST.get('tirage'):
-                tirage = request.POST.get('utilisationsecondaire')
+                tirage = request.POST.get('tirage')
             else:
                 tirage = 0
             ordre = random.randint(1, 2)
@@ -226,7 +214,7 @@ def suite_accord(request, iid):
             messages.add_message(request, messages.ERROR, message)
             return render(request, 'rejet.html')
 
-    return render(request, 'accord.html', {'intervenant': intervenant})
+    return render(request, 'accord.html', {'intervenant': intervenant, 'sonciusss': sonciusss})
 
 
 def saveenquete(request, cid, qid):
@@ -411,15 +399,13 @@ def saveenquete(request, cid, qid):
                       }
                       )
 
-# def envoi_courrielOLD(sujet, textecourriel, courriel):
-#     with mail.get_connection() as connection:
-#         mail.EmailMessage(
-#             sujet, textecourriel, 'malijai.caulet@ntp-ptn.org', [courriel],
-#             connection=connection,
-#         ).send()
 
-
-def envoi_courriel(sujet, textecourriel, courriel):
-    msg = EmailMessage(sujet, textecourriel, 'malijai.caulet@ntp-ptn.org', [courriel])
-    msg.attach_file('etude/FCSIV22.pdf')
+def envoi_courriel(sujet, lien, lienpdf, courriel):
+    html_message = render_to_string('mail.html', {'lien': lien, 'lienpdf': lienpdf })
+    plain_message = strip_tags(html_message)
+    from_email = 'malijai.caulet@ntp-ptn.org'
+    to = courriel
+    #mail.send_mail(sujet, plain_message, from_email, [to], html_message=html_message)
+    msg = EmailMultiAlternatives(sujet, plain_message, from_email, [to])
+    msg.attach_alternative(html_message, "text/html")
     msg.send()

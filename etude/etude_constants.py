@@ -67,7 +67,7 @@ CHOIX_UNCINQ = {
 CHOIX_UNSIX = {
     1: '1 Fortement en désaccord',
     2: '2',
-    3: '3 Neutre',
+    3: '3',
     4: '4',
     5: '5',
     6: "6 Fortement d'accord",
