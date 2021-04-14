@@ -399,7 +399,8 @@ def saveenquete(request, cid, qid):
 def envoi_courriel(sujet, lien, lienpdf, courriel):
     html_message = render_to_string('mail.html', {'lien': lien, 'lienpdf': lienpdf })
     plain_message = strip_tags(html_message)
-    from_email = 'malijai.caulet@ntp-ptn.org'
+    #from_email = 'malijai.caulet@ntp-ptn.org'
+    from_email = 'malijai.caulet@pajsmmj.ntp-ptn.org'
     to = courriel
     #mail.send_mail(sujet, plain_message, from_email, [to], html_message=html_message)
     msg = EmailMultiAlternatives(sujet, plain_message, from_email, [to])
