@@ -100,6 +100,6 @@ TEXTES_MESSAGES = {
     'Termine': "Questionnaire terminé, Merci pour votre participation !",
     'Termine2': "Vous avez déjà répondu a toutes les questions de cette enquête, Merci pour votre participation !",
     'AR': "Merci d'avoir soumis votre adresse, un message avec le lien pour participer vous a été envoyé à l'adresse suivante (Vérifiez bien votre boite de SPAMS) : ",
-    'AR2': "Si vous ne recevez pas de courriel avec le lien pour participer, contactez malijai.caulet.ippm@ssss.gouv.qc.ca",
+    'AR2': " Si vous ne recevez pas de courriel avec le lien pour participer, contactez malijai.caulet.ippm@ssss.gouv.qc.ca",
     'Vides': "Il y a trop de questions sans réponse, veuillez vérifier cette section s'il vous plait"
 }
