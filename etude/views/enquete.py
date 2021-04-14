@@ -55,8 +55,8 @@ def inscription_intervenant(request, cissid):
                 return render(request, 'rejet.html')
             else:
                 lienenquete = settings.ENTREE_URL + intervenant.code
-                sujet = u"Lien pour participer à l'enquête sur les Programmes d’accompagnement en justice et santé mentale"
-                message = TEXTES_MESSAGES['AR'] + intervenant.courriel
+                sujet = u"Rappel du lien pour participer à l'enquête sur les Programmes d’accompagnement en justice et santé mentale"
+                message = TEXTES_MESSAGES['AR'] + intervenant.courriel + TEXTES_MESSAGES['AR2']
                 lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
                 lien = lienenquete
                 envoi_courriel(sujet, lien, lienpdf, intervenant.courriel)
@@ -72,12 +72,11 @@ def inscription_intervenant(request, cissid):
                 centresante=sonciusss
             )
             lienenquete = settings.ENTREE_URL + code
-            sujet = u"Rappel du lien pour l'enquête sur les Programmes d’accompagnement en justice et santé mentale"
+            sujet = u"Lien pour participer à l'enquête sur les Programmes d’accompagnement en justice et santé mentale"
+            message = TEXTES_MESSAGES['AR'] + intervenant.courriel + TEXTES_MESSAGES['AR2']
             lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
             lien = lienenquete
             envoi_courriel(sujet, lien, lienpdf, intervenant.courriel)
-            message = u"Un message avec le lien pour participer vous a été envoyé à l'adresse suivante : " \
-                      + intervenant.courriel
             messages.add_message(request, messages.WARNING, message)
             return render(request, 'rejet.html')
 

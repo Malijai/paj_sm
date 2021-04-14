@@ -93,12 +93,13 @@ TEXTES_MESSAGES = {
     'Refus1': "Merci. Votre refus de participer est enregistré, vous ne serez plus solicité pour cette enquête !",
     'Consent': "Merci pour votre consentement à participer",
     'Rejet1': "Ce questionnaire n'est plus disponible pour la personne ayant cette adresse de courriel.",
-    'Erreur': "Il y a une erreur, contactez malijai.caulet.ippm@ssss.gouv.qc.ca>",
+    'Erreur': "Il y a une erreur, contactez malijai.caulet.ippm@ssss.gouv.qc.ca",
     'Complet1': "Vous avez déjà répondu à toutes les questions de cette enquête. Merci !",
     'Refus2': "Vous avez déjà refusé de participer à cette enquête, si vous avez changé d'avis contactez la coordonnatrice du projet dont les coordonnées sont en bas de page!",
     'Incompatible': "Certaines de vos réponses sont incompatibles, s'il vous plait recommencez !",
     'Termine': "Questionnaire terminé, Merci pour votre participation !",
     'Termine2': "Vous avez déjà répondu a toutes les questions de cette enquête, Merci pour votre participation !",
-    'AR': "Merci d'avoir soumis votre adresse, un message avec le lien pour participer vous a été envoyé à l'adresse suivante : ",
+    'AR': "Merci d'avoir soumis votre adresse, un message avec le lien pour participer vous a été envoyé à l'adresse suivante (Vérifiez bien votre boite de SPAMS) : ",
+    'AR2': "Si vous ne recevez pas de courriel avec le lien pour participer, contactez malijai.caulet.ippm@ssss.gouv.qc.ca",
     'Vides': "Il y a trop de questions sans réponse, veuillez vérifier cette section s'il vous plait"
 }
