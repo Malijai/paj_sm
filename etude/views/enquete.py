@@ -57,8 +57,11 @@ def inscription_intervenant(request, cissid):
                 lienenquete = settings.ENTREE_URL + intervenant.code
                 sujet = u"Rappel du lien pour participer à l'enquête sur les Programmes d’accompagnement en justice et santé mentale"
                 message = TEXTES_MESSAGES['AR'] + intervenant.courriel + TEXTES_MESSAGES['AR2']
-                lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
                 lien = lienenquete
+                if intervenant.centresante_id == 3:
+                    lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2-2Generique.pdf'
+                else:
+                    lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
                 envoi_courriel(sujet, lien, lienpdf, intervenant.courriel)
                 messages.add_message(request, messages.WARNING, message)
                 return render(request, 'rejet.html')
@@ -74,7 +77,10 @@ def inscription_intervenant(request, cissid):
             lienenquete = settings.ENTREE_URL + code
             sujet = u"Lien pour participer à l'enquête sur les Programmes d’accompagnement en justice et santé mentale"
             message = TEXTES_MESSAGES['AR'] + intervenant.courriel + TEXTES_MESSAGES['AR2']
-            lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
+            if intervenant.centresante_id == 3:
+                lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2-2Generique.pdf'
+            else:
+                lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
             lien = lienenquete
             envoi_courriel(sujet, lien, lienpdf, intervenant.courriel)
             messages.add_message(request, messages.WARNING, message)

@@ -1,0 +1,124 @@
+{% load i18n %}
+{% load static %}
+<html>
+<head>
+    <title>Les PAJ-SM</title>
+<meta charset="UTF-8">
+<meta name="description" content="PAJ-SM">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+</head>
+<body class="w3-theme-l5">
+<!-- Header -->
+<!-- <header class="w3-container w3-theme" id="myHeader"> -->
+<header class="w3-row" id="myHeader">
+    <div class="w3-col s3 w3-white">
+        <a href="https://santementalejustice.ca/" title="Observatoire en justice et santé mentale">
+        <img src="/static/images/logoObservatoire.png" height="60" style="margin:20px 50px; float:right" alt="Observatoire en
+        justice et santé mentale"></a>
+    </div>
+    <div class="w3-container w3-rest w3-center w3-theme-d3">
+        <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
+        <h5>Étude financée par le Ministère de la Justice du Québec</h5>
+    </div>
+    <div class="w3-col s3 w3-white">
+        <a href="https://www.justice.gouv.qc.ca/" title="Ministère de la justice">
+        <img src="/static/images/logo-justiceQuebec.jpg" height="100" style="margin:0px 50px; float:left" alt="Ministère de la justice"></a>
+    </div>
+</header>
+<div class="principal w3-theme-l5">
+ {% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{msg.message}}
+        </div>
+    {% endfor %}
+{% endif %}
+    <h4>1. Introduction</h4>
+     Notre équipe de recherche procède à une étude sur les programmes d’accompagnement en justice et santé mentale (PAJ-SM).
+        Depuis 2008, différentes juridictions judiciaires ont mis en place  PAJ-SM.
+        Le projet vise dans l’ensemble à mieux comprendre le fonctionnement de ces programmes et leurs différences d’un endroit à l’autre,
+        quelles sont les personnes qui y ont accès, quelle est l’expérience des personnes qui y prennent part et quels sont les effets
+        de la participation aux programmes pour les participants, leur entourage et la collectivité.
+    Pour la réalisation de ce projet, nous comptons obtenir la participation d’un peu plus de 500 répondants à ce sondage en ligne parmi
+        les intervenants et les professionnels du système de santé et de services sociaux,
+        du système de justice et du réseau des organismes communautaires de la province œuvrant auprès de clientèles présentant des problématiques
+        de santé mentale et de judiciarisation.<br/>
+    Le sondage porte sur vos connaissances, votre expérience et vos perceptions du travail d’intervention
+        et d’accompagnement auprès de personnes judiciarisées et ayant des problèmes de santé mentale.
+        Ce questionnaire devrait prendre de 10 et 30 minutes à compléter.
+        Veuillez compléter ce questionnaire au mieux de votre connaissance et de votre réalité de travail.
+    <h4>2. Participation volontaire et possibilité de retrait</h4>
+    Votre participation à ce sondage est volontaire. Vous êtes donc libre de refuser d’y participer. Vous pouvez également vous retirer de ce projet, à n’importe quel moment, sans avoir à donner de raisons, en informant l'équipe de recherche.
+    <h4>3. Confidentialité</h4>
+    Tous les renseignements recueillis demeureront confidentiels dans les limites prévues par la loi.
+    <h4>4. Consentement : lisez le formulaire de consentement ci joint au complet
+        <a href="#top" class="w3-button w3-theme-d5" id="Alire" >Voir et lire le formulaire de consentement</a></h4>
+    <div id="FConsent" hidden>
+        <div id="welcome" class="w3-theme-l3 w3-large" style="padding: 10; border: 2px solid #925375; width: 90%; position: absolute; top: 110; height: 75%;overflow: auto; z-index:4;" >
+           {% block formulaire %}
+
+           {% endblock %}
+           <h5><button class="w3-button w3-theme-d5" id="ABienLu" style="width: 100px;">J'ai lu</button>
+            J’ai lu le formulaire de consentement et la section précédente.</h5>
+        </div>
+        <div id="Lu" hidden class="w3-theme-l2" style="padding: 10; width: 90%; border: 5px solid #925375; position: absolute; top: 110; height: 75%; overflow: auto; z-index:4;">
+            <h3>Déclaration de consentement</h3>
+            <form method="post" action="" >
+                {% csrf_token %}
+                <p>J’ai pris connaissance du formulaire d’information et de consentement. On m’a expliqué le projet de recherche
+                   et le présent formulaire d’information et de consentement.
+                    On a répondu à mes questions et on m’a laissé le temps voulu pour prendre une décision.
+                    Après réflexion, je consens à participer à ce projet de recherche aux conditions qui y sont énoncées.</p>
+                <h4>Projets de recherche futurs (utilisation secondaire)</h4>
+                <input type="checkbox" id="utilisationsecondaire" name="utilisationsecondaire" value="1">
+                <label for="utilisationsecondaire">J'accepte</label>
+                que mes données de recherche soient utilisées par le chercheur responsable de ce projet de
+                recherche pour réaliser d’autres projets de recherche soit dans le domaine de la santé mentale judiciaire, ou soit
+                dans le domaine de la promotion de la santé, des soins et des interventions<br/>
+                <h4>Contact pour participation à des études futures</h4>
+                <input type="checkbox" id="efutures" name="efutures" value="1"><label for="efutures">J'accepte</label>
+                que le chercheur responsable de ce projet de recherche ou un membre de son personnel de recherche reprenne contact
+                avec moi pour me proposer de participer à d’autres projets de recherche.<br/>
+                Bien sûr, lors de cet appel, vous serez libre d’accepter ou de refuser de participer aux projets de recherche proposés.
+                <h4>Participation au tirage</h4>
+                <input type="checkbox" id="tirage" name="tirage" value="1"><label for="tirage">J'accepte</label>
+                de participer au tirage d'un des 50 certificats-cadeaux d’une valeur de 25 $
+                <button type="submit" class="w3-button w3-theme-d5" name="accord" value="Consent" style="width: 400px;">Je consens à participer à cette enquête</button>
+                &nbsp&nbsp<button type="submit" class="w3-button w3-theme-d5" name="accord" value="Refuser" style="width: 400px;">Je refuse</button>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="w3-container w3-theme-d5">
+    <div class="w3-theme-d3">
+        <p>{% if cissid.logo %}
+            {{ sonciusss.nom }}<br/>
+            {% endif %}
+            Courriel du commissaire aux plaintes : {{ sonciusss.courriel }} <br/>
+            Numéros de téléphones : {{ sonciusss.tel1 }} ;
+            {{ sonciusss.tel2|default_if_none:"&nbsp;" }}
+        </p>
+    </div>
+    <h6>Pour toute question à propos de cette recherche et de cette enquête contacter :
+        <a class="w3-text-white" href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete pajsm question">
+        <u>la coordonnatrice de l'enquête</u></a></h6>
+    <div class="w3-hide-small"><h6>Fureteurs supportés : Chrome Firefox Safari
+        <img src="/static/images/chrome-logo.svg" width="32" height="32">
+        <img src="/static/images/Fx-Browser-icon-fullColor-48.png" width="32" height="32">
+        <img src="/static/images/SafariBlogo.svg" width="32" height="32"></h6>
+    </div>
+</footer>
+</body>
+<script type="text/javascript">
+document.getElementById("Alire").addEventListener("click", function() {
+  document.getElementById("FConsent").hidden = false;
+}, false);
+
+document.getElementById("ABienLu").addEventListener("click", function() {
+  document.getElementById("welcome").hidden = true;
+  document.getElementById("Lu").hidden = false;
+}, false);
+</script>
+</html>
