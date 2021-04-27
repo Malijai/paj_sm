@@ -443,7 +443,8 @@ def bilan_sondage(request):
             ligneMH.append(nb_par_ciusss[0]['concented'])
             ligneMH.append(nb_par_ciusss[0]['avocat'])
             ligneMH.append(nb_par_ciusss[0]['inscrit'])
-        touslesresultats.append(ligneMH)
+        if len(ligneMH) != 0:
+            touslesresultats.append(ligneMH)
     return render(
             request,
             'bilan.html',
