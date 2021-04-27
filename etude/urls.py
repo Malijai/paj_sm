@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import select_personne, saverepetpajsm, savepajsm, creerdossierpajsm, accord_intervenant, \
-    inscription_intervenant, suite_accord, saveenquete
+    inscription_intervenant, suite_accord, saveenquete, bilan_sondage
 from django.contrib.auth.views import LoginView
 
 
@@ -15,4 +15,6 @@ urlpatterns = [
     path('enquetepaj/<str:iid>', accord_intervenant, name='accord_intervenant'),
     path('accord/<str:iid>', suite_accord, name='suite_accord'),
     path('saveenquetepaj/<str:cid>/<int:qid>', saveenquete, name='saveenquete'),
+    path('bilan/', bilan_sondage, name='bilan_sondage'),
+
 ]

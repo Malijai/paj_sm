@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import datetime
 import random
 import hashlib
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 # from django.db.models import Q, Count
 from django.shortcuts import render, redirect
@@ -10,11 +12,11 @@ from etude.models import Questionnaire, Intervenant, Resultatenquete, Vignette, 
 # from .saisie import genere_questions
 from etude.etude_constants import TEXTES_MESSAGES
 from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 # from django.utils.translation import ugettext_lazy as _
-# from django.core import mail
+from django.core import mail
+from django.db.models import Q, Count, Sum
 
 
 def genere_questions_e(qid):
@@ -402,7 +404,7 @@ def saveenquete(request, cid, qid):
                       )
 
 
-def envoi_courriel(sujet, lien, lienpdf, courriel):
+def envoi_courriel_new(sujet, lien, lienpdf, courriel):
     html_message = render_to_string('mail.html', {'lien': lien, 'lienpdf': lienpdf })
     plain_message = strip_tags(html_message)
     from_email = settings.DEFAULT_FROM_EMAIL
@@ -411,3 +413,41 @@ def envoi_courriel(sujet, lien, lienpdf, courriel):
     msg = EmailMultiAlternatives(sujet, plain_message, from_email, [to])
     msg.attach_alternative(html_message, "text/html")
     msg.send()
+
+
+def envoi_courriel(sujet, lien, lienpdf, courriel):
+    # (sujet, textecourriel, courriel)
+    html_message = render_to_string('mail.html', {'lien': lien, 'lienpdf': lienpdf })
+    textecourriel = strip_tags(html_message)
+    with mail.get_connection() as connection:
+        mail.EmailMessage(
+            sujet, textecourriel, 'malijai.caulet@ntp-ptn.org', [courriel],
+            connection=connection,
+        ).send()
+
+
+@login_required(login_url=settings.LOGIN_URI)
+def bilan_sondage(request):
+    # envoi_courriel(sujet, lien, lienpdf, courriel)
+    nb_par_ciusss = Intervenant.objects.values('centresante').order_by('centresante') \
+        .annotate(completed=Sum('completed'), concented=Sum('concented'), avocat=Sum('avocat'))
+    ciusss = Centresante.objects.all()
+    touslesresultats = []
+    for cisss in ciusss:
+        ligneMH = []
+        if Intervenant.objects.filter(centresante=cisss.id).exists():
+            nb_par_ciusss = Intervenant.objects.values('centresante').filter(Q(centresante=cisss.id)).order_by('centresante') \
+                .annotate(completed=Sum('completed'), inscrit=Count('concented'), concented=Count('concented', filter=Q(concented=1)), avocat=Sum('avocat'))
+            ligneMH.append(cisss.nom)
+            ligneMH.append(nb_par_ciusss[0]['completed'])
+            ligneMH.append(nb_par_ciusss[0]['concented'])
+            ligneMH.append(nb_par_ciusss[0]['avocat'])
+            ligneMH.append(nb_par_ciusss[0]['inscrit'])
+        touslesresultats.append(ligneMH)
+    return render(
+            request,
+            'bilan.html',
+            {
+                'complets': touslesresultats,
+            }
+        )

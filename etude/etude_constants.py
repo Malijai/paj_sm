@@ -103,3 +103,4 @@ TEXTES_MESSAGES = {
     'AR2': " Si vous ne recevez pas de courriel avec le lien pour participer, contactez malijai.caulet.ippm@ssss.gouv.qc.ca",
     'Vides': "Il y a trop de questions sans réponse, veuillez vérifier cette section s'il vous plait"
 }
+
