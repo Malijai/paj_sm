@@ -438,13 +438,16 @@ def bilan_sondage(request):
         if Intervenant.objects.filter(centresante=cisss.id).exists():
             nb_par_ciusss = Intervenant.objects.values('centresante').filter(Q(centresante=cisss.id)).order_by('centresante') \
                 .annotate(completed=Sum('completed'), inscrit=Count('concented'), concent=Count('concented', filter=Q(concented=1)),
-                          avocat=Sum('avocat'), refusent=Count('concented', filter=Q(concented=2)), )
+                          avocat=Sum('avocat'), refusent=Count('concented', filter=Q(concented=2)),
+                          ordre1=Count('ordre', filter=Q(ordre=1)), ordre2=Count('ordre', filter=Q(ordre=2)))
             ligneMH.append(cisss.nom)
             ligneMH.append(nb_par_ciusss[0]['completed'])
             ligneMH.append(nb_par_ciusss[0]['concent'])
             ligneMH.append(nb_par_ciusss[0]['avocat'])
             ligneMH.append(nb_par_ciusss[0]['inscrit'])
             ligneMH.append(nb_par_ciusss[0]['refusent'])
+            ligneMH.append(nb_par_ciusss[0]['ordre1'])
+            ligneMH.append(nb_par_ciusss[0]['ordre2'])
         if len(ligneMH) != 0:
             touslesresultats.append(ligneMH)
     return render(

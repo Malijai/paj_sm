@@ -7,11 +7,13 @@
         <h4>Bilan Enquête auprès des intervenants PAJ_SM</h4>
        <table class="w3-table-all">
         <tr>
-        <th>CISSS / CIUSSS / Autre</th><th>Inscrits</th><th>Consentent</th><th>Refusent</th><th>Complets</th><th>Avocat</th>
+        <th>CISSS / CIUSSS / Autre</th><th>Inscrits</th><th>Consentent</th><th>Refusent</th><th>Ordre questionnaires 1/2</th><th>Complets</th>
+            <th>Avocat</th>
         </tr>
         {% for ligne in complets %}
         <tr>
-        <td>{{ligne.0}}</td><td>{{ligne.4}}</td><td>{{ligne.2}}</td><td>{{ligne.5}}</td><td>{{ligne.1}}</td><td>{{ligne.3}}</td></td>
+        <td>{{ligne.0}}</td><td>{{ligne.4}}</td><td>{{ligne.2}}</td><td>{{ligne.5}}</td><td>{{ligne.6}} / {{ligne.7}}</td><td>{{ligne.1}}</td>
+            <td>{{ligne.3}}</td></td>
         </tr>
         {% endfor %}
         </table>

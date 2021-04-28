@@ -21,10 +21,10 @@ class Centresante(models.Model):
 ## Table des repondants (intervenants, professionnels etc)
 ### order = ordre des questionnaires (aléatoire), vignettes associées au répondant (aléatoires)
 class Intervenant(models.Model):
-    code = models.CharField(max_length=50, unique=True)
+    code = models.CharField(max_length=50, unique=True, verbose_name="Lien : https://pajsmmj.ntp-ptn.org/PAJSM/enquetepaj/")
     courriel = models.CharField(max_length=250)
     completed = models.IntegerField(default=0)
-    concented = models.IntegerField(default=0)
+    concented = models.IntegerField(default=0, verbose_name="Consent = 1, Refuse = 2")
     tirage = models.IntegerField(default=0)
     utilisationsecondaire = models.IntegerField(default=0)
     contactfutur = models.IntegerField(default=0)
