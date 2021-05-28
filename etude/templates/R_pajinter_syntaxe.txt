@@ -5,7 +5,7 @@
 #
 var_lab(ID) = "ID"
 var_lab(completed) = "completed oui=1 non=0"
-{% if questionnaire == 104%}
+{% if questionnaire == 104 %}
 var_lab(vignette1) = "vignette1"
 var_lab(vignette2) = "vignette2"
 {% endif %}
@@ -29,7 +29,7 @@ var_lab(vignette2) = "vignette2"
 {% include "pajinter_R_snippet.txt" with typequest=question.typequestion questid=question.id varname=question.varname %}
 {% endspaceless %}
 {% endfor %}
-{% if questionnaire == 104%}
+{% if questionnaire == 104 or questionnaire == 101 %}
 {% include "pajinter_R_snippet.txt" with typequest="vignettes" %}
 {% endif %}
 
