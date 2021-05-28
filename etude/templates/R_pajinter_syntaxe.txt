@@ -1,0 +1,35 @@
+{% load spsspajinterlistevaleurs %}
+
+# Liste des variables avec leur labels:
+# https://cran.r-project.org/web/packages/expss/vignettes/labels-support.html
+#
+var_lab(ID) = "ID"
+var_lab(completed) = "completed oui=1 non=0"
+{% if questionnaire == 104%}
+var_lab(vignette1) = "vignette1"
+var_lab(vignette2) = "vignette2"
+{% endif %}
+{% if questionnaire == 101%}
+{% for a in autresq %}
+{% spaceless %}
+{% if a != "code" and a != "courriel" %}
+ var_lab({{a}}) = "{{a}}"
+{% endif %}
+{% endspaceless %}
+{% endfor %}
+{% endif %}
+{% for question in questions %}var_lab({{question.varname}}) = "{{question.questionfr}}"
+{% endfor %}
+
+# Libelle des choix multiples.
+{% autoescape off %}
+{% endautoescape %}
+{% for question in questions %}
+{% spaceless %}
+{% include "pajinter_R_snippet.txt" with typequest=question.typequestion questid=question.id varname=question.varname %}
+{% endspaceless %}
+{% endfor %}
+{% if questionnaire == 104%}
+{% include "pajinter_R_snippet.txt" with typequest="vignettes" %}
+{% endif %}
+

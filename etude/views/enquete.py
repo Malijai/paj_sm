@@ -428,32 +428,48 @@ def envoi_courriel(sujet, lien, lienpdf, courriel):
 
 @login_required(login_url=settings.LOGIN_URI)
 def bilan_sondage(request):
-    # envoi_courriel(sujet, lien, lienpdf, courriel)
-    nb_par_ciusss = Intervenant.objects.values('centresante').order_by('centresante') \
-        .annotate(completed=Sum('completed'), concented=Sum('concented'), avocat=Sum('avocat'))
-    ciusss = Centresante.objects.all()
-    touslesresultats = []
-    for cisss in ciusss:
-        ligneMH = []
-        if Intervenant.objects.filter(centresante=cisss.id).exists():
-            nb_par_ciusss = Intervenant.objects.values('centresante').filter(Q(centresante=cisss.id)).order_by('centresante') \
-                .annotate(completed=Sum('completed'), inscrit=Count('concented'), concent=Count('concented', filter=Q(concented=1)),
-                          avocat=Sum('avocat'), refusent=Count('concented', filter=Q(concented=2)),
-                          ordre1=Count('ordre', filter=Q(ordre=1)), ordre2=Count('ordre', filter=Q(ordre=2)))
-            ligneMH.append(cisss.nom)
-            ligneMH.append(nb_par_ciusss[0]['completed'])
-            ligneMH.append(nb_par_ciusss[0]['concent'])
-            ligneMH.append(nb_par_ciusss[0]['avocat'])
-            ligneMH.append(nb_par_ciusss[0]['inscrit'])
-            ligneMH.append(nb_par_ciusss[0]['refusent'])
-            ligneMH.append(nb_par_ciusss[0]['ordre1'])
-            ligneMH.append(nb_par_ciusss[0]['ordre2'])
-        if len(ligneMH) != 0:
-            touslesresultats.append(ligneMH)
-    return render(
-            request,
-            'bilan.html',
-            {
-                'complets': touslesresultats,
-            }
-        )
+    questionnaires = Questionnaire.objects.filter(Q(id__gt=100) & Q(id__lt=107))
+
+    if 'Exporterdata' in request.POST:
+        questionnaire = request.POST.get('questionnaireid')
+        chose = request.POST.get('tous')
+        if chose == "1":
+            tous = 1
+        else:
+            tous = 0
+        return redirect('prepare_csv', questionnaire=questionnaire, tous=tous)
+    elif 'fait_entete_pajinter_R' in request.POST:
+        questionnaire = request.POST.get('questionnaireid')
+        return redirect('fait_entete_pajinter_R', questionnaire=questionnaire)
+    else:
+        nb_par_ciusss = Intervenant.objects.values('centresante').order_by('centresante') \
+            .annotate(completed=Sum('completed'), concented=Sum('concented'), avocat=Sum('avocat'))
+        ciusss = Centresante.objects.all()
+        touslesresultats = []
+        for cisss in ciusss:
+            ligneMH = []
+            if Intervenant.objects.filter(centresante=cisss.id).exists():
+                nb_par_ciusss = Intervenant.objects.values('centresante').filter(Q(centresante=cisss.id)).order_by('centresante') \
+                    .annotate(completed=Sum('completed'), inscrit=Count('concented'), concent=Count('concented', filter=Q(concented=1)),
+                              avocat=Sum('avocat'), refusent=Count('concented', filter=Q(concented=2)),
+                              ordre1=Count('ordre', filter=Q(ordre=1)), ordre2=Count('ordre', filter=Q(ordre=2)))
+                ligneMH.append(cisss.nom)
+                ligneMH.append(nb_par_ciusss[0]['completed'])
+                ligneMH.append(nb_par_ciusss[0]['concent'])
+                ligneMH.append(nb_par_ciusss[0]['avocat'])
+                ligneMH.append(nb_par_ciusss[0]['inscrit'])
+                ligneMH.append(nb_par_ciusss[0]['refusent'])
+                ligneMH.append(nb_par_ciusss[0]['ordre1'])
+                ligneMH.append(nb_par_ciusss[0]['ordre2'])
+            if len(ligneMH) != 0:
+                touslesresultats.append(ligneMH)
+        return render(
+                request,
+                'bilan.html',
+                {
+                    'complets': touslesresultats,
+                    'questionnaires': questionnaires
+                }
+            )
+
+

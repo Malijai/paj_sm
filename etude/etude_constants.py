@@ -4,7 +4,7 @@ CHOIX_ON = {
     0: 'Non'
     }
 
-# pour les autres (dichou 24= Yes_No_Unknown)
+# pour les autres (dichou 24= Yes_No_Unknown) DICHOU
 CHOIX_ONUK = {
     1: 'Oui',
     0: 'Non',

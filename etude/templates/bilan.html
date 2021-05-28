@@ -17,5 +17,21 @@
         </tr>
         {% endfor %}
         </table>
-
+<h3>To export data</h3>
+            <form method="post" action="">
+               {% csrf_token %}
+                   <table>
+                    <tr><td></td><td></td></tr>
+                        <tr><td>Questionnaire</td><td><select name="questionnaireid" >
+                        <option value="">Choose the questionnaire to export</option>
+                        {% for questionnaire in questionnaires %}
+                            {% if questionnaire.id > 100 and questionnaire.id < 10000 %}
+                                <option value="{{questionnaire.id}}">{{ questionnaire.nom_en}}</option>
+                            {% endif %}
+                        {% endfor %}
+                   <tr><td>Extraire tous les dossiers? (complets ou non)</td><td><input type="checkbox" id="tous" name="tous" value="1"><label for="tous"> Oui tous</label></td></tr>
+                   <tr><td></td><td><button type="submit" class="placeboutons" name="Exporterdata">Export data only</button></td></tr>
+                   <tr><td></td><td><button type="submit" class="placeboutons" name="fait_entete_pajinter_R">Export R syntax</button></td></tr>
+                 </table>
+           </form>
 {% endblock content_fr %}

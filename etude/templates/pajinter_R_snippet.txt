@@ -1,0 +1,29 @@
+{% load spsspajinterlistevaleurs %}
+{% with type=typequest|stringformat:"s" %}
+{% autoescape off %}
+{% if type == "DICHO" or type == "ONNSP" or type == "ONNSP" or type == "MOINSPLUS" or type == "UNDIX" %}
+{% spaceless %}
+val_lab({{ varname }}) = num_lab("
+{% spss_pajinter_dichou type 'R' %}
+{% endspaceless %}
+{% elif type == "UNCINQ" or type == "UNCINQ2" or type == "UNSIX" or type == "VRAIFAUX" or type == "DICHOU"%}
+{% spaceless %}
+val_lab({{ varname }}) = num_lab("
+{% spss_pajinter_dichou type 'R' %}
+{% endspaceless %}
+{% elif type == "CATEGORIAL" %}
+{% spaceless %}
+val_lab({{ varname }}) = num_lab("
+{% spss_pajinter_reponse questid 'R' %}
+{% endspaceless %}
+{% elif type == "vignettes" %}
+{% spaceless %}
+val_lab(vignette1) = num_lab("
+{% fait_pajinter_vignettes 1 'R' %}
+val_lab(vignette2) = num_lab("
+{% fait_pajinter_vignettes 2 'R' %}
+{% endspaceless %}
+{% endif %}
+{% endautoescape %}
+{% endwith %}
+
