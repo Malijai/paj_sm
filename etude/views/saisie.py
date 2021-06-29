@@ -5,13 +5,15 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #from django.db.models import Q, Count
 from django.shortcuts import render, redirect
-from etude.models import Personne, Questionnaire, Resultatrepetpajsm, Questionpajsm, Resultatpajsm, Accompagnement
-
+from etude.models import Personne, Questionnaire, Resultatrepetpajsm, Questionpajsm, Resultatpajsm, Accompagnement, Pajsmlist
+from accueil.models import Paj
 
 @login_required(login_url=settings.LOGIN_URI)
 def select_personne(request):
     # Pour selectionner personne (en fonction de la province), questionnaire
-    personnes = Personne.objects.all()
+    liste1 = Paj.objects.filter(user_id=request.user)
+    listevaleurs = Pajsmlist.objects.filter(id__in=liste1)
+    personnes = Personne.objects.filter(selectedpaj_id__in=listevaleurs)
     if request.method == 'POST':
         if request.POST.get('questionnaireid') == '' or request.POST.get('personneid') == '':
             messages.add_message(request, messages.ERROR, 'You have forgotten to chose at least one field')
@@ -97,19 +99,21 @@ def creerdossierpajsm(request):
                 if question.typequestion.nom == 'CODEDATE' or question.typequestion.nom == 'CODESTRING':
                     reponseaquestion = encode_donnee(reponseaquestion)
                 reponses[question.varname] = reponseaquestion
-        pref = 10000
+        selectpajsm = Pajsmlist.objects.get(id=reponses['selectedpaj'])
+        pref = 100 * selectpajsm.id
         dernier = Personne.objects.all().order_by('-id').first()
         if dernier is None:
-            reponses['personne_code'] = "{}_".format(pref + 1,)
+            code = pref + 1
         else:
-            reponses['personne_code'] = "{}_{}".format(request.user.id, pref + dernier.id + 1,)
+            code = pref + dernier.id + 1
+        reponses['personne_code'] = "{}-{}".format(str(selectpajsm.id), str(code))
         Personne.objects.create(
                                 code=reponses['personne_code'],
-                                selectpaj=reponses['selectpaj'],
+                                selectedpaj=selectpajsm,
                                 date_indexh=reponses['DATEINDEX'],
                                 assistant_id=request.user.id
                                 )
-        textefin=  "{} has been created".format(reponses['personne_code'])
+        textefin = "{} has been created".format(reponses['personne_code'])
         messages.add_message(request, messages.ERROR, textefin)
         return redirect(select_personne)
     else:

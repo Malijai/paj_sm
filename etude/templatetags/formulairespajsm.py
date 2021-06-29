@@ -1,9 +1,10 @@
 from django import template
 import re
 from django.apps import apps
-from etude.models import Reponsepajsm, Resultatpajsm, Personne, Typequestion, Listevaleur, Victime, Accompagnement
+from etude.models import Reponsepajsm, Resultatpajsm, Personne, Typequestion, Listevaleur, Victime, Accompagnement, Pajsmlist
 from django import forms
 from etude.etude_constants import CHOIX_ONUK, CHOIX_ON
+from accueil.models import User, Paj
 
 register = template.Library()
 
@@ -272,6 +273,10 @@ def fait_liste_tables(listevaleurs, sorte):
             val = str(valeur.reponse_valeur)
             nen = val + ' - ' + valeur.reponse_en
             liste.append((val, nen))
+        else:
+            val = str(valeur.id)
+            nen = val + ' - ' + valeur.reponse_en
+            liste.append((val, nen))
     return liste
 
 
@@ -326,4 +331,15 @@ def creedob(qid, *args, **kwargs):
     day, month, year = fait_select_date(name, name, 1920, 2005)
     # name=q69_year, id=row...
     return year.render(name + '_year', an) + month.render(name + '_month', mois) + day.render(name + '_day', jour)
+
+@register.simple_tag
+def creelistepajsm(qid, *args, **kwargs):
+    name = "q" + str(qid)
+    assistant = kwargs['uid']
+    liste1 = Paj.objects.filter(user_id=assistant)
+    listevaleurs = Pajsmlist.objects.filter(id__in=liste1)
+    liste = fait_liste_tables(listevaleurs, 'autre')
+    question = forms.Select(choices=liste, attrs={'id': name, 'name': name,})
+    #   return question.render(name, defaultvalue)
+    return question.render(name,'')
 

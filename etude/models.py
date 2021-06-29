@@ -5,7 +5,7 @@ from django.db import models
 DEFAULT_UID = 1
 # met tous les utilisateurs par defaut a 1 (maliadmin)
 
-## Table des CISSS et CIUSSS
+## Table des CISSS et CIUSSS (enquete)
 class Centresante(models.Model):
     nom = models.CharField(max_length=250, verbose_name="Nom du CISSS ou CIUSSS",)
     lien = models.CharField(max_length=250, verbose_name="Url du commissaire aux plaintes CISSS ou CIUSSS", blank=True, null=True)
@@ -18,7 +18,7 @@ class Centresante(models.Model):
         return '%s' % self.nom
 
 
-## Table des repondants (intervenants, professionnels etc)
+## Table des repondants (intervenants, professionnels etc) (enquete)
 ### order = ordre des questionnaires (aléatoire), vignettes associées au répondant (aléatoires)
 class Intervenant(models.Model):
     code = models.CharField(max_length=50, unique=True, verbose_name="Lien : https://pajsmmj.ntp-ptn.org/PAJSM/enquetepaj/")
@@ -53,10 +53,19 @@ class Intervenant(models.Model):
         return '%s' % self.code
 
 
-## Table des participants aux PAJSM
+## listes de valeurs typequestion_id=13 (Paj-sm)
+class Pajsmlist(models.Model):
+    reponse_en = models.CharField(max_length=200,)
+    reponse_fr = models.CharField(max_length=200,)
+
+    def __str__(self):
+        return '%s' % self.reponse_en
+
+
+## Table des participants aux PAJSM (étude)
 class Personne(models.Model):
     code = models.CharField(max_length=200,)
-    selectpaj = models.CharField(max_length=250)
+    selectedpaj = models.ForeignKey(Pajsmlist, default=100, on_delete=models.DO_NOTHING)
     date_indexh = models.DateField(blank=True, null=True)
     completed = models.IntegerField(default=0)
     genre = models.CharField(max_length=200, blank=True, null=True)
@@ -68,7 +77,7 @@ class Personne(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['selectpaj', 'code']
+        ordering = ['selectedpaj', 'code']
 
     def __str__(self):
         return '%s' % self.code
@@ -112,7 +121,7 @@ class Victime(models.Model):
         return '%s' % self.reponse_en
 
 
-## Accompagnement = suivi par le PAJ_SM (un peut comme verdict ou hearing dans NTP)
+## Accompagnement = suivi par le PAJ_SM (un peut comme verdict ou hearing dans NTP) (étude)
 class Accompagnement(models.Model):
     reponse_valeur = models.CharField(max_length=200)
     reponse_en = models.CharField(max_length=200, )
@@ -187,7 +196,7 @@ class Reponsepajsm(models.Model):
 
 
 #######################
-## Enregistrement des reponses des donnees NON repetitives
+## Enregistrement des reponses des donnees NON repetitives (étude)
 class Resultatpajsm(models.Model):
     personne = models.ForeignKey(Personne, on_delete=models.CASCADE)
     question = models.ForeignKey(Questionpajsm, on_delete=models.CASCADE)
@@ -207,7 +216,7 @@ class Resultatpajsm(models.Model):
 
 
 #######################
-## Enregistrement des reponses des donnees REPETITIVES
+## Enregistrement des reponses des donnees REPETITIVES (étude)
 # Garder le questionnaire_id pour pouvoir effacer une fiche au complet sans faire une requete compliquée
 DEFAULT_DATE = '0000-00-00'
 
@@ -234,7 +243,7 @@ class Resultatrepetpajsm(models.Model):
 
 
 ############################################
-# Pour l'enquete aupres des intervenants et aparentes
+# Pour l'enquete aupres des intervenants et aparentes (enquete)
 class Resultatenquete(models.Model):
     intervenant = models.ForeignKey(Intervenant, on_delete=models.CASCADE)
     questionnaire = models.ForeignKey(Questionnaire, db_index=True, on_delete=models.DO_NOTHING)

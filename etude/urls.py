@@ -5,8 +5,8 @@ from django.contrib.auth.views import LoginView
 
 
 urlpatterns = [
-    #path('login/', LoginView.as_view(), name='login', kwargs={'redirect_authenticated_user': True}),
-    #path('', select_personne, name='SelectPersonne'),
+    path('login/', LoginView.as_view(), name='login', kwargs={'redirect_authenticated_user': True}),
+    path('pajfile', select_personne, name='SelectPersonne'),
     path('<str:cissid>', inscription_intervenant, name='inscription'),
     path('saverepetpajsm/<int:qid>/<int:pid>/<int:accid>/', saverepetpajsm, name='saverepetpajsm'),
     path('savepajsm/<int:qid>/<int:pid>/<int:accid>/', savepajsm, name='savepajsm'),

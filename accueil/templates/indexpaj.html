@@ -9,24 +9,40 @@
     <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
     <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
 </head>
 <body class="w3-theme-l5">
-
+<div class="principal w3-theme-l5">
+<!-- Side Navigation -->
+<!-- Sidebar -->
+  <nav class="w3-sidebar w3-bar-block w3-border-right w3-theme-d5" style="display:none" id="mySidebar">
+  <button onclick="w3_close()" class="w3-bar-item w3-large">Fermer &times;</button>
+      <a href="{% url 'accueil' %}" class="w3-bar-item w3-button">Accueil</a>
+      <a href="{% url 'entreesystemes' %}" class="w3-bar-item w3-button">Accès privé</a>
+</nav>
 <!-- Header -->
 <!-- <header class="w3-container w3-theme" id="myHeader"> -->
 <header class="w3-row w3-theme-d3" id="myHeader">
-    <div class="w3-quarter w3-white">
-        <a href="https://santementalejustice.ca/" title="Observatoire en justice et santé mentale">
-        <img src="/static/images/logoObservatoire.png" height="60" style="margin:20px 50px; float:left" alt="Observatoire en
-        justice et santé mentale"></a>
+    <div class="w3-col" style="width:100px">
+        <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button"></i>
     </div>
-    <div class="w3-half w3-center">
-        <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
-        <h5>Étude financée par le Ministère de la Justice du Québec</h5>
-    </div>
-    <div class="w3-quarter w3-white">
-        <a href="https://www.justice.gouv.qc.ca/" title="Ministère de la justice">
-        <img src="/static/images/logo-justiceQuebec.jpg" height="100" style="margin:0px 50px; float:right" alt="Ministère de la justice"></a>
+    <div class="w3-rest">
+        <div class="w3-quarter w3-white">
+            <a href="https://santementalejustice.ca/" title="Observatoire en justice et santé mentale">
+            <img src="/static/images/logoObservatoire.png" height="60" style="margin:20px 50px; float:left" alt="Observatoire en
+            justice et santé mentale"></a>
+        </div>
+        <div class="w3-half w3-center">
+            <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
+            <h5>Étude financée par le Ministère de la Justice du Québec</h5>
+        </div>
+        <div class="w3-quarter w3-white">
+            <a href="https://www.justice.gouv.qc.ca/" title="Ministère de la justice">
+            <img src="/static/images/logo-justiceQuebec.jpg" height="100" style="margin:0px 50px; float:right" alt="Ministère de la justice"></a>
+        </div>
     </div>
 </header>
     <div class="w3-row" style="height: 100%;">
@@ -56,6 +72,46 @@
         Thème inspiré de <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a> -
         <a href="mailto:genevieve.nault.pinel@ssss.gouv.qc.ca?subject=Enquete PAJ-SM informations">Contact</a></h5>
 </footer>
+<script>
+// Side navigation
+
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+}
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+}
+
+// Slideshows
+
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  x[slideIndex-1].style.display = "block";
+}
+
+function openCity(cityName) {
+    var i;
+    var x = document.getElementsByClassName("city");
+    for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";
+    }
+    document.getElementById(cityName).style.display = "block";
+}
+
+</script>
 </body>
 </html>
 

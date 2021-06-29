@@ -1,55 +1,46 @@
 {% load i18n %}
 {% load static %}
 <html>
-<title>The National Trajectory Project 2</title>
+<title>Les PAJ-SM du Québec</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'accueil/w3.css' %}">
-    <link rel="stylesheet" href="{% static 'accueil/w3-theme-maison.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+    <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
 <body>
 <div class="principal">
-
 <!-- Header -->
 <!-- <header class="w3-container w3-theme" id="myHeader"> -->
 <header class="w3-row w3-theme-d3" id="myHeader">
     <div class="w3-quarter">
     </div>
     <div class="w3-half w3-center">
-        <h4>{% trans "Le Projet National des Trajectoires NTP 2 Community" %}</h4>
+        <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
     </div>
      <div class="w3-quarter w3-center">
          <a href="{% url 'logout' %}" class="button"> Logout</a>
-</div>
+    </div>
 </header>
    <div class="w3-container w3-padding">
-   {% if NTP2 %}
+   {% if Enq %}
    <div class="w3-container w3-padding w3-theme-l4">
-        <h2>{{ user.first_name }}, {{ user.last_name }}, {% trans "Bienvenue sur le site de gestion des projets du NTP2 Community" %}</h2>
-       <h3><a href="{% url 'blogindex' %}" class="btn-default">{% trans "Accès au blog" %}</a></h3>
-        <h3><a href="{% url 'dossierfolder' 1 %}" class="btn-default">{% trans "Accès au dépot de fichiers" %}</a></h3>
-        <h3><a href="{% url 'SelectPersonne' %}" class="btn-default" >{% trans "Accès au système d'entrée des données NTP2" %}</a></h3>
-   </div>
-   <div class="w3-container w3-padding w3-theme-l3">
-        <h3><a href="{% url 'listeressources' %}" class="btn-default" >{% trans "Accès au système de classification des ressources" %}</a></h3>
-   </div>
+        <h2>Bienvenue, {{ user.first_name }}, {{ user.last_name }}</h2>
+       <h3><a href="{% url 'bilan_sondage' %}" class="btn-default">Voir le bilan des réponses à l'enquête en ligne</a></h3>
+ </div>
    {% endif %}
 
 <div><br></div>
-    {% if GH %}
+    {% if File %}
      <div class="w3-container w3-padding" style="background-color:#efeae6;">
-        <h2>{{ user.first_name }}, {{ user.last_name }}, {% trans "Bienvenue sur le site de gestion du projet Going Home" %}</h2>
-        <h3><a href="{% url 'SelectDossier' %}" class="btn-default" >{% trans "Accès au système d'entrée des données Going Home" %}</a></h3>
+        <h2>Bienvenue, {{ user.first_name }}, {{ user.last_name }}</h2>
+        <h3><a href="{% url 'SelectPersonne' %}" class="btn-default" >Accès au système d'entrée des données des dossiers des PAJ-SM</a></h3>
 
-        {% if user.profile.province == Profile.QC %}
-            <h3><a href="{% url 'exportstatsgh' %}" class="btn-default" >Accès aux bases de données</a></h3>
-            <h3><a href="{% url 'dossierfolder' 1 %}" class="btn-default">Accès au dépot de fichiers</a></h3>
-       {% endif %}
      </div>
     {% endif %}
-   {% if user.profile.province == Profile.ALL %}
-        <h3><a href="{% url 'SelectPersonne' %}" class="btn-default" >{% trans "Exportation des données NTP2" %}</a></h3>
-   {% endif %}
 
 <!-- Footer -->
 </div>

@@ -4,26 +4,18 @@
 
 {% block content %}
 <h2>New file creation: 
-Be carefull all these data will not be accessible after saving</h2>
+Création d'un nouveau dossier</h2>
 {% csrf_token %}
-   <div class="tabber">
-    {% for question in questions %}
-        {% if question.typequestion.nom == 'TITLE' %}
-            {% if forloop.counter > 1 %}
-                </table></div>
-            {% endif %}
-                 <div class="tabbertab"><h3>{{ question.questionen|slice:"0:15" }}</h3><b>{{ question.questionen}}</b>
-                 <table><tr><td></td><td></td><td></td></tr>
-        {% else %}
-            <tr class="{% cycle 'Q1' 'Q2' %}">
-                {% include "create_snippet.html" with typequest=question.typequestion textequest=question.questionen questid=question.id varname=question.varname %}
-                {% include "aide_snippet.html" with aide=question.aideen %}
-            </tr>
 
-        {% endif %}
+<table><tr><td></td><td></td><td></td></tr>
+{% for question in questions %}
+ <tr class="{% cycle 'Q1' 'Q2' %}">
+ {% include "create_snippet.html" with typequest=question.typequestion textequest=question.questionen questid=question.id varname=question.varname user=user.id %}
+ {% include "aide_snippet.html" with aide=question.aideen %}
+ </tr>
     {% endfor %}
+
 </table>
 
-</div><!--Fermeture de la boite à onglets-->
 {% endblock content %}
 

@@ -30,7 +30,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(), name='login', kwargs={'redirect_authenticated_user': True}),
     path('PAJSM/', include('etude.urls')),
-    # path('', include('etude.urls')),
     path('', include('accueil.urls')),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),

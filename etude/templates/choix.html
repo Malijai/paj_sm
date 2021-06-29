@@ -13,14 +13,10 @@
         <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
     </head>
 <body class="w3-theme-l5">
-
-
 <header class="w3-row w3-theme-d3" id="myHeader">
-
     <div class="w3-quarter">
         <a href="{% url 'logout' %}" class="w3-button w3-theme-action"> Logout</a>
     </div>
-
     <div class="w3-half w3-center">
         <h4>PAJ_SM- Dossiers</h4>
     </div>
@@ -36,7 +32,6 @@
     {% endfor %}
 {% endif %}
 <h2>{{ user.first_name }} {{ user.last_name }} </h2>
-
    <div class="tabber">
        <div class="tabbertab">
            <form method="post" action="">
@@ -54,7 +49,7 @@
                 <tr><td>Personne</td><td><select name="personneid" >
                     <option value="">Sélectionner un dossier</option>
                     {% for personne in personnes %}
-                    <option value="{{personne.id}}">{{personne.code}}-</option>
+                    <option value="{{personne.id}}">{{personne.code}}</option>
                     {% endfor %}
                     </select></td></tr>
                 <tr><td>Accompagnement</td><td><select name="accompagnementid" >
