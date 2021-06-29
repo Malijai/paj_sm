@@ -18,7 +18,10 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.static import serve
+from django.views.generic.base import RedirectView
+
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
@@ -33,6 +36,7 @@ urlpatterns = [
     path('', include('accueil.urls')),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('etude/imgages/favicon.ico')))
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
