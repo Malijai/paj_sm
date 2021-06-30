@@ -21,21 +21,36 @@ class Projet(models.Model):
         return self.user.username
 
 
-class Paj(models.Model):
+class Pajcodes(object):
     p100 = 100
     p1 = 1
     p2 = 2
     p3 = 3
     p4 = 4
+    p5 = 5
+    p6 = 6
+    p7 = 7
+    p8 = 8
+    p9 = 9
+    p10 = 10
     PAJS_CHOICES = (
-                           (p1, 'PAJ-1'),
-                           (p2, 'PAJ-2'),
-                           (p3, 'PAJ-3'),
-                           (p4, 'PAJ-4'),
-                           (p100, 'AucunPAJ'),
+        (p1, 'PAJ-Montréal'),
+        (p2, 'PAJ-Québec'),
+        (p3, 'PAJ-St-Jérôme'),
+        (p4, 'PAJ-Trois Rivières'),
+        (p5, 'PAJ-Joliette'),
+        (p6, 'PAJ-Chicoutimi'),
+        (p7, 'PAJ-Sherbrooke'),
+        (p8, "PAJ-Val d'Or"),
+        (p9, 'PAJ-Longueuil'),
+        (p10, 'PAJ-Gatineau'),
+        (p100, 'Pas de PAJ'),
     )
+
+
+class Paj(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    paj = models.PositiveSmallIntegerField(choices=PAJS_CHOICES, verbose_name="Paj attribué", null=True, blank=True)
+    paj = models.PositiveSmallIntegerField(choices=Pajcodes().PAJS_CHOICES, verbose_name="Paj attribué", null=True, blank=True)
 
     def __str__(self):
         return self.user.username
