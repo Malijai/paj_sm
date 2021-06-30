@@ -99,7 +99,8 @@ def creerdossierpajsm(request):
                 if question.typequestion.nom == 'CODEDATE' or question.typequestion.nom == 'CODESTRING':
                     reponseaquestion = encode_donnee(reponseaquestion)
                 reponses[question.varname] = reponseaquestion
-        selectpajsm = Pajsmlist.objects.get(id=reponses['selectedpaj'])
+                paj_id = reponses['selectedpaj']
+        selectpajsm = Pajsmlist.objects.get(id=paj_id)
         pref = 100 * selectpajsm.id
         dernier = Personne.objects.all().order_by('-id').first()
         if dernier is None:
