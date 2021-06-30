@@ -36,7 +36,7 @@ urlpatterns = [
     path('', include('accueil.urls')),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('imgages/favicon.ico')))
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('images/favicon.ico')))
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
