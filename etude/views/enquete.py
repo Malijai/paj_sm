@@ -62,6 +62,8 @@ def inscription_intervenant(request, cissid):
                 lien = lienenquete
                 if intervenant.centresante_id == 3:
                     lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2-2Generique.pdf'
+                elif intervenant.centresante_id == 19:
+                    lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/CHUMFinalConv_20210831.pdf'
                 else:
                     lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
                 envoi_courriel(sujet, lien, lienpdf, intervenant.courriel)
@@ -81,6 +83,8 @@ def inscription_intervenant(request, cissid):
             message = TEXTES_MESSAGES['AR'] + intervenant.courriel + TEXTES_MESSAGES['AR2']
             if intervenant.centresante_id == 3:
                 lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2-2Generique.pdf'
+            elif intervenant.centresante_id == 19:
+                lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/CHUMFinalConv_20210831.pdf'
             else:
                 lienpdf = settings.BASE_URL + settings.STATIC_URL + 'etude/FCSIV2.2.pdf'
             lien = lienenquete
@@ -452,7 +456,9 @@ def bilan_sondage(request):
                 nb_par_ciusss = Intervenant.objects.values('centresante').filter(Q(centresante=cisss.id)).order_by('centresante') \
                     .annotate(completed=Sum('completed'), inscrit=Count('concented'), concent=Count('concented', filter=Q(concented=1)),
                               avocat=Sum('avocat'), refusent=Count('concented', filter=Q(concented=2)),
-                              ordre1=Count('ordre', filter=Q(ordre=1)), ordre2=Count('ordre', filter=Q(ordre=2)))
+                              ordre1=Count('ordre', filter=Q(ordre=1)), ordre2=Count('ordre', filter=Q(ordre=2)),
+                              p1=Count('partie1', filter=Q(partie1=1)),p2=Count('partie2', filter=Q(partie2=1)),p3=Count('partie3', filter=Q(partie3=1)),
+                              p4=Count('partie4', filter=Q(partie4=1)),p5=Count('partie5', filter=Q(partie5=1)),p6=Count('partie6', filter=Q(partie6=1)))
                 ligneMH.append(cisss.nom)
                 ligneMH.append(nb_par_ciusss[0]['completed'])
                 ligneMH.append(nb_par_ciusss[0]['concent'])
@@ -461,6 +467,13 @@ def bilan_sondage(request):
                 ligneMH.append(nb_par_ciusss[0]['refusent'])
                 ligneMH.append(nb_par_ciusss[0]['ordre1'])
                 ligneMH.append(nb_par_ciusss[0]['ordre2'])
+                ligneMH.append(nb_par_ciusss[0]['p1'])
+                ligneMH.append(nb_par_ciusss[0]['p2'])
+                ligneMH.append(nb_par_ciusss[0]['p3'])
+                ligneMH.append(nb_par_ciusss[0]['p4'])
+                ligneMH.append(nb_par_ciusss[0]['p5'])
+                ligneMH.append(nb_par_ciusss[0]['p6'])
+
             if len(ligneMH) != 0:
                 touslesresultats.append(ligneMH)
         return render(

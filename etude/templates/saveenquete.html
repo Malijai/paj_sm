@@ -6,6 +6,7 @@
 <h2> {{ intervenant.courriel }} - {{ questionnaire }} </h2>
 
 {% block content_fr %}
+<form action="" method="post">
 {% csrf_token %}
    <input name="iid" type="hidden" value="{{ intervenant.id }}" />
    <input name="qid" type="hidden" value="{{ qid }}" />
@@ -88,5 +89,6 @@
   <span class="step"></span>
 {% endfor %}
 </div>
+</form>
 {% endblock content_fr %}
 

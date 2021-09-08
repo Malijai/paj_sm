@@ -22,7 +22,7 @@
 </header>
 
   <div class="w3-container w3-sand">
-    <form action="" method="post">
+
     {% if messages %}
         {% for msg in messages %}
             <div class="alert alert-{{msg.level_tag}}" role="alert">
@@ -34,7 +34,6 @@
   {% block content_fr %}
   {% endblock content_fr %}
 
-</form>
 </div>
 </div>
     <script>
