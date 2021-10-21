@@ -450,6 +450,8 @@ def bilan_sondage(request):
             .annotate(completed=Sum('completed'), concented=Sum('concented'), avocat=Sum('avocat'))
         ciusss = Centresante.objects.all()
         touslesresultats = []
+        sommes = Intervenant.objects.filter(Q(concented=1)).aggregate(SCp=Sum('completed'), Sp1=Sum('partie1'), Sp2=Sum('partie2'), Sp3=Sum('partie3'), Sp4=Sum('partie4'), Sp5=Sum('partie5'), Sp6=Sum('partie6'))
+
         for cisss in ciusss:
             ligneMH = []
             if Intervenant.objects.filter(centresante=cisss.id).exists():
@@ -473,15 +475,16 @@ def bilan_sondage(request):
                 ligneMH.append(nb_par_ciusss[0]['p4'])
                 ligneMH.append(nb_par_ciusss[0]['p5'])
                 ligneMH.append(nb_par_ciusss[0]['p6'])
-
             if len(ligneMH) != 0:
                 touslesresultats.append(ligneMH)
+
         return render(
                 request,
                 'bilan.html',
                 {
                     'complets': touslesresultats,
-                    'questionnaires': questionnaires
+                    'questionnaires': questionnaires,
+                    'sommes': sommes,
                 }
             )
 

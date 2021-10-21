@@ -12,7 +12,10 @@ from accueil.models import Paj
 def select_personne(request):
     # Pour selectionner personne (en fonction de la province), questionnaire
     liste1 = Paj.objects.filter(user_id=request.user)
-    listevaleurs = Pajsmlist.objects.filter(id__in=liste1)
+    listevaleurs = set()
+    for item in liste1:
+        listevaleurs.add(item.paj)
+    #listevaleurs = Pajsmlist.objects.filter(id__in=liste1)
     personnes = Personne.objects.filter(selectedpaj_id__in=listevaleurs)
     if request.method == 'POST':
         if request.POST.get('questionnaireid') == '' or request.POST.get('personneid') == '':

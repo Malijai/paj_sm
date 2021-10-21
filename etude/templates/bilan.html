@@ -28,13 +28,18 @@
       <a href="{% url 'logout' %}" class="w3-button w3-theme-action"> Logout</a>
       <h4>Bilan Enquête auprès des intervenants PAJ_SM</h4>
        <table class="w3-table-all">
-        <tr>
-       <th>Origine</th><th>Inscrits</th><th>Consentent</th><th>Refusent</th><th>Ordre des</th><th>Complets</th>
-            <th>Avocat</th><th colspan="6">Sections du questionnaire terminées</th></tr>
-        <tr><th></th><th></th><th></th><th></th><th>questionnaires 1/2</th><th></th>
-            <th></th><th>P-I</th><th>P-II</th><th>P-III</th><th>P-IV</th><th>P-V</th><th>P-VI</th>
+        <tr><th>Origine</th><th>Inscrits</th><th>Consentent</th><th>Refusent</th><th>Ordre des</th><th>Complets</th>
+            <th>Avocat</th><th colspan="6">Sections du questionnaire terminées</th>
         </tr>
-        {% for ligne in complets %}
+        <tr><th></th><th></th><th></th><th></th><th>questionnaires 1/2</th><th></th>
+            <th></th><th class="w3-theme-l1">P-I</th><th>P-II</th><th>P-III</th><th class="w3-theme-l1">P-IV</th><th class="w3-theme-l1">P-V</th><th>P-VI</th>
+        </tr>
+        <tr class="w3-theme-l4">
+        <td><b>Sommes</b><td> </td><td> </td><td> </td><td> </td><td>{{sommes.SCp}}</td><td> </td>
+            <td>{{sommes.Sp1}}</td>
+            <td>{{sommes.Sp2}}</td><td>{{sommes.Sp3}}</td><td>{{sommes.Sp4}}</td><td>{{sommes.Sp5}}</td><td>{{sommes.Sp6}}</td>
+        </tr>
+           {% for ligne in complets %}
         <tr>
         <td>{{ligne.0}}</td><td>{{ligne.4}}</td><td>{{ligne.2}}</td><td>{{ligne.5}}</td><td>{{ligne.6}} / {{ligne.7}}</td><td>{{ligne.1}}</td>
             <td>{{ligne.3}}</td>

@@ -337,9 +337,11 @@ def creelistepajsm(qid, *args, **kwargs):
     name = "q" + str(qid)
     assistant = kwargs['uid']
     liste1 = Paj.objects.filter(user_id=assistant)
-    listevaleurs = Pajsmlist.objects.filter(id__in=liste1)
+    listevaleurs1 = set()
+    for item in liste1:
+        listevaleurs1.add(item.paj)
+    listevaleurs = Pajsmlist.objects.filter(id__in=listevaleurs1)
     liste = fait_liste_tables(listevaleurs, 'autre')
     question = forms.Select(choices=liste, attrs={'id': name, 'name': name,})
     #   return question.render(name, defaultvalue)
     return question.render(name,'')
-

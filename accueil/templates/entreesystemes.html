@@ -30,13 +30,20 @@
    <div class="w3-container w3-padding w3-theme-l4">
         <h2>Bienvenue, {{ user.first_name }}, {{ user.last_name }}</h2>
        <h3><a href="{% url 'bilan_sondage' %}" class="btn-default">Voir le bilan des réponses à l'enquête en ligne</a></h3>
- </div>
-   {% endif %}
 
+          <p>Pour rentrer les informations et documents sur les PAJ-SM (Version 2020)</p>
+   <h3><a href="/admin/tsmnew/pajnew/" class="w3-button w3-large w3-theme-action">Questionnaire PAJ-SM (2020)</a></h3>
+ </div>
+ <div class="w3-container w3-padding w3-theme-l2">
+   <p>Pour voir les anciennes informations et documents sur les TSM (Version 2018)</p>
+   <h3><a href="/admin/tsmold/pajold/" class="w3-button w3-large w3-theme-l4">Questionnaire TSM (2018)</a></h3>
+   {% endif %}
+ </div>
 <div><br></div>
     {% if File %}
      <div class="w3-container w3-padding" style="background-color:#efeae6;">
         <h2>Bienvenue, {{ user.first_name }}, {{ user.last_name }}</h2>
+
         <h3><a href="{% url 'SelectPersonne' %}" class="btn-default" >Accès au système d'entrée des données des dossiers des PAJ-SM</a></h3>
 
      </div>
