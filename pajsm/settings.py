@@ -79,7 +79,7 @@ DATABASES = {
          'PASSWORD': config('DB_PASSWORD'),
          'HOST': config('DB_HOST', default='localhost'),
          'PORT': config('DB_PORT'),
-         'OPTIONS': {'sql_mode': 'STRICT_TRANS_TABLES', 'init_command' : 'SET default_storage_engine=INNODB', },
+         'OPTIONS': {'sql_mode': 'STRICT_TRANS_TABLES', 'init_command': 'SET default_storage_engine=INNODB', },
      }
 }
 

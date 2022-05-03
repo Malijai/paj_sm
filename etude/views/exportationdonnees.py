@@ -114,6 +114,10 @@ def ffait_csv(request, questionnaire, iteration, seuil, tous):
         entete = ['ID', 'completed']
     for question in questions:
         entete.append(question['varname'])
+    entete.append('Date_Created_at')
+    entete.append('Time_Created_at')
+    entete.append('Date_Updated_at')
+    entete.append('Time_Updated_at')
     toutesleslignes.append(entete)
     decompte = 0
     if questionnaire == 101:
@@ -144,6 +148,8 @@ def ffait_csv(request, questionnaire, iteration, seuil, tous):
             toutesleslignes.append(ligne)
     else:
         for intervenant in intervenants:
+            creatimestamps = []
+            updatimestamps = []
             ligne = [intervenant['id'], intervenant['completed']]
             if Resultatenquete.objects.filter(intervenant_id=intervenant['id'], questionnaire_id=questionnaire).exists():
                 if questionnaire == 104:
@@ -151,14 +157,23 @@ def ffait_csv(request, questionnaire, iteration, seuil, tous):
                     ligne.append(intervenant['vignette2'])
                 for question in questions:
                     try:
-                        donnee = Resultatenquete.objects.filter(intervenant_id=intervenant['id'], question_id=question['id']).values('reponsetexte')
+                        donnee = Resultatenquete.objects.filter(intervenant_id=intervenant['id'], question_id=question['id']).values('reponsetexte', 'created_at', 'updated_at')
                     except Resultatenquete.DoesNotExist:
                         donnee = None
                     if donnee:
+                        creatimestamps.append(donnee[0]['created_at'])
+                        updatimestamps.append(donnee[0]['updated_at'])
                         ligne.append(donnee[0]['reponsetexte'])
                     else:
                         ligne.append('')
+                creatimestamps.sort()
+                updatimestamps.sort()
+                ligne.append(creatimestamps[0].strftime('%Y-%m-%d'))
+                ligne.append(creatimestamps[0].strftime('%H:%M:%S'))
+                ligne.append(updatimestamps[-1].strftime('%Y-%m-%d'))
+                ligne.append(updatimestamps[-1].strftime('%H:%M:%S'))
             decompte += 1
+
             toutesleslignes.append(ligne)
     now = datetime.datetime.now().strftime('%Y_%m_%d')
     filename = 'Datas_{}_{}_L{}.csv'.format(questionnaire, now, iteration)

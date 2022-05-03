@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView
-from django.contrib.staticfiles.storage import staticfiles_storage
+#from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.static import serve
 from django.views.generic.base import RedirectView
 
@@ -34,9 +34,10 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login', kwargs={'redirect_authenticated_user': True}),
     path('PAJSM/', include('etude.urls')),
     path('', include('accueil.urls')),
+   #  path('tsmnew/', include('tsmnew.urls')),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('images/favicon.ico')))
-    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('favicon.ico', RedirectView.as_view(url='/static/imgage/favicon.ico', permanent=True)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

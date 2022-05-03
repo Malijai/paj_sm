@@ -71,7 +71,7 @@ def fait_date(qid, b, *args, **kwargs):
 
     idcondition = fait_id(qid, cible, relation=relation)
     name = "q" + str(qid)
-    day, month, year = fait_select_date(idcondition, 1960, 2021)
+    day, month, year = fait_select_date(idcondition, 1960, 2024)
 #   name=q69_year, id=row...
 
     return year.render(name + '_year', an) + month.render(name + '_month', mois) + day.render(name + '_day', jour)
