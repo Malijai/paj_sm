@@ -55,9 +55,9 @@ def select_personne(request):
                 personne = Personne.objects.get(pk=pid, assistant=request.user)
                 personne.completed = 1
                 personne.save()
-                messages.add_message(request, messages.WARNING, personne.code + ' has been closed')
+                messages.add_message(request, messages.WARNING, personne.code + ' Est fermé')
             else:
-                messages.add_message(request, messages.ERROR, personne2.code + ' You are not allowed to close this file as you didn''t create it')
+                messages.add_message(request, messages.ERROR, personne2.code + ' Vous n''êtes pas autorisé à fermer ce dossier vous ne l''avez pas créé')
             return render(
                     request,
                     'choix.html',
@@ -117,7 +117,7 @@ def creerdossierpajsm(request):
                                 date_indexh=reponses['DATEINDEX'],
                                 assistant_id=request.user.id
                                 )
-        textefin = "{} has been created".format(reponses['personne_code'])
+        textefin = "{} a été créé".format(reponses['personne_code'])
         messages.add_message(request, messages.ERROR, textefin)
         return redirect(select_personne)
     else:
