@@ -15,10 +15,10 @@ def fait_table(qid, sorte, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     ordre = kwargs['ordre']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre)
     idcondition = fait_id(qid, cible, relation=relation)
 
     typeq = Typequestion.objects.get(nom=sorte)
@@ -39,9 +39,9 @@ def fait_reponse(qid, b, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     ordre = kwargs['ordre']
-    defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre)
     idcondition = fait_id(qid, cible, relation=relation)
 
     listevaleurs = Reponsepajsm.objects.filter(question__id=qid, )
@@ -59,9 +59,9 @@ def fait_victimes(qid, sorte, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     ordre = kwargs['ordre']
-    defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre)
     idcondition = fait_id(qid, cible, relation=relation)
 
     listevaleurs = Victime.objects.all()
@@ -82,9 +82,9 @@ def fait_table_valeurs_prov(qid, sorte, *args, **kwargs):
     cible = kwargs['cible']
     typetable = {"ETABLISSEMENT": "etablissement", "MUNICIPALITE": "municipalite",}
     tableext = typetable[sorte]
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     ordre = kwargs['ordre']
-    defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre)
     idcondition = fait_id(qid, cible, relation=relation)
 
     Klass = apps.get_model('dataentry', tableext)
@@ -103,10 +103,10 @@ def fait_dichou(qid, sorte, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     ordre = kwargs['ordre']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre)
     idcondition = fait_id(qid, cible, relation=relation)
     name = 'q{}Z_Z{}'.format(qid, ordre)
     if sorte == "DICHO":
@@ -124,10 +124,10 @@ def fait_court(qid, sorte, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     ordre = kwargs['ordre']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre)
     idcondition = fait_id(qid, cible, relation=relation)
     name = 'q{}Z_Z{}'.format(qid, ordre)
 
@@ -142,10 +142,10 @@ def fait_textechar(qid, sorte, persid, relation, cible, uid, ordre, *args, **kwa
     personneid = persid
     relation = relation
     cible = cible
-    assistant = uid
+    # assistant = uid
     ordre = ordre
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre)
     idcondition = fait_id(qid, cible, relation=relation)
     name = 'q{}Z_Z{}'.format(qid, ordre)
     if sorte == 'STRING' or sorte == 'CODESTRING' or sorte == 'TIME':
@@ -161,14 +161,14 @@ def fait_date(qid, b, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     ordre = kwargs['ordre']
 
     an = ''
     mois = ''
     jour = ''
-    if Resultatrepetpajsm.objects.filter(personne__id=personneid, assistant__id=assistant, question__id=qid,fiche=ordre).exists():
-        ancienne = Resultatrepetpajsm.objects.get(personne__id=personneid, assistant__id=assistant, question__id=qid,
+    if Resultatrepetpajsm.objects.filter(personne__id=personneid, question__id=qid,fiche=ordre).exists():
+        ancienne = Resultatrepetpajsm.objects.get(personne__id=personneid, question__id=qid,
                                             fiche=ordre).__str__()
         if ancienne:
             an, mois, jour = ancienne.split('-')
@@ -182,12 +182,12 @@ def fait_date(qid, b, *args, **kwargs):
 
 def fait_default(personneid, qid, *args, **kwargs):
     ##fail la valeur par deffaut
-    assistant = kwargs['assistant']
+    # assistant = kwargs['assistant']
     ordre = kwargs['ordre']
     ancienne = ''
 
-    if Resultatrepetpajsm.objects.filter(personne__id=personneid, assistant__id=assistant, question__id=qid, fiche=ordre).exists():
-        ancienne = Resultatrepetpajsm.objects.get(personne__id=personneid, assistant__id=assistant,
+    if Resultatrepetpajsm.objects.filter(personne__id=personneid, question__id=qid, fiche=ordre).exists():
+        ancienne = Resultatrepetpajsm.objects.get(personne__id=personneid,
                                                  question__id=qid, fiche=ordre).__str__()
 
     return ancienne
@@ -207,14 +207,14 @@ def fait_id(qid, cible, *args, **kwargs):
 def fait_dateh(persid, *args, ** kwargs):
     #   Va chercher les dates de sorte 60 pour les afficher dans les tabs
     ordre = kwargs['ordre']
-    assistant = kwargs['assistant']
+    # assistant = kwargs['assistant']
     questionnaire = kwargs['questionnaire']
     accompagnement = kwargs['accompagnement']
 
     datehosp = ''
     question = Questionpajsm.objects.get(typequestion_id=60, questionnaire_id=questionnaire).pk
-    if Resultatrepetpajsm.objects.filter(personne__id=persid, assistant__id=assistant, question_id=question, fiche=ordre,accompagnement_id=accompagnement).exists():
-        datehosp = Resultatrepetpajsm.objects.get(personne__id=persid, assistant__id=assistant,
+    if Resultatrepetpajsm.objects.filter(personne__id=persid, question_id=question, fiche=ordre,accompagnement_id=accompagnement).exists():
+        datehosp = Resultatrepetpajsm.objects.get(personne__id=persid,
                                                  question__id=question, fiche=ordre,accompagnement_id=accompagnement).__str__()
     else:
         datehosp = ordre

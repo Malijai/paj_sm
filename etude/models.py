@@ -208,8 +208,11 @@ class Resultatpajsm(models.Model):
 
     class Meta:
         # constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'question'], name='unique_result')]
-        unique_together = (('personne', 'assistant', 'question', 'accompagnement'),)
-        indexes = [models.Index(fields=['personne', 'assistant', 'question', 'accompagnement'])]
+        # unique_together = (('personne', 'assistant', 'question', 'accompagnement'),)
+        # indexes = [models.Index(fields=['personne', 'assistant', 'question', 'accompagnement'])]
+        # constraints = [models.UniqueConstraint(fields=['personne', 'question'], name='unique_result')]
+        unique_together = (('personne', 'question', 'accompagnement'),)
+        indexes = [models.Index(fields=['personne', 'question', 'accompagnement'])]
 
     def __str__(self):
         return '%s' % self.reponsetexte
@@ -234,9 +237,13 @@ class Resultatrepetpajsm(models.Model):
 
     class Meta:
         # constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'questionnaire', 'question', 'fiche'], name='unique_repet')]
-        unique_together = ('personne', 'assistant', 'questionnaire', 'question', 'accompagnement', 'fiche')
-        ordering = ['personne', 'assistant', 'questionnaire', 'question', 'fiche']
-        indexes = [models.Index(fields=['personne', 'assistant', 'questionnaire', 'question', 'accompagnement', 'fiche'])]
+        # unique_together = ('personne', 'assistant', 'questionnaire', 'question', 'accompagnement', 'fiche')
+        # ordering = ['personne', 'assistant', 'questionnaire', 'question', 'fiche']
+        # indexes = [models.Index(fields=['personne', 'assistant', 'questionnaire', 'question', 'accompagnement', 'fiche'])]
+        # constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'questionnaire', 'question', 'fiche'], name='unique_repet')]
+        unique_together = ('personne', 'questionnaire', 'question', 'accompagnement', 'fiche')
+        ordering = ['personne', 'questionnaire', 'question', 'fiche']
+        indexes = [models.Index(fields=['personne', 'questionnaire', 'question', 'accompagnement', 'fiche'])]
 
     def __str__(self):
         return '%s' % self.reponsetexte

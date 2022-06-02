@@ -157,16 +157,26 @@ def savepajsm(request, qid, pid, accid):
                         personne.assistant = request.user
                         personne.save()
                 else:
-                    if not Resultatpajsm.objects.filter(personne_id=pid, question=question, assistant=request.user,
+                    if not Resultatpajsm.objects.filter(personne_id=pid, question=question,
                                                        reponsetexte=reponseaquestion, accompagnement_id=accompagnement.id).exists():
-                        Resultatpajsm.objects.update_or_create(personne_id=pid, question=question, assistant=request.user, accompagnement_id=accompagnement.id,
+                        Resultatpajsm.objects.update_or_create(personne_id=pid, question=question, accompagnement_id=accompagnement.id,
                                 # update these fields, or create a new object with these values
                                 defaults={
                                     'reponsetexte': reponseaquestion,
+                                    'assistant_id': request.user.id
                                 }
-                            )
+                             )
+                    # if not Resultatpajsm.objects.filter(personne_id=pid, question=question, assistant=request.user,
+                    #                                    reponsetexte=reponseaquestion, accompagnement_id=accompagnement.id).exists():
+                    #     Resultatpajsm.objects.update_or_create(personne_id=pid, question=question, assistant=request.user, accompagnement_id=accompagnement.id,
+                    #             # update these fields, or create a new object with these values
+                    #             defaults={
+                    #                 'reponsetexte': reponseaquestion,
+                    #             }
+                    #         )
         now = datetime.datetime.now().strftime('%H:%M:%S')
         messages.add_message(request, messages.WARNING, 'Data saved at ' + now)
+    compte, fiches = fait_pagination(pid, 10, accid, request)
 
     return render(request,
                   'savepajsm.html',
@@ -179,7 +189,8 @@ def savepajsm(request, qid, pid, accid):
                       'code': nomcode,
                       'questionnaire': questionnaire,
                       'accid': accid,
-                      'accompagnement': accompagnement
+                      'accompagnement': accompagnement,
+                      'fiches': fiches,
                   }
                 )
 
@@ -196,7 +207,7 @@ def saverepetpajsm(request, qid, pid, accid):
         for action in actions:
             if action.startswith('remove_'):
                 x = action[len('remove_'):]
-                Resultatrepetpajsm.objects.filter(personne__id=pid, assistant=request.user, questionnaire__id=qid, accompagnement__id=accid,
+                Resultatrepetpajsm.objects.filter(personne__id=pid, questionnaire__id=qid, accompagnement__id=accid,
                                                  fiche=x).delete()
                 messages.add_message(request, messages.ERROR, 'Card # ' + str(x) + ' removed')
                 continue
@@ -207,7 +218,6 @@ def saverepetpajsm(request, qid, pid, accid):
                     x = action[len('add_'):]
                     enregistrement = Resultatrepetpajsm.objects.filter(
                                         personne__id=pid,
-                                        assistant=request.user,
                                         questionnaire__id=qid,
                                         accompagnement__id=accid).order_by('-fiche').first()
                     ordre = enregistrement.fiche + 1
@@ -235,7 +245,6 @@ def saverepetpajsm(request, qid, pid, accid):
                         reponseaquestion = request.POST.get('q{}Z_Z{}'.format(question.id, x))
                     if reponseaquestion:
                         if not Resultatrepetpajsm.objects.filter(personne_id=pid,
-                                                                assistant_id=request.user.id,
                                                                 questionnaire_id=qid,
                                                                 question_id=question.id,
                                                                  accompagnement_id=accid,
@@ -243,7 +252,6 @@ def saverepetpajsm(request, qid, pid, accid):
                                                                 reponsetexte=reponseaquestion).exists():
                             Resultatrepetpajsm.objects.update_or_create(
                                 personne_id=pid,
-                                assistant_id=request.user.id,
                                 questionnaire_id=qid,
                                 question_id=question.id,
                                 accompagnement_id=accid,
@@ -251,12 +259,33 @@ def saverepetpajsm(request, qid, pid, accid):
                                 # update these fields, or create a new object with these values
                                 defaults={
                                     'reponsetexte': reponseaquestion,
+                                    'assistant_id': request.user.id
                                 }
                             )
+
+                        # if not Resultatrepetpajsm.objects.filter(personne_id=pid,
+                        #                                         assistant_id=request.user.id,
+                        #                                         questionnaire_id=qid,
+                        #                                         question_id=question.id,
+                        #                                          accompagnement_id=accid,
+                        #                                         fiche=x,
+                        #                                         reponsetexte=reponseaquestion).exists():
+                        #     Resultatrepetpajsm.objects.update_or_create(
+                        #         personne_id=pid,
+                        #         assistant_id=request.user.id,
+                        #         questionnaire_id=qid,
+                        #         question_id=question.id,
+                        #         accompagnement_id=accid,
+                        #         fiche=x,
+                        #         # update these fields, or create a new object with these values
+                        #         defaults={
+                        #             'reponsetexte': reponseaquestion,
+                        #         }
+                        #     )
                 now = datetime.datetime.now().strftime('%H:%M:%S')
                 messages.add_message(request, messages.WARNING, 'Donnees enregistrees a ' + now)
     else:
-        if Resultatrepetpajsm.objects.filter(personne_id=pid, assistant_id=request.user.id, questionnaire_id=qid, accompagnement__id=accid).count() == 0:
+        if Resultatrepetpajsm.objects.filter(personne_id=pid, questionnaire_id=qid, accompagnement__id=accid).count() == 0:
             Resultatrepetpajsm.objects.create(
                                 personne_id=pid,
                                 assistant_id=request.user.id,
@@ -287,7 +316,7 @@ def saverepetpajsm(request, qid, pid, accid):
 
 def fait_pagination(pid, qid, accid, request):
     donnees = Resultatrepetpajsm.objects.order_by('fiche').filter(
-                        personne__id=pid, assistant__id=request.user.id, questionnaire__id=qid, accompagnement__id=accid
+                        personne__id=pid, questionnaire__id=qid, accompagnement__id=accid
                         ).values_list('fiche', flat=True).distinct()
     #donnees = fiche_list.values_list('fiche', flat=True).distinct()
     compte = donnees.count()

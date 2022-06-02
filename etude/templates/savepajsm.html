@@ -69,13 +69,21 @@
 {% if qid < 10 and qid != 5 %}
 <div class="tabbertab"><h3>AUDIENCES</h3><b>Pour rentrer les informations des audiences</b>
     <p>Pour chaque audience en lien avec cette accusation / accompagnement vous devez completer une fiche</p>
-      <table><tr><td>Pour creer la premiere fiche d'audience:</td>
+    <p>Liste des audiences rentrées pour cette accusation / accompagnement</p>
+    <ul>
+        {% for fiche in fiches %}
+            <li>{% include "datehospit_snippet.html" with x=fiche qid=10 accompagnement=accid %}</li>
+        {% endfor %}
+    </ul>
+      <table><tr><td>Pour creer la premiere fiche d'audience ou accéder aux audiences déjà rentrées :</td>
           <td><a href="{% url 'saverepetpajsm'  10 pid accid %}" class="w3-button w3-theme-action">Nouvelle audience</a></td></tr>
       </table>
+
+
 </div>
 <div class="tabbertab"><h3>DÉLITS</h3><b>Pour rentrer les informations à propos des délits</b>
     <p>Pour chaque délit en lien avec cette accusation / accompagnement vous devez completer une fiche</p>
-      <table><tr><td>Pour creer la premiere fiche de délit:</td>
+      <table><tr><td>Pour creer la premiere fiche de délit ou accéder aux délits déjà rentrés :</td>
           <td><a href="{% url 'saverepetpajsm'  11 pid accid %}" class="w3-button w3-theme-action">Nouveau délit</a></td></tr>
       </table>
     {% endif %}

@@ -16,10 +16,10 @@ def fait_dichou(a, b, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant,accompagnement=accompagnement)
+    defaultvalue = fait_default(personneid, qid, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
     name = "q" + str(qid)
     if sorte == "DICHO":
@@ -38,10 +38,10 @@ def fait_court(a, b, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant,accompagnement=accompagnement)
+    defaultvalue = fait_default(personneid, qid, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
     name = "q" + str(qid)
 
@@ -56,13 +56,12 @@ def fait_date(qid, b, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     an = ''
     mois = ''
     jour = ''
-    if Resultatpajsm.objects.filter(personne__id=personneid, question__id=qid, assistant__id=assistant).exists():
-        ancienne = Resultatpajsm.objects.get(personne__id=personneid, question__id=qid,
-                                            assistant__id=assistant).__str__()
+    if Resultatpajsm.objects.filter(personne__id=personneid, question__id=qid).exists():
+        ancienne = Resultatpajsm.objects.get(personne__id=personneid, question__id=qid).__str__()
         an, mois, jour = ancienne.split('-')
 
     idcondition = fait_id(qid, cible, relation=relation)
@@ -103,10 +102,10 @@ def fait_textechar(qid, sorte, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant,accompagnement=accompagnement)
+    defaultvalue = fait_default(personneid, qid, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
     name = "q" + str(qid)
 
@@ -144,10 +143,10 @@ def fait_table(qid, sorte, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant,accompagnement=accompagnement)
+    defaultvalue = fait_default(personneid, qid, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
 
     sorteq = Typequestion.objects.get(nom=sorte)
@@ -168,10 +167,10 @@ def fait_reponse(qid, b, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant,accompagnement=accompagnement)
+    defaultvalue = fait_default(personneid, qid, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
 
     listevaleurs = Reponsepajsm.objects.filter(question_id=qid, )
@@ -188,10 +187,10 @@ def fait_victimes(qid, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant, accompagnement=accompagnement)
+    defaultvalue = fait_default(personneid, qid, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
 
     listevaleurs = Victime.objects.all()
@@ -213,10 +212,10 @@ def fait_table_valeurs_prov(qid, sorte, *args, **kwargs):
     cible = kwargs['cible']
     sortetable = {"ETABLISSEMENT": "etablissement", "MUNICIPALITE": "municipalite"}
     tableext = sortetable[sorte]
-    assistant = kwargs['uid']
+    # assistant = kwargs['uid']
     accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, assistant=assistant,accompagnement=accompagnement)
+    defaultvalue = fait_default(personneid, qid, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
 
     klass = apps.get_model('dataentry', tableext)
@@ -245,11 +244,11 @@ def enlevelisttag(texte):
 
 def fait_default(personneid, qid,  *args, **kwargs):
     #   fail la valeur par deffaut
-    assistant = kwargs['assistant']
+    # assistant = kwargs['assistant']
     accompagnement = kwargs['accompagnement']
     ancienne = ''
-    if Resultatpajsm.objects.filter(personne__id=personneid, question__id=qid, assistant__id=assistant, accompagnement_id=accompagnement).exists():
-        ancienne = Resultatpajsm.objects.get(personne__id=personneid, question__id=qid, assistant__id=assistant, accompagnement_id=accompagnement).__str__()
+    if Resultatpajsm.objects.filter(personne__id=personneid, question__id=qid, accompagnement_id=accompagnement).exists():
+        ancienne = Resultatpajsm.objects.get(personne__id=personneid, question__id=qid, accompagnement_id=accompagnement).__str__()
     return ancienne
 
 
