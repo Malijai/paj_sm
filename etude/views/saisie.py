@@ -16,7 +16,7 @@ def select_personne(request):
     for item in liste1:
         listevaleurs.add(item.paj)
     #listevaleurs = Pajsmlist.objects.filter(id__in=liste1)
-    personnes = Personne.objects.filter(selectedpaj_id__in=listevaleurs)
+    personnes = Personne.objects.filter(selectedpaj_id__in=listevaleurs, completed=0)
     if request.method == 'POST':
         if request.POST.get('questionnaireid') == '' or request.POST.get('personneid') == '':
             messages.add_message(request, messages.ERROR, 'You have forgotten to chose at least one field')

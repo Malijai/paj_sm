@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load static %}
 
-<html>
+<html xmlns="http://www.w3.org/1999/html">
     <head>
         <title>PAJ_SM Dossier</title>
         <meta charset="UTF-8">
@@ -77,6 +77,24 @@
             <p>Pour créer un nouveau dossier vous aurez besoin : de la date de la première accusation depuis xxx</p>
             <table>
                 <tr><td></td><td><button type="submit" class="placeboutons" name="Creer">Nouveau dossier</button></td></tr>
+            </table>
+            </form>
+       </div>
+       <div class="tabbertab">
+           <form method="post" action="">
+           {% csrf_token %}
+           <h3>Fermeture de dossier</h3><b>Pour fermer des dossiers</b>
+            <p>Pour fermer un dossier dont l'entrée des données est terminée. <b>Seule la personne qui a créé le dossier peut le fermer</b>.</br>
+                Une fois le dossier fermé il n'apparaitra plus dans les choix de dossiers à remplir</p>
+            <table>
+                <tr><td></td><td></td></tr>
+                <tr><td>Personne</td><td><select name="personneid" >
+                    <option value="">Sélectionner un dossier à fermer</option>
+                    {% for personne in personnes %}
+                    <option value="{{personne.id}}">{{personne.code}}</option>
+                    {% endfor %}
+                    </select></td></tr>
+                <tr><td></td><td><button type="submit" class="placeboutons" name="Fermer">Fermer le dossier</button></td></tr>
             </table>
             </form>
        </div>
