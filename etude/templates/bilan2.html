@@ -1,0 +1,44 @@
+{% load i18n %}
+{% load static %}
+<html>
+   <head>
+        <title>PAJ_SM Enquête</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'etude/w3.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/sondageM.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/w3-theme-maison.css' %}">
+        <link rel="stylesheet" href="{% static 'etude/theme-enquete.css' %}">
+</head>
+<body>
+<div class="w3-container">
+    <header class="w3-row w3-theme-d3"  id="myHeader">
+        <div class="w3-center">
+        <h4>Étude sur les Programmes d’accompagnement en justice et santé mentale du Québec</h4>
+        </div>
+    </header>
+  <div class="w3-container w3-sand">
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-{{msg.level_tag}}" role="alert">
+            {{msg.message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+      <a href="{% url 'logout' %}" class="w3-button w3-theme-action"> Logout</a>
+      <h4>Bilan Étude PAJ_SM</h4>
+        <table>
+        <tr>
+        <td>Nom du PAJ-SM</td><td>Nombre de dossiers terminés</td>
+        </tr>
+            {% for dossier in dossiers %}
+        <tr>
+        <td>{{dossier.reponse_en}}</td><td>{{dossier.num_dossiers}}</td>
+        </tr>
+        {% endfor %}
+        </table>
+
+</div>
+</div>
+</body>
+</html>

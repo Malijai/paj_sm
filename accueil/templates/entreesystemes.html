@@ -45,6 +45,7 @@
         <h2>Bienvenue, {{ user.first_name }}, {{ user.last_name }}</h2>
 
         <h3><a href="{% url 'SelectPersonne' %}" class="btn-default" >Accès au système d'entrée des données des dossiers des PAJ-SM</a></h3>
+        <h3><a href="{% url 'bilan_etude' %}" class="w3-button w3-large w3-theme-action" >Voir le bilan des dossiers terminés par PAJ-SM</a></h3>
 
      </div>
     {% endif %}

@@ -57,11 +57,13 @@ def fait_date(qid, b, *args, **kwargs):
     relation = kwargs['relation']
     cible = kwargs['cible']
     # assistant = kwargs['uid']
+    accompagnement = kwargs['accompagnement']
+
     an = ''
     mois = ''
     jour = ''
-    if Resultatpajsm.objects.filter(personne__id=personneid, question__id=qid).exists():
-        ancienne = Resultatpajsm.objects.get(personne__id=personneid, question__id=qid).__str__()
+    if Resultatpajsm.objects.filter(personne__id=personneid, question__id=qid, accompagnement_id=accompagnement).exists():
+        ancienne = Resultatpajsm.objects.get(personne__id=personneid, question__id=qid, accompagnement_id=accompagnement).__str__()
         an, mois, jour = ancienne.split('-')
 
     idcondition = fait_id(qid, cible, relation=relation)

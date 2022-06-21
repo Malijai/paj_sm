@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import select_personne, saverepetpajsm, savepajsm, creerdossierpajsm, accord_intervenant, \
-    inscription_intervenant, suite_accord, saveenquete, bilan_sondage, prepare_csv, ffait_csv, fait_entete_pajinter_R
+    inscription_intervenant, suite_accord, saveenquete, bilan_sondage, bilan_etude, prepare_csv, ffait_csv, fait_entete_pajinter_R
 from django.contrib.auth.views import LoginView
 
 
@@ -18,6 +18,7 @@ urlpatterns = [
     path('accord/<str:iid>', suite_accord, name='suite_accord'),
     path('saveenquetepaj/<str:cid>/<int:qid>', saveenquete, name='saveenquete'),
     path('bilan/', bilan_sondage, name='bilan_sondage'),
+    path('bilan2/', bilan_etude, name='bilan_etude'),
     path('csv/<int:questionnaire>/<int:tous>/', prepare_csv, name='prepare_csv'),
     path('csv/<int:questionnaire>/<int:iteration>/<int:seuil>/<int:tous>/', ffait_csv, name='do_csv'),
     path('enteteR/<int:questionnaire>/', fait_entete_pajinter_R, name='fait_entete_pajinter_R'),

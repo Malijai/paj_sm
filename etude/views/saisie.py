@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect
 from etude.models import Personne, Questionnaire, Resultatrepetpajsm, Questionpajsm, Resultatpajsm, Accompagnement, Pajsmlist
 from accueil.models import Paj
+from django.db.models import Q, Count
 
 @login_required(login_url=settings.LOGIN_URI)
 def select_personne(request):
@@ -354,5 +355,15 @@ def encode_donnee(message):
     ##return e.encrypt(message,public_key)
     return message
 
+def bilan_etude(request):
+    nb_dossiers_par_p = Pajsmlist.objects.annotate(num_dossiers=Count('personne', filter=Q(personne__completed=1)))
+
+    return render(
+        request,
+        'bilan2.html',
+         {
+            'dossiers': nb_dossiers_par_p
+         }
+    )
 
 
