@@ -17,8 +17,9 @@ def fait_table(qid, sorte, *args, **kwargs):
     cible = kwargs['cible']
     # assistant = kwargs['uid']
     ordre = kwargs['ordre']
+    accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
 
     typeq = Typequestion.objects.get(nom=sorte)
@@ -41,7 +42,9 @@ def fait_reponse(qid, b, *args, **kwargs):
     cible = kwargs['cible']
     # assistant = kwargs['uid']
     ordre = kwargs['ordre']
-    defaultvalue = fait_default(personneid, qid, ordre=ordre)
+    accompagnement = kwargs['accompagnement']
+
+    defaultvalue = fait_default(personneid, qid, ordre=ordre, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
 
     listevaleurs = Reponsepajsm.objects.filter(question__id=qid, )
@@ -61,7 +64,9 @@ def fait_victimes(qid, sorte, *args, **kwargs):
     cible = kwargs['cible']
     # assistant = kwargs['uid']
     ordre = kwargs['ordre']
-    defaultvalue = fait_default(personneid, qid, ordre=ordre)
+    accompagnement = kwargs['accompagnement']
+
+    defaultvalue = fait_default(personneid, qid, ordre=ordre, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
 
     listevaleurs = Victime.objects.all()
@@ -84,7 +89,9 @@ def fait_table_valeurs_prov(qid, sorte, *args, **kwargs):
     tableext = typetable[sorte]
     # assistant = kwargs['uid']
     ordre = kwargs['ordre']
-    defaultvalue = fait_default(personneid, qid, ordre=ordre)
+    accompagnement = kwargs['accompagnement']
+
+    defaultvalue = fait_default(personneid, qid, ordre=ordre, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
 
     Klass = apps.get_model('dataentry', tableext)
@@ -105,8 +112,9 @@ def fait_dichou(qid, sorte, *args, **kwargs):
     cible = kwargs['cible']
     # assistant = kwargs['uid']
     ordre = kwargs['ordre']
+    accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
     name = 'q{}Z_Z{}'.format(qid, ordre)
     if sorte == "DICHO":
@@ -126,8 +134,9 @@ def fait_court(qid, sorte, *args, **kwargs):
     cible = kwargs['cible']
     # assistant = kwargs['uid']
     ordre = kwargs['ordre']
+    accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
     name = 'q{}Z_Z{}'.format(qid, ordre)
 
@@ -144,8 +153,9 @@ def fait_textechar(qid, sorte, persid, relation, cible, uid, ordre, *args, **kwa
     cible = cible
     # assistant = uid
     ordre = ordre
+    accompagnement = kwargs['accompagnement']
 
-    defaultvalue = fait_default(personneid, qid, ordre=ordre)
+    defaultvalue = fait_default(personneid, qid, ordre=ordre, accompagnement=accompagnement)
     idcondition = fait_id(qid, cible, relation=relation)
     name = 'q{}Z_Z{}'.format(qid, ordre)
     if sorte == 'STRING' or sorte == 'CODESTRING' or sorte == 'TIME':
@@ -186,10 +196,11 @@ def fait_default(personneid, qid, *args, **kwargs):
     # assistant = kwargs['assistant']
     ordre = kwargs['ordre']
     ancienne = ''
+    accompagnement =  kwargs['accompagnement']
 
-    if Resultatrepetpajsm.objects.filter(personne__id=personneid, question__id=qid, fiche=ordre).exists():
+    if Resultatrepetpajsm.objects.filter(personne__id=personneid, question__id=qid, fiche=ordre, accompagnement=accompagnement).exists():
         ancienne = Resultatrepetpajsm.objects.get(personne__id=personneid,
-                                                 question__id=qid, fiche=ordre).__str__()
+                                                 question__id=qid, fiche=ordre, accompagnement=accompagnement).__str__()
 
     return ancienne
 

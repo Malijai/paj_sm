@@ -4,21 +4,21 @@
         <td class=" {{ classe }} " width = "75%">{{ textequest }}</td>
         <td class=" {{ classe }} " width = "20%">
     {% if type == "STRING" or type == "CODESTRING" or type == "NUMBER" or type == "TIME" %}
-        {% fait_textechar questid type persid=pid parent=parent relation=relation cible=cible uid=user.id genre=repetition ordre=ordre %}</td>
+        {% fait_textechar questid type persid=pid parent=parent relation=relation cible=cible uid=user.id genre=repetition ordre=ordre  accompagnement=accompagnement %}</td>
     {% elif type == "DATE" or type == "CODEDATE" or type == "DATEH" %}
         {% fait_date questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre accompagnement=accompagnement %}</td>
     {% elif type == "DICHO" or type == "DICHOU" %}
-        {% fait_dichou questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre %}</td>
+        {% fait_dichou questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre  accompagnement=accompagnement %}</td>
     {% elif  type == "BOOLEAN" or type == "HCR20"  or type ==  "POSOLOGIE" or type == "PROVINCE"  or type == "PAYS" or type == "LANGUE" or type == "VIOLATION" %}
-         {% fait_table questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre %}</td>
+         {% fait_table questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre  accompagnement=accompagnement %}</td>
     {% elif type == "CATEGORIAL" %}
-         {% fait_reponse questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre %}</td>
+         {% fait_reponse questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre  accompagnement=accompagnement %}</td>
     {% elif type == "VICTIME" %}
-        {% fait_victimes questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre %}</td>
+        {% fait_victimes questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre  accompagnement=accompagnement %}</td>
     {% elif type ==  "ETABLISSEMENT"  or type ==  "MUNICIPALITE" %}
-          {% fait_table_valeurs_prov questid type persid=pid parent=parent relation=relation cible=cible province=user.profile.province uid=user.id ordre=ordre %}</td>
+          {% fait_table_valeurs_prov questid type persid=pid parent=parent relation=relation cible=cible province=user.profile.province uid=user.id ordre=ordre  accompagnement=accompagnement %}</td>
     {% elif type == "COUR" %}
-        {% fait_court questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre %}</td>
+        {% fait_court questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre  accompagnement=accompagnement %}</td>
     {% else %}
         {{ type }}</td>
     {% endif %}
