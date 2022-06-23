@@ -170,7 +170,7 @@ def fait_date(qid, b, *args, **kwargs):
     jour = ''
     if Resultatrepetpajsm.objects.filter(personne__id=personneid, question__id=qid,fiche=ordre, accompagnement_id=accompagnement).exists():
         ancienne = Resultatrepetpajsm.objects.get(personne__id=personneid, question__id=qid,
-                                            fiche=ordre).__str__()
+                                            fiche=ordre, accompagnement_id=accompagnement).__str__()
         if ancienne:
             an, mois, jour = ancienne.split('-')
 
