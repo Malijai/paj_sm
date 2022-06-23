@@ -163,11 +163,12 @@ def fait_date(qid, b, *args, **kwargs):
     cible = kwargs['cible']
     # assistant = kwargs['uid']
     ordre = kwargs['ordre']
+    accompagnement = kwargs['accompagnement']
 
     an = ''
     mois = ''
     jour = ''
-    if Resultatrepetpajsm.objects.filter(personne__id=personneid, question__id=qid,fiche=ordre).exists():
+    if Resultatrepetpajsm.objects.filter(personne__id=personneid, question__id=qid,fiche=ordre, accompagnement_id=accompagnement).exists():
         ancienne = Resultatrepetpajsm.objects.get(personne__id=personneid, question__id=qid,
                                             fiche=ordre).__str__()
         if ancienne:
@@ -213,7 +214,7 @@ def fait_dateh(persid, *args, ** kwargs):
 
     datehosp = ''
     question = Questionpajsm.objects.get(typequestion_id=60, questionnaire_id=questionnaire).pk
-    if Resultatrepetpajsm.objects.filter(personne__id=persid, question_id=question, fiche=ordre,accompagnement_id=accompagnement).exists():
+    if Resultatrepetpajsm.objects.filter(personne__id=persid, question_id=question, fiche=ordre, accompagnement_id=accompagnement).exists():
         datehosp = Resultatrepetpajsm.objects.get(personne__id=persid,
                                                  question__id=question, fiche=ordre,accompagnement_id=accompagnement).__str__()
     else:

@@ -226,7 +226,7 @@ def saverepetpajsm(request, qid, pid, accid):
                                 personne_id=pid,
                                 assistant_id=request.user.id,
                                 questionnaire_id=qid,
-                                accompagnement_id = accid,
+                                accompagnement_id=accid,
                                 question_id=1,
                                 fiche=ordre,
                                 reponsetexte=10000
@@ -248,7 +248,7 @@ def saverepetpajsm(request, qid, pid, accid):
                         if not Resultatrepetpajsm.objects.filter(personne_id=pid,
                                                                 questionnaire_id=qid,
                                                                 question_id=question.id,
-                                                                 accompagnement_id=accid,
+                                                                accompagnement_id=accid,
                                                                 fiche=x,
                                                                 reponsetexte=reponseaquestion).exists():
                             Resultatrepetpajsm.objects.update_or_create(
