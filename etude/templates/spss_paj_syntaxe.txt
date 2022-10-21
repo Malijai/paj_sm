@@ -1,0 +1,47 @@
+{% load spsspajinterlistevaleurs %}
+  * Structure du fichier de donnees./ Data structure
+  * Note: change the following line according to the place od data files.
+  GET DATA
+  /TYPE=TXT /FILE='/home/PATH/Datas_00_xx_date.csv'
+  /DELCASE=LINE  /DELIMITERS="\t" /ARRANGEMENT=DELIMITED
+  /FIRSTCASE=2
+  /IMPORTCASE=ALL
+  /VARIABLES=
+ID    F3.0
+Completed    F3.0
+accompagnement    F3.0
+{% spaceless %}
+{% if repet == 1 %}
+Fiche    F3.0
+{% endif %}
+{% for question in questions %}{{ question.varname }}       {{ question.typequestion.taille }}
+{% endfor %}.
+{% endspaceless %}
+DATASET NAME DataSet2 WINDOW=FRONT.
+ * Libelle des variables - Variable labels.
+  VARIABLE LABELS
+ID     "Unique ID"
+Completed     "Codification completed"
+accompagnement    "Accompagnement numero"
+{% if repet == 1 %}
+Fiche    "Fiche"
+{% endif %}
+{% for question in questions %}{{question.varname}}       "{{question.questionen}}"
+{% endfor %}.
+* Multiple choice labels - Libelle des choix multiples.
+{% autoescape off %}
+{% spaceless %}
+VALUE LABELS
+Completed
+1        "Oui"
+0        "Non"/
+.
+{% endspaceless %}
+{% endautoescape %}
+{% for question in questions %}
+{% spaceless %}
+{% include "pajinter_SPSS_snippet.txt" with typequest=question.typequestion questid=question.id varname=question.varname %}
+{% endspaceless %}
+{% endfor %}
+
+

@@ -357,12 +357,29 @@ def encode_donnee(message):
 
 def bilan_etude(request):
     nb_dossiers_par_p = Pajsmlist.objects.annotate(num_dossiers=Count('personne', filter=Q(personne__completed=1)))
-
+    questionnaires = Questionnaire.objects.filter(Q(id__lt=100))
+    if 'ExporterS' in request.POST:
+        questionnaire = request.POST.get('questionnaireid')
+        chose = request.POST.get('tous')
+        pajsmid = request.POST.get('pajsmid')
+        if chose == "1":
+            tous = 1
+        else:
+            tous = 0
+        return redirect('prepare_csv_pajsaisie', questionnaire=questionnaire, tous=tous, paj=pajsmid)
+    elif 'fait_entete_pajinter_R' in request.POST:
+        questionnaire = request.POST.get('questionnaireid')
+        return redirect('fait_entete_pajsaisie_R', questionnaire=questionnaire)
+    elif 'fait_entete_SPSS' in request.POST:
+        questionnaire = request.POST.get('questionnaireid')
+        return redirect('fait_entete_spss', questionnaire=questionnaire)
     return render(
         request,
         'bilan2.html',
          {
-            'dossiers': nb_dossiers_par_p
+            'dossiers': nb_dossiers_par_p,
+            'questionnaires': questionnaires,
+            'pajs': Pajsmlist.objects.all(),
          }
     )
 

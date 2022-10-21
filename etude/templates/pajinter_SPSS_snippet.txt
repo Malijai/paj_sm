@@ -1,0 +1,23 @@
+{% load spsspajinterlistevaleurs %}
+{% with type=typequest|stringformat:"s" %}
+{% autoescape off %}
+{% if type == "DICHO" or type == "ONNSP" or type == "ONNSP" or type == "MOINSPLUS" or type == "UNDIX" %}
+VALUE LABELS
+{% spaceless %}
+{{ varname }}
+{% spss_pajinter_dichou type 'spss' %}
+{% endspaceless %}
+{% elif type == "UNCINQ" or type == "UNCINQ2" or type == "UNSIX" or type == "VRAIFAUX" or type == "DICHOU"%}
+{% spaceless %}
+{{ varname }}
+{% spss_pajinter_dichou type 'spss' %}
+{% endspaceless %}
+{% elif type == "CATEGORIAL" %}
+VALUE LABELS
+{% spaceless %}
+{{ varname }}
+{% spss_pajinter_reponse questid 'spss' %}
+{% endspaceless %}
+{% endif %}
+{% endautoescape %}
+{% endwith %}

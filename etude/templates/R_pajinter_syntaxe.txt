@@ -9,7 +9,7 @@ var_lab(completed) = "completed oui=1 non=0"
 var_lab(vignette1) = "vignette1"
 var_lab(vignette2) = "vignette2"
 {% endif %}
-{% if questionnaire == 101%}
+{% if questionnaire == 101 or questionnaire == 1 %}
 {% for a in autresq %}
 {% spaceless %}
 {% if a != "code" and a != "courriel" %}
@@ -18,9 +18,13 @@ var_lab(vignette2) = "vignette2"
 {% endspaceless %}
 {% endfor %}
 {% endif %}
+{% if questionnaire < 100 %}
+{% for question in questions %}var_lab({{question.varname}}) = "{{question.questionen}}"
+{% endfor %}
+{% else %}
 {% for question in questions %}var_lab({{question.varname}}) = "{{question.questionfr}}"
 {% endfor %}
-
+{% endif %}
 # Libelle des choix multiples.
 {% autoescape off %}
 {% endautoescape %}

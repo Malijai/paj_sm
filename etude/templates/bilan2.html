@@ -37,7 +37,45 @@
         </tr>
         {% endfor %}
         </table>
-
+<h3>Pour exporter les données de la saisie dans les dossiers</h3>
+    <form method="post" action="">
+       {% csrf_token %}
+           <table class="w3-table-all">
+                <tr><td>Questionnaire</td>
+                    <td><select name="questionnaireid" >
+                    <option value="">Choisir le questionnaire à exporter</option>
+                    {% for questionnaire in questionnaires %}
+                        {% if questionnaire.id < 100 and questionnaire.id > 1 %}
+                            <option value="{{questionnaire.id}}">{{ questionnaire.nom_en}}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                    </td>
+                </tr>
+               <tr><td>PAJ-SM</td>
+                    <td><select name="pajsmid" >
+                    <option value="">Sélectionner le PAJ-SM</option>
+                    {% for paj in pajs %}
+                        {% if paj.id < 100 %}
+                            <option value="{{paj.id}}">{{ paj.reponse_fr}}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                    </td>
+                </tr>
+           <tr><td>Extraire tous les dossiers? (complets ou non)</td><td><input type="checkbox" id="tous" name="tous" value="1"><label for="tous"> Oui tous</label></td></tr>
+           <tr><td></td><td><button type="submit" class="placeboutons" name="ExporterS">Export data only</button></td></tr>
+           <tr><td></td><td><button type="submit" class="placeboutons" name="fait_entete_pajinter_R">Export R syntax</button></td></tr>
+           <tr><td></td><td><button type="submit" class="placeboutons" name="fait_entete_SPSS">Export SPSS syntax</button></td></tr>
+        </table>
+   </form>
+      <h4>Extraction des grilles de codification</h4>
+      <ul>
+          <li><a href="{% url 'questions_pdf' 5 %}"> Socio Démo statique</a></li>
+          <li><a href="{% url 'questions_pdf' 2 %}"> Niveau accusation</a></li>
+          <li><a href="{% url 'questions_pdf' 10 %}"> Audiences</a></li>
+          <li><a href="{% url 'questions_pdf' 11 %}"> Délits</a></li>
+      </ul>
 </div>
 </div>
 </body>
