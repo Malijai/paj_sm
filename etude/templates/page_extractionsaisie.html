@@ -15,7 +15,7 @@ questionnaire={{ questionnaire}}, tous={{ tous}}, paj={{paj}}
 {% for iteration in iterations %}
     <h3>Link to the extraction of data ({{ seuil }} users/file):
         <a href="{% url 'ffait_csv_pajsaisie' paj.id questionnaire iteration seuil tous %}">
-        {{ paj.reponse_fr }} {{ questionnaire_nom }} :#{{ page|add:"1" }}</a></h3>
+        {{ paj.reponse_fr }} {{ questionnaire_nom }} :#{{ iteration|add:"1" }}</a></h3>
 {% endfor %}
 </body>
 </html>
