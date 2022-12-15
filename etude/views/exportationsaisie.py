@@ -91,7 +91,7 @@ def extraction_requete_pajsaisie(questionnaire):
 def prepare_csv_pajsaisie(request, paj, questionnaire, tous):
     nombre_personnes = Personne.objects.filter(selectedpaj_id=paj).count()
     questionnaire_nom = Questionnaire.objects.get(pk=questionnaire)
-    seuil = 50
+    seuil = 40
     pajsm = Pajsmlist.objects.get(pk=paj)
     if nombre_personnes > seuil:
         reste = 0

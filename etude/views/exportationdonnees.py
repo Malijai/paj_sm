@@ -54,7 +54,7 @@ def extraction_requete_pajinter(questionnaire):
                                     order_by('questionno')
     return questions
 
-## Première étape pour exporter les données par province et questionnaire.
+## Première étape pour exporter les données par questionnaire.
 # Scinde les données en paquets de (seuil) 150 dossiers si nécessaire
 # appele par csv/<int:questionnaire>
 # et prépare les urls pour procéder à l'extraction
@@ -81,8 +81,8 @@ def prepare_csv(request, questionnaire, tous):
                       })
 
 
-# Procede a l'exportation des donnees en CSV tab separated par province et questionnaire.
-# appelé par page_extraction.html via url 'csv/<int:province>/<int:questionnaire>/<int:iteration>/<int:seuil>/'
+# Procede a l'exportation des donnees en CSV tab separated par questionnaire.
+# appelé par page_extraction.html via url 'PAJSM/csv/<int:questionnaire>/<int:iteration>/'
 # Necessite d'utiliser le streaming pour exporter les données
 # Fait une ligne sans donnees si l'assistant a fait au moins un des questionnaires
 def ffait_csv(request, questionnaire, iteration, seuil, tous):
