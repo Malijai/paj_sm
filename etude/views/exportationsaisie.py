@@ -88,10 +88,10 @@ def extraction_requete_pajsaisie(questionnaire):
 # et prépare les urls pour procéder à l'extraction
 # urls pour appeler ffait_csv, name='do_csv'
 @login_required(login_url=settings.LOGIN_URI)
-def prepare_csv_pajsaisie(request, paj, questionnaire, tous):
+def prepare_csv_pajsaisie(request, paj, questionnaire, tous, seuil):
     nombre_personnes = Personne.objects.filter(selectedpaj_id=paj).count()
     questionnaire_nom = Questionnaire.objects.get(pk=questionnaire)
-    seuil = 40
+    # seuil = 40
     pajsm = Pajsmlist.objects.get(pk=paj)
     if nombre_personnes > seuil:
         reste = 0

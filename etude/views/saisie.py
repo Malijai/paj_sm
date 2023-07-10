@@ -362,11 +362,12 @@ def bilan_etude(request):
         questionnaire = request.POST.get('questionnaireid')
         chose = request.POST.get('tous')
         pajsmid = request.POST.get('pajsmid')
+        seuil = request.POST.get('seuil')
         if chose == "1":
             tous = 1
         else:
             tous = 0
-        return redirect('prepare_csv_pajsaisie', questionnaire=questionnaire, tous=tous, paj=pajsmid)
+        return redirect('prepare_csv_pajsaisie', questionnaire=questionnaire, tous=tous, paj=pajsmid, seuil=seuil)
     elif 'fait_entete_pajinter_R' in request.POST:
         questionnaire = request.POST.get('questionnaireid')
         return redirect('fait_entete_pajsaisie_R', questionnaire=questionnaire)
